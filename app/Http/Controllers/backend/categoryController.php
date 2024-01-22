@@ -25,7 +25,9 @@ class CategoryController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="#">View</a>';
+                    $actionBtn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-primary btn-sm edit_modal" data-toggle="modal"
+                    data-target="#update_category_modal">Edit</a>
+                                   <a href="#" class="btn btn-danger  btn-sm">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
