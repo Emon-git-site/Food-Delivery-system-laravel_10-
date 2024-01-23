@@ -34,8 +34,11 @@ Route::prefix('category/')->name('category.')->group(function(){
     Route::get('index', [categoryController::class, 'index'])->name('index');
 
     // ajax purpose
-    Route::get('/categoryShow', [categoryController::class, 'categoryShow'])->name('categoryShow');
-    Route::post('/store', [categoryController::class, 'store'])->name('store');
+    Route::get('categoryShow', [categoryController::class, 'categoryShow'])->name('categoryShow');
+    Route::post('store', [categoryController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [categoryController::class, 'edit']);
+    Route::post('update/{id}', [categoryController::class, 'update']);
+    Route::get('delete/{id}', [categoryController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

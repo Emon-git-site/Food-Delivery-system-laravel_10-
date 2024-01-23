@@ -42,6 +42,10 @@
 
                         </tbody>
                     </table>
+                    <form id="delete_form" action="" method="post">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -91,17 +95,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{-- {{ route('category.store') }} --}}
-                    <form action="" method="post">
+
+                    <form action="" method="post" id="update_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="category_name" class="form-label">Category Name <span
+                            <input type="hidden" name="category_id">
+                            <label for="category_name_update" class="form-label">Category Name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="category_name" name="add_modal_category_en"
+                            <input type="text" class="form-control" id="category_name_update" name="category_name_update"
                                 required>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-block">UPDATE</button>
+                        <button type="submit" class="btn btn-success btn-block">UPDATE
+                            <span class="loading d-none"> .... </span> </button>
                     </form>
                 </div>
 
@@ -114,9 +120,11 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        // Define the DataTable initialization function
+    // data tale data show
         function initializeDataTable() {
-            console.log('Initializing DataTable...');
+            if ($.fn.DataTable.isDataTable('#example1')) {
+                $('#example1').DataTable().destroy();
+            }
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
@@ -151,34 +159,116 @@
                     url: url,
                     type: 'post',
                     data: request,
-                    success: function() {
+                    success: function(response) {
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_category_modal').modal('hide');
-                        toastr.success('Category added successfully');
-                        // Initialize DataTable after successful form submission
+                        toastr.success(response.add_new_category);
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }
                 })
             });
         });
-
+        // toaster message script
         $(document).ready(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
 
 
-		});
-
+        });
         // edit request send
-        $('body').on('click', '.edit_modal', function(){
-            alert('edit modal');
+        $(document).ready(function() {
+            $('body').on('click', '.edit_modal', function() {
+                let id = $(this).data('id');
+                let url = "{{ url('category/edit') }}/" + id;
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    success: function(response) {
+                        $('#update_category_modal').on('shown.bs.modal', function() {
+                            $('input[name="category_id"]').val(response.id);
+                            $('input[name="category_name_update"]').val(response
+                                .category_name);
+                        });
+                    }
+                });
+            });
         });
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function() {
+            // update modal Submit
+            $('#update_form').submit(function(e) {
+                e.preventDefault();
+                $('.loading').removeClass('d-none');
+                let category_id = $('input[name="category_id"]').val();
+                let url = "{{ url('category/update') }}/" + category_id;
+                let data = {
+                    'category_name': $('#category_name_update').val()
+                };
+                console.log(data);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: data,
+                    success: function(response) {
+                        $('#update_form')[0].reset();
+                        $('.loading').addClass('d-none');
+                        $('#update_category_modal').modal('hide');
+                        toastr.success(response.category_update);
+                        $('#example1').DataTable().ajax.reload();
+                        initializeDataTable();
+                    }
+                })
+            });
+        });
+    
+    // delete specific Category
+    $(document).ready(function(){
+        $(document).on('click', '#category_delete', function(e){
+            e.preventDefault();
+            let url = $(this).attr('href');
+            // Set the form action attribute before submitting
+            $('#delete_form').attr('action', url);          
+              swal({
+                    title: "Are you sure to Delete this post",
+                    text: "You will not be able to revert this!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete)=>{
+                    if(willDelete){
+                        $('#delete_form').submit();
+                    }
+                });
+        });
+        // data passed through here
+        $('#delete_form').submit(function(e){
+            e.preventDefault();
+            let url = $(this).attr('action');
+            let request = $(this).serialize();
+            $.ajax({
+                url: url,
+                data: request,
+                success: function(response){
+                    toastr.success(response.category_delete);
+                    $('#delete_form')[0].reset(); 
+                    initializeDataTable();
+
+                }
+            });
+        });
+    });
     </script>
 @endsection
