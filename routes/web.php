@@ -45,10 +45,7 @@ Route::prefix('category/')->name('category.')->group(function(){
 // subcategory routes
 Route::prefix('subcategory/')->name('subcategory.')->group(function(){
     Route::get('index', [subcategoryController::class, 'index'])->name('index');
-
-    // // ajax purpose
-    // Route::get('categoryShow', [subcategoryController::class, 'categoryShow'])->name('categoryShow');
-    // Route::post('store', [subcategoryController::class, 'store'])->name('store');
+    Route::post('store', [subcategoryController::class, 'store'])->name('store');
     // Route::get('edit/{id}', [subcategoryController::class, 'edit']);
     // Route::post('update/{id}', [subcategoryController::class, 'update']);
     // Route::get('delete/{id}', [subcategoryController::class, 'destroy'])->name('delete');

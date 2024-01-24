@@ -65,8 +65,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{-- {{ route('subcategory.store') }} --}}
-                    <form action="" method="post" id="add_form">
+                    
+                    <form action="{{ route('subcategory.store') }}" method="post" id="add_form"  enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="category" class="form-label">Select Category <span
@@ -85,7 +85,7 @@
                         <div class="mb-3">
                             <label for="image" class="form-label">Image <span
                                     class="text-danger">*</span></label>
-                            <input type="file" class="form-control dropify" data-default-file="url_of_your_file" />
+                            <input type="file" class="form-control dropify" name="image" data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" required />
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -137,7 +137,7 @@
 @section('script')
     <script type="text/javascript">
     // dropify image
-    // $('.dropify').dropify();
+    $('.dropify').dropify();
 
 
     // data tale data show
