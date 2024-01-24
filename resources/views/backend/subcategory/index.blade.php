@@ -84,10 +84,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Image <span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger">*</span></label>              
                             <input type="file" class="form-control dropify" name="image" data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" required />
                         </div>
-                        <button type="submit" class="btn btn-success btn-block">SUBMIT
+                        <button type="submit" class="btn btn-success btn-block submit_button">SUBMIT
                             <span class="loading d-none"> .... </span>
                         </button>
                     </form>
@@ -183,15 +183,20 @@
                 $('.loading').removeClass('d-none');
                 let url = $(this).attr('action');
                 let request = $(this).serialize();
+                $('.submit_button').prop('type', 'button');
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: request,
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     success: function(response) {
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_category_modal').modal('hide');
-                        toastr.success(response.add_new_category);
+                        $('#add_subcategory_modal').modal('hide');
+                        $('.submit_button').prop('type', 'button');
+                        toastr.success(response.subcategory_inserted);
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }

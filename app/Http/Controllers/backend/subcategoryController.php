@@ -41,7 +41,6 @@ class subcategoryController extends Controller
     // store method to insert data
     public function store(Request $request)
     {
-        dd($request);
         $validated = $request->validate([
             'subcategory_name' => 'required|max:255',
         ]);
@@ -55,6 +54,9 @@ class subcategoryController extends Controller
         $subcategory->subcategory_slug = Str::slug($request->subcategory_name, '-');
         $subcategory->image = $save_url;
         $subcategory->save();
+
+        $notification = ['subcategory_inserted' => 'New Subcategory Successfully'];
+        return redirect()->back()->with($notification);
     }
 
     private function savePostImage( $imageFile)
