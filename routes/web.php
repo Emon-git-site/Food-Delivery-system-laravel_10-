@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\backend\categoryController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\backend\categoryController;
+use App\Http\Controllers\backend\subcategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,18 @@ Route::prefix('category/')->name('category.')->group(function(){
     Route::get('edit/{id}', [categoryController::class, 'edit']);
     Route::post('update/{id}', [categoryController::class, 'update']);
     Route::get('delete/{id}', [categoryController::class, 'destroy'])->name('delete');
+});
+
+// subcategory routes
+Route::prefix('subcategory/')->name('subcategory.')->group(function(){
+    Route::get('index', [subcategoryController::class, 'index'])->name('index');
+
+    // // ajax purpose
+    // Route::get('categoryShow', [subcategoryController::class, 'categoryShow'])->name('categoryShow');
+    // Route::post('store', [subcategoryController::class, 'store'])->name('store');
+    // Route::get('edit/{id}', [subcategoryController::class, 'edit']);
+    // Route::post('update/{id}', [subcategoryController::class, 'update']);
+    // Route::get('delete/{id}', [subcategoryController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

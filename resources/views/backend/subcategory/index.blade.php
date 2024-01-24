@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Category</h1>
+                        <h1 class="m-0">Sub Category</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Category</a></li>
-                            <li class="breadcrumb-item active">All Category</li>
+                            <li class="breadcrumb-item"><a href="{{ route('subcategory.index') }}">Sub Category</a></li>
+                            <li class="breadcrumb-item active">All Sub Category</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,9 +23,9 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Categories Table</h3>
+                    <h3 class="card-title">SubCategories Table</h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_category_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_subcategory_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -35,7 +35,8 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Category</th>
-                                <th>Category Slug</th>
+                                <th>Subcategory</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,24 +54,38 @@
         </div>
     </div>
 
-    {{--  new category added modal --}}
-    <div class="modal fade" id="add_category_modal">
+    {{--  new subcategory added modal --}}
+    <div class="modal fade" id="add_subcategory_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Insert New Category</h4>
+                    <h4 class="modal-title">Insert New SubCategory</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <form action="{{ route('category.store') }}" method="post" id="add_form">
+                    {{-- {{ route('subcategory.store') }} --}}
+                    <form action="" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="category_name" class="form-label">Category Name <span
+                            <label for="category" class="form-label">Select Category <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="category_name" name="category_name" required>
+                            <select class="form-control" name="category_id" id="category" required>
+                                @foreach ($category as $row)
+                                    <option value="{{ $row->id }}"> {{ $row->category_name }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subcategory_name" class="form-label">SubCategory Name <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" placeholder="Subcategory Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image <span
+                                    class="text-danger">*</span></label>
+                            <input type="file" class="form-control dropify" data-default-file="url_of_your_file" />
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -83,14 +98,14 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! new category added modal --}}
+    {{-- ! new subcategory added modal --}}
 
     {{-- Update category  modal --}}
-    <div class="modal fade" id="update_category_modal">
+    <div class="modal fade" id="update_subcategory_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Category Update</h4>
+                    <h4 class="modal-title">SubCategory Update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -121,6 +136,10 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+    // dropify image
+    // $('.dropify').dropify();
+
+
     // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
@@ -129,18 +148,22 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('category.categoryShow') }}",
+                ajax: "{{ route('subcategory.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'category_name',
-                        name: 'category_name'
+                        data: 'category_id',
+                        name: 'category_id'
                     },
                     {
-                        data: 'category_slug',
-                        name: 'category_slug'
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image'
                     },
                     {
                         data: 'action',
