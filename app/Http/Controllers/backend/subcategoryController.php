@@ -25,12 +25,15 @@ class subcategoryController extends Controller
                 $data = Subcategory::latest()->get();
                 return DataTables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('category_name', function($row){
+                        return $row->category->category_name;
+                    })
                     ->addColumn('action', function ($row) {
-                        $actionBtn = '<a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal" data-toggle="modal" data-target="#update_category_modal">Edit</a>
-                        <a href="' . route('category.delete', [$row->id]) . '" class="btn btn-danger btn-sm" id="category_delete">Delete</a>';
+                        $actionBtn = '<a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal" data-toggle="modal" data-target="#update_subcategory_modal">Edit</a>
+                        <a href="' . route('subcategory.delete', [$row->id]) . '" class="btn btn-danger btn-sm" id="subcategory_delete">Delete</a>';
                         return $actionBtn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action', 'image', 'category_name'])
                     ->make(true);
             }
         }
@@ -50,13 +53,14 @@ class subcategoryController extends Controller
 
 
         $subcategory = new Subcategory();
+        $subcategory->category_id = $request->category_id;
         $subcategory->subcategory_name = $request->subcategory_name;
         $subcategory->subcategory_slug = Str::slug($request->subcategory_name, '-');
         $subcategory->image = $save_url;
         $subcategory->save();
 
         $notification = ['subcategory_inserted' => 'New Subcategory Successfully'];
-        return redirect()->back()->with($notification);
+        return response()->json($notification);
     }
 
     private function savePostImage( $imageFile)
@@ -66,6 +70,32 @@ class subcategoryController extends Controller
         $img = $manager->read($imageFile);
         $img = $img->resize(370, 246);
         $img->toJpeg(80)->save(base_path('public/image/category/' . $name_gen));
-        return 'post_image/' . $name_gen;
+        return 'image/category/' . $name_gen;
     }
+
+        //   update method for update subcategory
+        public function update(Request $request, $id)
+        {
+            $category = Subcategory::find($id);
+            $category->category_name = $request->category_name;
+            $category->category_slug = Str::slug($request->category_name, '-');
+    
+            $category->update();
+    
+            return response()->json([
+                'category_update' => "Category Updated Successfully"
+            ]);
+        }
+
+        //   subcategory delete method
+        public function destroy($id)
+        {
+            $subcategory = Subcategory::find($id);
+            unlink($subcategory->image);
+            $subcategory->delete();
+    
+            return response()->json([
+                'subcategory_delete' => "SubCategory Deleted Successfully"
+            ]);
+        }
 }

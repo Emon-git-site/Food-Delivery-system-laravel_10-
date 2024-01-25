@@ -48,7 +48,7 @@ Route::prefix('subcategory/')->name('subcategory.')->group(function(){
     Route::post('store', [subcategoryController::class, 'store'])->name('store');
     // Route::get('edit/{id}', [subcategoryController::class, 'edit']);
     // Route::post('update/{id}', [subcategoryController::class, 'update']);
-    // Route::get('delete/{id}', [subcategoryController::class, 'destroy'])->name('delete');
+    Route::get('delete/{id}', [subcategoryController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

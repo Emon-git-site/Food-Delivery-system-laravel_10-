@@ -44,6 +44,7 @@
 
                         </tbody>
                     </table>
+                    {{-- delete form --}}
                     <form id="delete_form" action="" method="post">
                         @csrf
                         @method('DELETE')
@@ -100,7 +101,7 @@
     </div>
     {{-- ! new subcategory added modal --}}
 
-    {{-- Update category  modal --}}
+    {{-- Update subcategory  modal --}}
     <div class="modal fade" id="update_subcategory_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -126,7 +127,7 @@
                             <span class="loading d-none"> .... </span> </button>
                     </form>
                 </div>
-
+                
             </div>
             <!-- /.modal-content -->
         </div>
@@ -154,8 +155,8 @@
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'category_id',
-                        name: 'category_id'
+                        data: 'category_name',
+                        name: 'category_name'
                     },
                     {
                         data: 'subcategory_name',
@@ -163,7 +164,11 @@
                     },
                     {
                         data: 'image',
-                        name: 'image'
+                        name: 'image',
+                        render: function(data, type, full, meta){
+                            var imagePath = 'http://127.0.0.1:8000/' + data;
+                             return '<img src="' + imagePath + '" height="35" width="35">';
+                        }
                     },
                     {
                         data: 'action',
@@ -174,7 +179,6 @@
         }
 
         $(document).ready(function() {
-            // Call the function to initialize DataTable when the document is ready
             initializeDataTable();
 
             // modal addForm Submit
@@ -192,6 +196,7 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
+                    console.log(response);
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_subcategory_modal').modal('hide');
@@ -268,10 +273,9 @@
     
     // delete specific Category
     $(document).ready(function(){
-        $(document).on('click', '#category_delete', function(e){
+        $(document).on('click', '#subcategory_delete', function(e){
             e.preventDefault();
             let url = $(this).attr('href');
-            // Set the form action attribute before submitting
             $('#delete_form').attr('action', url);          
               swal({
                     title: "Are you sure to Delete this post",
@@ -295,7 +299,7 @@
                 url: url,
                 data: request,
                 success: function(response){
-                    toastr.success(response.category_delete);
+                    toastr.success(response.subcategory_delete);
                     $('#delete_form')[0].reset(); 
                     initializeDataTable();
 
