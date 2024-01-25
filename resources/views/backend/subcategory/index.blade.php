@@ -70,9 +70,9 @@
                     <form action="{{ route('subcategory.store') }}" method="post" id="add_form"  enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="category" class="form-label">Select Category <span
+                            <label for="subcategory" class="form-label">Select Category <span
                                     class="text-danger">*</span></label>
-                            <select class="form-control" name="category_id" id="category" required>
+                            <select class="form-control" name="category_id" id="subcategory" required>
                                 @foreach ($category as $row)
                                     <option value="{{ $row->id }}"> {{ $row->category_name }} </option>
                                 @endforeach
@@ -115,11 +115,23 @@
 
                     <form action="" method="post" id="update_form">
                         @csrf
+                        <input type="hidden" name="subcategory_id">
                         <div class="mb-3">
-                            <input type="hidden" name="category_id">
-                            <label for="category_name_update" class="form-label">Category Name <span
+                            <label for="subcategory_name_update" class="form-label">Category Name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="category_name_update" name="category_name_update"
+                                    <select class="form-control" name="category_id" id="subcategory" required>
+                                        @foreach ($category as $row)
+                                            <option value="{{ $row->id }}" data-category-id="{{ $row->id }}">
+                                                {{ $row->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    
+                        </div>
+                        <div class="mb-3">
+                            <label for="subcategory_name_update" class="form-label">SubCategory Name <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="subcategory_name_update" name="subcategory_name_update"
                                 required>
                         </div>
 
@@ -219,24 +231,30 @@
 
 
         });
-        // edit request send
         $(document).ready(function() {
-            $('body').on('click', '.edit_modal', function() {
-                let id = $(this).data('id');
-                let url = "{{ url('category/edit') }}/" + id;
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    success: function(response) {
-                        $('#update_category_modal').on('shown.bs.modal', function() {
-                            $('input[name="category_id"]').val(response.id);
-                            $('input[name="category_name_update"]').val(response
-                                .category_name);
-                        });
-                    }
+    $('body').on('click', '.edit_modal', function() {
+        let id = $(this).data('id');
+        let url = "{{ url('subcategory/edit') }}/" + id;
+
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function(response) {
+                $('#update_subcategory_modal').on('shown.bs.modal', function() {
+                    $('input[name="subcategory_id"]').val(response.id);
+                    $('input[name="subcategory_name_update"]').val(response.subcategory_name);
+                    
+                    let selected_category = response.category_id;
+                    
+                    // Set the selected option based on selected_category
+                    $('#subcategory option').removeAttr('selected');
+                    $(`#subcategory option[data-category-id="${selected_category}"]`).attr('selected', 'selected');
                 });
-            });
+            }
         });
+    });
+});
+
 
         $.ajaxSetup({
             headers: {
@@ -252,7 +270,7 @@
                 let category_id = $('input[name="category_id"]').val();
                 let url = "{{ url('category/update') }}/" + category_id;
                 let data = {
-                    'category_name': $('#category_name_update').val()
+                    'category_name': $('#subcategory_name_update').val()
                 };
                 console.log(data);
                 $.ajax({
@@ -263,7 +281,7 @@
                         $('#update_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#update_category_modal').modal('hide');
-                        toastr.success(response.category_update);
+                        toastr.success(response.subcategory_update);
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }

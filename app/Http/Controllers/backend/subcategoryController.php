@@ -73,17 +73,25 @@ class subcategoryController extends Controller
         return 'image/category/' . $name_gen;
     }
 
+    // edit method
+
+    public function edit($id)
+    {
+        $subcategory = Subcategory::find($id);
+        return response()->json($subcategory);
+    }
+
         //   update method for update subcategory
         public function update(Request $request, $id)
         {
-            $category = Subcategory::find($id);
-            $category->category_name = $request->category_name;
-            $category->category_slug = Str::slug($request->category_name, '-');
+            $subcategory = Subcategory::find($id);
+            $subcategory->subcategory_name = $request->subcategory_name;
+            $subcategory->subcategory_slug = Str::slug($request-subcategory_name, '-');
     
-            $category->update();
+            $subcategory->update();
     
             return response()->json([
-                'category_update' => "Category Updated Successfully"
+                'subcategory_update' => "Sub Category Updated Successfully"
             ]);
         }
 
