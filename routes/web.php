@@ -17,8 +17,11 @@ use App\Http\Controllers\backend\subcategoryController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
