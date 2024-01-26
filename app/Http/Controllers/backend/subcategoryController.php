@@ -84,15 +84,32 @@ class subcategoryController extends Controller
         //   update method for update subcategory
         public function update(Request $request, $id)
         {
-            $subcategory = Subcategory::find($id);
-            $subcategory->subcategory_name = $request->subcategory_name;
-            $subcategory->subcategory_slug = Str::slug($request-subcategory_name, '-');
-    
-            $subcategory->update();
-    
-            return response()->json([
-                'subcategory_update' => "Sub Category Updated Successfully"
-            ]);
+            if($request->image){
+                $subcategory = Subcategory::find($id);
+                $subcategory->category_id = $request->category_id;
+                $subcategory->subcategory_name = $request->subcategory_name_update;
+                $subcategory->subcategory_slug = Str::slug($request->subcategory_name, '-');     
+                
+                $imageFile = $request->file('image');
+                $save_url = $this->savePostImage($imageFile);
+                unlink($subcategory->image);
+                $subcategory->image = $save_url;  
+                $subcategory->update();
+        
+                return response()->json([
+                    'subcategory_update' => "Sub Category Updated Successfully"
+                ]);
+            }else{
+                $subcategory = Subcategory::find($id);
+                $subcategory->category_id = $request->category_id;
+                $subcategory->subcategory_name = $request->subcategory_name_update;
+                $subcategory->subcategory_slug = Str::slug($request->subcategory_name, '-');     
+                $subcategory->update();
+        
+                return response()->json([
+                    'subcategory_update' => "Sub Category Updated Successfully"
+                ]); 
+            }
         }
 
         //   subcategory delete method

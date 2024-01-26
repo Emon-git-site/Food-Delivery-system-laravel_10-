@@ -66,8 +66,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
-                    <form action="{{ route('subcategory.store') }}" method="post" id="add_form"  enctype="multipart/form-data">
+
+                    <form action="{{ route('subcategory.store') }}" method="post" id="add_form"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="subcategory" class="form-label">Select Category <span
@@ -81,12 +82,13 @@
                         <div class="mb-3">
                             <label for="subcategory_name" class="form-label">SubCategory Name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" placeholder="Subcategory Name" required>
+                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name"
+                                placeholder="Subcategory Name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="image" class="form-label">Image <span
-                                    class="text-danger">*</span></label>              
-                            <input type="file" class="form-control dropify" name="image" data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" required />
+                            <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control dropify" name="image" data-max-file-size="3M"
+                                data-allowed-file-extensions="jpg png jpeg" required />
                         </div>
                         <button type="submit" class="btn btn-success btn-block submit_button">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -112,34 +114,45 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <form action="" method="post" id="update_form">
+                    <form action="{{ url('subcategory/update') }}" method="post" id="update_form">
                         @csrf
-                        <input type="hidden" name="subcategory_id">
+                        <input type="hidden" name="subcategory_id" id="subcategory_id">
                         <div class="mb-3">
                             <label for="subcategory_name_update" class="form-label">Category Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control" name="category_id" id="subcategory" required>
-                                        @foreach ($category as $row)
-                                            <option value="{{ $row->id }}" data-category-id="{{ $row->id }}">
-                                                {{ $row->category_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    
+                            <select class="form-control" name="category_id" id="subcategory" required>
+                                @foreach ($category as $row)
+                                    <option value="{{ $row->id }}" data-category-id="{{ $row->id }}">
+                                        {{ $row->category_name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="subcategory_name_update" class="form-label">SubCategory Name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="subcategory_name_update" name="subcategory_name_update"
-                                required>
+                            <input type="text" class="form-control" id="subcategory_name_update"
+                                name="subcategory_name_update" required>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-block">UPDATE
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="image_upload" class="form-label">Image Upload <span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control dropify" name="image"
+                                        data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg"  />
+                                </div>
+                                <div class="col-6">
+                                    <label for="old_image" class="form-label">Old Image: </label><br>
+                                        <img src="" id="myImage" height="245px" width="210px">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block submit_button">UPDATE
                             <span class="loading d-none"> .... </span> </button>
                     </form>
                 </div>
-                
+
             </div>
             <!-- /.modal-content -->
         </div>
@@ -149,11 +162,11 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-    // dropify image
-    $('.dropify').dropify();
+        // dropify image
+        $('.dropify').dropify();
 
 
-    // data tale data show
+        // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -177,9 +190,9 @@
                     {
                         data: 'image',
                         name: 'image',
-                        render: function(data, type, full, meta){
+                        render: function(data, type, full, meta) {
                             var imagePath = 'http://127.0.0.1:8000/' + data;
-                             return '<img src="' + imagePath + '" height="35" width="35">';
+                            return '<img src="' + imagePath + '" height="35" width="35">';
                         }
                     },
                     {
@@ -208,7 +221,7 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                    console.log(response);
+                        console.log(response);
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_subcategory_modal').modal('hide');
@@ -231,29 +244,31 @@
 
 
         });
-        $(document).ready(function() {
-    $('body').on('click', '.edit_modal', function() {
-        let id = $(this).data('id');
-        let url = "{{ url('subcategory/edit') }}/" + id;
 
-        $.ajax({
-            url: url,
-            type: 'get',
-            success: function(response) {
-                $('#update_subcategory_modal').on('shown.bs.modal', function() {
-                    $('input[name="subcategory_id"]').val(response.id);
-                    $('input[name="subcategory_name_update"]').val(response.subcategory_name);
-                    
-                    let selected_category = response.category_id;
-                    
-                    // Set the selected option based on selected_category
-                    $('#subcategory option').removeAttr('selected');
-                    $(`#subcategory option[data-category-id="${selected_category}"]`).attr('selected', 'selected');
+        // edit modal with data
+        $(document).ready(function() {
+            $('body').on('click', '.edit_modal', function() {
+                let id = $(this).data('id');
+                let url = "{{ url('subcategory/edit') }}/" + id;
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    success: function(response) {
+                        let imagePath = 'http://127.0.0.1:8000/' + response.image;
+                        $('#update_subcategory_modal').on('shown.bs.modal', function() {
+                            $('input[name="subcategory_id"]').val(response.id);
+                            $('input[name="subcategory_name_update"]').val(response
+                                .subcategory_name);
+                            let selected_category = response.category_id;
+                            $('#subcategory option').removeAttr('selected');
+                            $(`#subcategory option[data-category-id="${selected_category}"]`)
+                                .attr('selected', 'selected');
+                            $("#myImage").attr("src", imagePath);
+                        });
+                    }
                 });
-            }
+            });
         });
-    });
-});
 
 
         $.ajaxSetup({
@@ -262,25 +277,26 @@
             }
         });
 
+        // update modal Submit
         $(document).ready(function() {
-            // update modal Submit
             $('#update_form').submit(function(e) {
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
-                let category_id = $('input[name="category_id"]').val();
-                let url = "{{ url('category/update') }}/" + category_id;
-                let data = {
-                    'category_name': $('#subcategory_name_update').val()
-                };
-                console.log(data);
+                let subcategory_id = $('#subcategory_id').val();
+                let url = $(this).attr('action') + '/' + subcategory_id;
+                let request = $(this).serialize();
+                $('.submit_button').prop('type', 'button');
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: data,
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     success: function(response) {
                         $('#update_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#update_category_modal').modal('hide');
+                        $('#update_subcategory_modal').modal('hide');
                         toastr.success(response.subcategory_update);
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
@@ -288,42 +304,42 @@
                 })
             });
         });
-    
-    // delete specific Category
-    $(document).ready(function(){
-        $(document).on('click', '#subcategory_delete', function(e){
-            e.preventDefault();
-            let url = $(this).attr('href');
-            $('#delete_form').attr('action', url);          
-              swal({
-                    title: "Are you sure to Delete this post",
-                    text: "You will not be able to revert this!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete)=>{
-                    if(willDelete){
-                        $('#delete_form').submit();
+
+        // delete specific Category
+        $(document).ready(function() {
+            $(document).on('click', '#subcategory_delete', function(e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                $('#delete_form').attr('action', url);
+                swal({
+                        title: "Are you sure to Delete this post",
+                        text: "You will not be able to revert this!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $('#delete_form').submit();
+                        }
+                    });
+            });
+            // data passed through here
+            $('#delete_form').submit(function(e) {
+                e.preventDefault();
+                let url = $(this).attr('action');
+                let request = $(this).serialize();
+                $.ajax({
+                    url: url,
+                    data: request,
+                    success: function(response) {
+                        toastr.success(response.subcategory_delete);
+                        $('#delete_form')[0].reset();
+                        initializeDataTable();
+
                     }
                 });
-        });
-        // data passed through here
-        $('#delete_form').submit(function(e){
-            e.preventDefault();
-            let url = $(this).attr('action');
-            let request = $(this).serialize();
-            $.ajax({
-                url: url,
-                data: request,
-                success: function(response){
-                    toastr.success(response.subcategory_delete);
-                    $('#delete_form')[0].reset(); 
-                    initializeDataTable();
-
-                }
             });
         });
-    });
     </script>
 @endsection
