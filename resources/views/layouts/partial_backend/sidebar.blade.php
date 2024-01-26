@@ -121,7 +121,7 @@
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();">
+            document.getElementById('logout-form').submit();>
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p>Logout</p>
                     </a>

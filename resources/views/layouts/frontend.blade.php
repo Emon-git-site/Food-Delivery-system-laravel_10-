@@ -58,13 +58,17 @@
                                     </div>
                                     <div class="language-menu">
                                         @guest
-                                        <a href="{{ route('login') }}" class="current-lang" id="lanId"><i class="fa fa-user"></i>Login</i></a>
+                                        <a href="{{ route('user.login') }}" class="current-lang" id="lanId"><i class="fa fa-user"></i>Login</i></a>
                                         @else                                            
-                                        <a href="#" class="current-lang" id="lanId">Profile <i class="fa fa-user" aria-hidden="true"></i></a>
+                                        <a href="#" class="current-lang" id="lanId"> {{ Auth::user()->name }} <i class="fa fa-user" aria-hidden="true"></i></a>
                                         <ul class="language">
-                                            <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Dashboard</a></li>
+                                            <li><a href="{{ route('home') }}"><i class="fa fa-angle-right" aria-hidden="true"></i>Dashboard</a></li>
                                             <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Setting</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Logout</a></li>
+                                            <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                                            
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                         </ul>
                                         @endguest
                                     </div>
@@ -85,7 +89,7 @@
                                 <div class="left-menu">
                                     <!-- logo start -->
                                     <div class="logo">
-                                        <a href="index.html">
+                                        <a href="{{ url('/') }}">
                                             <img src="{{ asset('frontend') }}/img/logo.png" alt="Image not Found">
                                         </a>
                                     </div>
@@ -487,6 +491,58 @@
             <!-- ===============================SLIDER SECTION START============== -->
 
             @yield('content')
+
+                <!-- =================================DELEVERY SECTION START============= -->
+                <div class="middle_footer">
+                    <div class="container-fluid custom-padding">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="shopping_info">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-4 col-sm-6 position-relative">
+                                            <div class="icon_box icon_box_style2">
+                                                <div class="box_icon">
+                                                    <i class="fas fa-truck"></i>
+                                                </div>
+                                                <div class="intro_desc">
+                                                    <h5>Free Delivery</h5>
+                                                    <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 position-relative">
+                                            <div class="icon_box icon_box_style2">
+                                                <div class="box_icon">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </div>
+                                                <div class="intro_desc">
+                                                    <h5>30 Day Returns Guarantee</h5>
+                                                    <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="icon_box icon_box_style2">
+                                                <div class="box_icon">
+                                                    <i class="far fa-life-ring"></i>
+                                                </div>
+                                                <div class="intro_desc">
+                                                    <h5>27/4 Online Support</h5>
+                                                    <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col-12 end -->
+                        </div>
+                        <!-- row end -->
+                    </div>
+                    <!-- container end -->
+                </div>
+                <!-- middle footer end -->
+                <!-- =================================DELEVERY SECTION END============= -->
             <!-- =================================FOOTER SECTION START============= -->
             <section>
                 <footer>
