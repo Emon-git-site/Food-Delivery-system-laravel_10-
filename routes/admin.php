@@ -21,10 +21,10 @@ use App\Http\Controllers\backend\subcategoryController;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::view('/dashboard', 'dashboard');
+Route::view('/dashboard', 'dashboard')->name('admin.dashboard');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

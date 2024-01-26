@@ -26,7 +26,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -110,9 +110,8 @@
                 </li>
 
 
-                <li class="nav-header">PROFILE</li>
+                {{-- <li class="nav-header">PROFILE</li>
                 <li class="nav-item">
-                    {{-- {{ route('profile.updatePassword') }} --}}
                     <a href="{{ route('profile.edit') }}" class="nav-link">
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p>Password Change</p>
@@ -121,7 +120,7 @@
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();>
+            document.getElementById('logout-form').submit(); ">
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p>Logout</p>
                     </a>
@@ -129,7 +128,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                </li>
+                </li> --}}
 
             </ul>
         </nav>
