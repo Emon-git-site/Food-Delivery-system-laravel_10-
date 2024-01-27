@@ -110,7 +110,7 @@
                 </li>
 
 
-                {{-- <li class="nav-header">PROFILE</li>
+                <li class="nav-header">PROFILE</li>
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}" class="nav-link">
                         <i class="nav-icon far fa-circle text-info"></i>
@@ -128,7 +128,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                </li> --}}
+                </li>
 
             </ul>
         </nav>

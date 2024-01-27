@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\backend\adminController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\subcategoryController;
 
@@ -21,7 +22,19 @@ use App\Http\Controllers\backend\subcategoryController;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::view('/dashboard', 'dashboard')->name('admin.dashboard');
+// admin authentication
+Route::prefix('admin')->group(function(){
+//    Route::get('/login', [adminController::class, 'loginShow'])->name('login_form') ;
+//    Route::get('/register', [adminController::class, 'RegisterShow'])->name('register_form') ;
+
+   Route::view('/login',  'backend.auth.admin_login')->name('login_form') ;
+   Route::view('/register', 'backend.auth.admin_register')->name('register_form') ;
+
+   Route::get('/login/owner', [adminController::class, 'login'])->name('admin.login') ;
+   Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard') ;
+});
+
+// Route::view('/dashboard', 'backend.dashboard')->name('admin.dashboard');
 
 
 Route::middleware('')->group(function () {
