@@ -97,6 +97,12 @@
                     toastr.error('{{ session('admin_logout_message') }}');
                 @endif
             });
+        // New admin registration message show
+          $(function() {
+                @if (session('registration_message'))
+                    toastr.success('{{ session('registration_message') }}');
+                @endif
+            });
         });
     </script>
 @endsection

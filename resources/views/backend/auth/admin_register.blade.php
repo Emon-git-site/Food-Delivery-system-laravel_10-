@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <p class="login-box-msg">Register a new membership</p>
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('admin.register') }}">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}" required
@@ -73,7 +73,7 @@
 
                     </div>
 
-                    <a href="{{ route('login_form') }}" class="text-center">I already have a membership</a>
+                    <a href="{{ route('admin.login_form') }}" class="text-center">I already have a membership</a>
                 </div>
                 <!-- /.form-box -->
             </div><!-- /.card -->

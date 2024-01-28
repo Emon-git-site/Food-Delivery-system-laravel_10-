@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Admin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class adminController extends Controller
 {
@@ -20,6 +23,17 @@ class adminController extends Controller
                     return back()->with('wrong_email_password', 'Invalid Email Or Password');
                 }
 
+    }
+
+    public function adminregister(Request $request)
+    {
+        Admin::insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'created_at' => Carbon::now(),
+        ]);
+        return redirect()->route('admin.login_form')->with('registration_message', 'Admin Created Successfully');
     }
 
     public function dashboard()
