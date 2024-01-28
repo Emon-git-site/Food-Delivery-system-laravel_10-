@@ -17,7 +17,7 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if(!Auth::guard('admin')->check()){
-            return redirect()->route('login_form')->with('unAuthenticate_error', 'Please Login First');
+            return redirect()->route('admin.login_form')->with('unAuthenticate_error', 'Please Login First');
         }
         return $next($request);
     }

@@ -23,18 +23,18 @@ use App\Http\Controllers\backend\subcategoryController;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 // admin authentication
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->name('admin.')->group(function(){
 //    Route::get('/login', [adminController::class, 'loginShow'])->name('login_form') ;
 //    Route::get('/register', [adminController::class, 'RegisterShow'])->name('register_form') ;
 
    Route::view('/login',  'backend.auth.admin_login')->name('login_form') ;
    Route::view('/register', 'backend.auth.admin_register')->name('register_form') ;
+   Route::post('/login/owner', [adminController::class, 'adminlogin'])->name('login') ;
+   Route::get('/dashboard', [adminController::class, 'dashboard'])->name('dashboard')->middleware('admin');
+   Route::get('/logout', [adminController::class, 'adminlogout'])->name('logout')->middleware('admin');
 
-   Route::post('/login/owner', [adminController::class, 'login'])->name('admin.login') ;
-   Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin') ;
 });
 
-// Route::view('/dashboard', 'backend.dashboard')->name('admin.dashboard');
 
 
 Route::middleware('')->group(function () {

@@ -15,7 +15,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name }}</a>
             </div>
         </div>
 
@@ -108,8 +108,8 @@
                         </li>
                     </ul>
                 </li>
-
-
+   
+{{-- 
                 <li class="nav-header">PROFILE</li>
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}" class="nav-link">
@@ -128,7 +128,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                </li>
+                </li> --}}
 
             </ul>
         </nav>

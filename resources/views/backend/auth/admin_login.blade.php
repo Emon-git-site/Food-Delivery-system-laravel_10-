@@ -59,7 +59,7 @@
                         <a href="forgot-password.html">I forgot my password</a>
                     </p>
                     <p class="mb-0">
-                        <a href="{{ route('register_form') }}" class="text-center">Register a new membership</a>
+                        <a href="{{ route('admin.register_form') }}" class="text-center">Register a new membership</a>
                     </p>
                 </div>
                 <!-- /.card-body -->
@@ -89,6 +89,12 @@
             $(function() {
                 @if (session('wrong_email_password'))
                     toastr.error('{{ session('wrong_email_password') }}');
+                @endif
+            });
+        // admin logout message show
+          $(function() {
+                @if (session('admin_logout_message'))
+                    toastr.error('{{ session('admin_logout_message') }}');
                 @endif
             });
         });
