@@ -39,7 +39,7 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-@auth
+{{-- @auth --}}
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="{{ asset('backend') }}/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
@@ -48,12 +48,13 @@
   <!-- Navbar -->
  @include('backend.layouts.partial_backend.topbar')
   <!-- /.navbar -->
-
   <!-- Main Sidebar Container -->
  @include('backend.layouts.partial_backend.sidebar')
   <!-- Content Wrapper. Contains page content -->
- @endauth
+ {{-- @endauth --}}
+
  @yield('content')
+
   @auth
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -64,11 +65,7 @@
     </div>
   </footer>
   @endauth
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+
 </div>
 <!-- ./wrapper -->
 

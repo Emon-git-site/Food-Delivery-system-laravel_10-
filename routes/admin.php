@@ -30,8 +30,8 @@ Route::prefix('admin')->group(function(){
    Route::view('/login',  'backend.auth.admin_login')->name('login_form') ;
    Route::view('/register', 'backend.auth.admin_register')->name('register_form') ;
 
-   Route::get('/login/owner', [adminController::class, 'login'])->name('admin.login') ;
-   Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard') ;
+   Route::post('/login/owner', [adminController::class, 'login'])->name('admin.login') ;
+   Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin') ;
 });
 
 // Route::view('/dashboard', 'backend.dashboard')->name('admin.dashboard');

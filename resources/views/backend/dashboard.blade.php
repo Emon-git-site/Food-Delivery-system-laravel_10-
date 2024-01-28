@@ -94,3 +94,23 @@
     <!-- /.content -->
   </div>
 @endsection 
+@section('script')
+    <script>
+        // toaster message script
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            // admin login sucess message show
+            $(function() {
+                @if (session('admin_login_success'))
+                    toastr.success('{{ session('admin_login_success') }}');
+                @endif
+            });
+
+        });
+    </script>
+@endsection

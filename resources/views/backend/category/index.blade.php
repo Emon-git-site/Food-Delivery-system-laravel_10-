@@ -183,8 +183,6 @@
                 showConfirmButton: false,
                 timer: 3000
             });
-
-
         });
         // edit request send
         $(document).ready(function() {
