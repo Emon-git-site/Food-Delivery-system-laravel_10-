@@ -19,8 +19,9 @@ class subcategoryController extends Controller
         $this->middleware('admin');
     }
 
+    // subcategory list  show
     public function index(Request $request)
-    { {
+    { 
             if ($request->ajax()) {
                 $data = Subcategory::latest()->get();
                 return DataTables::of($data)
@@ -33,10 +34,10 @@ class subcategoryController extends Controller
                         <a href="' . route('subcategory.delete', [$row->id]) . '" class="btn btn-danger btn-sm" id="subcategory_delete">Delete</a>';
                         return $actionBtn;
                     })
-                    ->rawColumns(['action', 'image', 'category_name'])
+                    ->rawColumns(['action', 'category_name'])
                     ->make(true);
             }
-        }
+        
         $category = Category::all();
         return view('backend.subcategory.index', compact('category'));
     }

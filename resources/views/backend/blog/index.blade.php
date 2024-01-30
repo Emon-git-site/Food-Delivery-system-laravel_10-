@@ -7,25 +7,35 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Sub Category</h1>
+                        <h1 class="m-0">Blog</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('subcategory.index') }}">Sub Category</a></li>
-                            <li class="breadcrumb-item active">All Sub Category</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.blog.index') }}">Blog</a></li>
+                            <li class="breadcrumb-item active">All Blog</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
+        @if (session()->has('errors'))
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <br />
+        @endif
         <!-- /.content-header -->
         <!-- /.content-header -->
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">SubCategories Table</h3>
+                    <h3 class="card-title">Blog Table</h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_subcategory_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_blog_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -34,8 +44,9 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
+                                <th>Created Date</th>
                                 <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>Title</th>
                                 <th>Image</th>
                                 <th>Action</th>
                             </tr>
@@ -55,35 +66,40 @@
         </div>
     </div>
 
-    {{--  new subcategory added modal --}}
-    <div class="modal fade" id="add_subcategory_modal">
-        <div class="modal-dialog">
+    {{--  new blog added modal --}}
+    <div class="modal fade" id="add_blog_modal">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Insert New SubCategory</h4>
+                    <h4 class="modal-title">Insert New Blog</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('subcategory.store') }}" method="post" id="add_form"
+                    <form action="{{ route('admin.blog.store') }}" method="post" id="add_form"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="subcategory" class="form-label">Select Category <span
+                            <label for="blogCategory" class="form-label">Select Blog Category <span
                                     class="text-danger">*</span></label>
-                            <select class="form-control" name="category_id" id="subcategory" required>
-                                @foreach ($category as $row)
+                            <select class="form-control" name="blogcategory_id" id="blogCategory" required>
+                                @foreach ($blogcategory as $row)
                                     <option value="{{ $row->id }}"> {{ $row->category_name }} </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="subcategory_name" class="form-label">SubCategory Name <span
+                            <label for="blog_title" class="form-label">Blog Title <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name"
-                                placeholder="Subcategory Name" required>
+                            <input type="text" class="form-control" id="blog_title" name="blog_title"
+                                placeholder="Blog Title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="blog_description" class="form-label">Blog Description <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control text_area" name="blog_description" cols="15" rows="5" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
@@ -103,7 +119,7 @@
     </div>
     {{-- ! new subcategory added modal --}}
 
-    {{-- Update subcategory  modal --}}
+    {{-- Update blog  modal --}}
     <div class="modal fade" id="update_subcategory_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -121,7 +137,7 @@
                             <label for="subcategory_name_update" class="form-label">Category Name <span
                                     class="text-danger">*</span></label>
                             <select class="form-control" name="category_id" id="subcategory" required>
-                                @foreach ($category as $row)
+                                @foreach ($blogcategory as $row)
                                     <option value="{{ $row->id }}" data-category-id="{{ $row->id }}">
                                         {{ $row->category_name }}
                                     </option>
@@ -162,7 +178,8 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-
+        // dropify image
+        $('.dropify').dropify();
 
 
         // data tale data show
@@ -173,19 +190,24 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('subcategory.index') }}",
+                ajax: "{{ route('admin.blog.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'created_date',
+                        name: 'created_date'
                     },
                     {
                         data: 'category_name',
                         name: 'category_name'
                     },
                     {
-                        data: 'subcategory_name',
-                        name: 'subcategory_name'
+                        data: 'title',
+                        name: 'title'
                     },
+
                     {
                         data: 'image',
                         name: 'image',
@@ -202,10 +224,9 @@
             });
         }
 
+        // modal addForm Submit
         $(document).ready(function() {
             initializeDataTable();
-
-            // modal addForm Submit
             $('#add_form').submit(function(e) {
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
@@ -223,11 +244,16 @@
                         console.log(response);
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_subcategory_modal').modal('hide');
+                        $('#add_blog_modal').modal('hide');
                         $('.submit_button').prop('type', 'button');
-                        toastr.success(response.subcategory_inserted);
-                        $('#example1').DataTable().ajax.reload();
+                        if (response.status == 200) {
+                            toastr.success(response.new_blog_inserted);
+                        }
+                        if (response.status == 400) {
+                            toastr.error(response.validation_failed);
+                        }
                         initializeDataTable();
+                        $('#example1').DataTable().ajax.reload();
                     }
                 })
             });
@@ -245,29 +271,29 @@
         });
 
         // edit modal with data
-        $(document).ready(function() {
-            $('body').on('click', '.edit_modal', function() {
-                let id = $(this).data('id');
-                let url = "{{ url('subcategory/edit') }}/" + id;
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    success: function(response) {
-                        let imagePath = 'http://127.0.0.1:8000/' + response.image;
-                        $('#update_subcategory_modal').on('shown.bs.modal', function() {
-                            $('input[name="subcategory_id"]').val(response.id);
-                            $('input[name="subcategory_name_update"]').val(response
-                                .subcategory_name);
-                            let selected_category = response.category_id;
-                            $('#subcategory option').removeAttr('selected');
-                            $(`#subcategory option[data-category-id="${selected_category}"]`)
-                                .attr('selected', 'selected');
-                            $("#myImage").attr("src", imagePath);
-                        });
-                    }
-                });
-            });
-        });
+        // $(document).ready(function() {
+        //     $('body').on('click', '.edit_modal', function() {
+        //         let id = $(this).data('id');
+        //         let url = "{{ url('subcategory/edit') }}/" + id;
+        //         $.ajax({
+        //             url: url,
+        //             type: 'get',
+        //             success: function(response) {
+        //                 let imagePath = 'http://127.0.0.1:8000/' + response.image;
+        //                 $('#update_subcategory_modal').on('shown.bs.modal', function() {
+        //                     $('input[name="subcategory_id"]').val(response.id);
+        //                     $('input[name="subcategory_name_update"]').val(response
+        //                         .subcategory_name);
+        //                     let selected_category = response.category_id;
+        //                     $('#subcategory option').removeAttr('selected');
+        //                     $(`#subcategory option[data-category-id="${selected_category}"]`)
+        //                         .attr('selected', 'selected');
+        //                     $("#myImage").attr("src", imagePath);
+        //                 });
+        //             }
+        //         });
+        //     });
+        // });
 
 
         $.ajaxSetup({
@@ -277,68 +303,68 @@
         });
 
         // update modal Submit
-        $(document).ready(function() {
-            $('#update_form').submit(function(e) {
-                e.preventDefault();
-                $('.loading').removeClass('d-none');
-                let subcategory_id = $('#subcategory_id').val();
-                let url = $(this).attr('action') + '/' + subcategory_id;
-                let request = $(this).serialize();
-                $('.submit_button').prop('type', 'button');
-                $.ajax({
-                    url: url,
-                    type: 'post',
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(response) {
-                        $('#update_form')[0].reset();
-                        $('.loading').addClass('d-none');
-                        $('#update_subcategory_modal').modal('hide');
-                        toastr.success(response.subcategory_update);
-                        $('#example1').DataTable().ajax.reload();
-                        initializeDataTable();
-                    }
-                })
-            });
-        });
+        // $(document).ready(function() {
+        //     $('#update_form').submit(function(e) {
+        //         e.preventDefault();
+        //         $('.loading').removeClass('d-none');
+        //         let subcategory_id = $('#subcategory_id').val();
+        //         let url = $(this).attr('action') + '/' + subcategory_id;
+        //         let request = $(this).serialize();
+        //         $('.submit_button').prop('type', 'button');
+        //         $.ajax({
+        //             url: url,
+        //             type: 'post',
+        //             data: new FormData(this),
+        //             contentType: false,
+        //             cache: false,
+        //             processData: false,
+        //             success: function(response) {
+        //                 $('#update_form')[0].reset();
+        //                 $('.loading').addClass('d-none');
+        //                 $('#update_subcategory_modal').modal('hide');
+        //                 toastr.success(response.subcategory_update);
+        //                 $('#example1').DataTable().ajax.reload();
+        //                 initializeDataTable();
+        //             }
+        //         })
+        //     });
+        // });
 
         // delete specific Category
-        $(document).ready(function() {
-            $(document).on('click', '#subcategory_delete', function(e) {
-                e.preventDefault();
-                let url = $(this).attr('href');
-                $('#delete_form').attr('action', url);
-                swal({
-                        title: "Are you sure to Delete this post",
-                        text: "You will not be able to revert this!",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            $('#delete_form').submit();
-                        }
-                    });
-            });
-            // data passed through here
-            $('#delete_form').submit(function(e) {
-                e.preventDefault();
-                let url = $(this).attr('action');
-                let request = $(this).serialize();
-                $.ajax({
-                    url: url,
-                    data: request,
-                    success: function(response) {
-                        toastr.success(response.subcategory_delete);
-                        $('#delete_form')[0].reset();
-                        initializeDataTable();
+        // $(document).ready(function() {
+        //     $(document).on('click', '#subcategory_delete', function(e) {
+        //         e.preventDefault();
+        //         let url = $(this).attr('href');
+        //         $('#delete_form').attr('action', url);
+        //         swal({
+        //                 title: "Are you sure to Delete this post",
+        //                 text: "You will not be able to revert this!",
+        //                 icon: "warning",
+        //                 buttons: true,
+        //                 dangerMode: true,
+        //             })
+        //             .then((willDelete) => {
+        //                 if (willDelete) {
+        //                     $('#delete_form').submit();
+        //                 }
+        //             });
+        //     });
+        //     // data passed through here
+        //     $('#delete_form').submit(function(e) {
+        //         e.preventDefault();
+        //         let url = $(this).attr('action');
+        //         let request = $(this).serialize();
+        //         $.ajax({
+        //             url: url,
+        //             data: request,
+        //             success: function(response) {
+        //                 toastr.success(response.subcategory_delete);
+        //                 $('#delete_form')[0].reset();
+        //                 initializeDataTable();
 
-                    }
-                });
-            });
-        });
+        //             }
+        //         });
+        //     });
+        // });
     </script>
 @endsection

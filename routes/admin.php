@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\adminController;
+use App\Http\Controllers\backend\blogCategoryController;
+use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\subcategoryController;
 
@@ -66,13 +68,21 @@ Route::prefix('subcategory/')->name('subcategory.')->group(function(){
 });
 
 // Blog category routes
-Route::prefix('blogCategory/')->name('blogCategory.')->group(function(){
-    Route::get('index', [categoryController::class, 'index'])->name('index');
-    Route::get('categoryShow', [categoryController::class, 'categoryShow'])->name('categoryShow');
-    Route::post('store', [categoryController::class, 'store'])->name('store');
-    Route::get('edit/{id}', [categoryController::class, 'edit']);
-    Route::post('update/{id}', [categoryController::class, 'update']);
-    Route::get('delete/{id}', [categoryController::class, 'destroy'])->name('delete');
+Route::prefix('admin/blogCategory/')->name('admin.blogCategory.')->group(function(){
+    Route::get('index', [blogCategoryController::class, 'index'])->name('index');
+    Route::post('store', [blogCategoryController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [blogCategoryController::class, 'edit']);
+    Route::post('update/{id}', [blogCategoryController::class, 'update']);
+    Route::get('delete/{id}', [blogCategoryController::class, 'destroy'])->name('delete');
+});
+
+// Blog post routes
+Route::prefix('admin/blog/')->name('admin.blog.')->group(function(){
+    Route::get('index', [blogController::class, 'index'])->name('index');
+    Route::post('store', [blogController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [blogController::class, 'edit']);
+    Route::post('update/{id}', [blogController::class, 'update']);
+    Route::get('delete/{id}', [blogController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

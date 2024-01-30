@@ -39,7 +39,6 @@ class CategoryController extends Controller
     // store method for category insert
     public function store(Request $request)
     {
-        // dd('sdf');
         $validate = $request->validate([
             'category_name' => 'required|unique:categories|max:255',
         ]);
