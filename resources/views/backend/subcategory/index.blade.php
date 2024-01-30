@@ -140,11 +140,11 @@
                                     <label for="image_upload" class="form-label">Image Upload <span
                                             class="text-danger">*</span></label>
                                     <input type="file" class="form-control dropify" name="image"
-                                        data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg"  />
+                                        data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" />
                                 </div>
                                 <div class="col-6">
                                     <label for="old_image" class="form-label">Old Image: </label><br>
-                                        <img src="" id="myImage" height="245px" width="210px">
+                                    <img src="" id="myImage" height="245px" width="210px">
                                 </div>
                             </div>
                         </div>
@@ -162,8 +162,23 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // toaster message script
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
 
 
+        });
 
         // data tale data show
         function initializeDataTable() {
@@ -231,21 +246,9 @@
                     }
                 })
             });
-        });
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
 
-
-        });
-
-        // edit modal with data
-        $(document).ready(function() {
+            initializeDataTable();
+            // show edit modal with data 
             $('body').on('click', '.edit_modal', function() {
                 let id = $(this).data('id');
                 let url = "{{ url('subcategory/edit') }}/" + id;
@@ -254,37 +257,25 @@
                     type: 'get',
                     success: function(response) {
                         let imagePath = 'http://127.0.0.1:8000/' + response.image;
-                        $('#update_subcategory_modal').on('shown.bs.modal', function() {
-                            $('input[name="subcategory_id"]').val(response.id);
-                            $('input[name="subcategory_name_update"]').val(response
-                                .subcategory_name);
-                            let selected_category = response.category_id;
-                            $('#subcategory option').removeAttr('selected');
-                            $(`#subcategory option[data-category-id="${selected_category}"]`)
-                                .attr('selected', 'selected');
-                            $("#myImage").attr("src", imagePath);
-                        });
+                        $('input[name="subcategory_id"]').val(response.id);
+                        $('input[name="subcategory_name_update"]').val(response
+                            .subcategory_name);
+                        let selected_category = response.category_id;
+                        $('#subcategory option').removeAttr('selected');
+                        $(`#subcategory option[data-category-id="${selected_category}"]`)
+                            .attr('selected', 'selected');
+                        $("#myImage").attr("src", imagePath);
+                        $('#update_subcategory_modal').modal('show');
                     }
                 });
             });
-        });
-
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // update modal Submit
-        $(document).ready(function() {
+            // update modal submit
             $('#update_form').submit(function(e) {
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
                 let subcategory_id = $('#subcategory_id').val();
                 let url = $(this).attr('action') + '/' + subcategory_id;
                 let request = $(this).serialize();
-                $('.submit_button').prop('type', 'button');
                 $.ajax({
                     url: url,
                     type: 'post',
@@ -302,10 +293,10 @@
                     }
                 })
             });
-        });
 
-        // delete specific Category
-        $(document).ready(function() {
+
+
+            // delete specific Category
             $(document).on('click', '#subcategory_delete', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');

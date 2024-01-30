@@ -121,6 +121,13 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
     // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
@@ -192,21 +199,13 @@
                     url: url,
                     type: 'get',
                     success: function(response) {
-                        $('#update_blogcategory_modal').on('shown.bs.modal', function() {
                             $('input[name="blogcategory_id"]').val(response.id);
                             $('input[name="blogcategory_name_update"]').val(response
                                 .category_name);
-                        });
                     }
                 });
             });
-        });
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+  
 
         // update Blog Category modal Submit
         $(document).ready(function() {
@@ -234,6 +233,7 @@
                 })
             });
         });
+    });
     
     // delete specific Category
     $(document).ready(function(){

@@ -75,7 +75,6 @@ class subcategoryController extends Controller
     }
 
     // edit method
-
     public function edit($id)
     {
         $subcategory = Subcategory::find($id);

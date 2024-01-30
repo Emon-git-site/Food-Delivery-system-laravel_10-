@@ -193,11 +193,9 @@
                     url: url,
                     type: 'get',
                     success: function(response) {
-                        $('#update_category_modal').on('shown.bs.modal', function() {
                             $('input[name="category_id"]').val(response.id);
                             $('input[name="category_name_update"]').val(response
                                 .category_name);
-                        });
                     }
                 });
             });
