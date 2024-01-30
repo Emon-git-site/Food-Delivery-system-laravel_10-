@@ -152,8 +152,8 @@
                         <div class="mb-3">
                             <label for="blog_description_update" class="form-label">Blog Description <span
                                     class="text-danger">*</span></label>
-                            <textarea class="form-control text_area" name="blog_description_update" cols="20" rows="10"></textarea>
-                        </div>
+                                    <div name="blog_description_update" class="form-control text_area" cols="20" rows="10"></div>
+                                </div>
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
@@ -189,6 +189,18 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+
+                // toaster message script
+         $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+
         });
 
         // data tale data show
@@ -240,8 +252,6 @@
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
                 let url = $(this).attr('action');
-                let request = $(this).serialize();
-                $('.submit_button').prop('type', 'button');
                 $.ajax({
                     url: url,
                     type: 'post',
@@ -254,7 +264,6 @@
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_blog_modal').modal('hide');
-                        $('.submit_button').prop('type', 'button');
                         if (response.status == 200) {
                             toastr.success(response.new_blog_inserted);
                         }
@@ -266,22 +275,7 @@
                     }
                 })
             });
-        });
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
 
-
-        });
-
-
-
-        $(document).ready(function() {
             initializeDataTable();
             
             // Event handler for opening the edit modal
@@ -294,10 +288,10 @@
                     type: 'get',
                     success: function(response) {
                         let imagePath = 'http://127.0.0.1:8000/' + response.image;
-
+                        console.log(response.description);
                         $('input[name="blog_id"]').val(response.id);
                         $('input[name="blog_title_update"]').val(response.title);
-                        $('textarea[name="blog_description_update"]').val(response.description);
+                        document.querySelector('div[name="blog_description_update"]').innerHTML = response.description;
                         let selected_category = response.category_id;
                         $('#blogcategory option').removeAttr('selected');
                         $(`#blogcategory_id option[blogcategory_id="${selected_category}"]`)
@@ -336,11 +330,9 @@
                 });
             });
 
-        });
 
 
         // delete specific Category
-        $(document).ready(function() {
             $(document).on('click', '#blog_delete', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');

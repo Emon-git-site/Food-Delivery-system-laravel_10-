@@ -225,8 +225,8 @@
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
                 let url = $(this).attr('action');
-                let request = $(this).serialize();
-                $('.submit_button').prop('type', 'button');
+                // let request = $(this).serialize();
+                // $('.submit_button').prop('type', 'button');
                 $.ajax({
                     url: url,
                     type: 'post',
@@ -239,7 +239,7 @@
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_subcategory_modal').modal('hide');
-                        $('.submit_button').prop('type', 'button');
+                        // $('.submit_button').prop('type', 'button');
                         toastr.success(response.subcategory_inserted);
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
