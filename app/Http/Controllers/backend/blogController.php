@@ -108,7 +108,7 @@ class blogController extends Controller
             $blog->category_id = $request->blogcategory_id;
             $blog->title = $request->blog_title_update;
             $blog->title_slug = Str::slug($request->blog_title_update, '-');
-            $blog->description = $request->blog_description_update;
+            // $blog->description = $request->blog_description_update;
 
             $imageFile = $request->file('image');
             $save_url = $this->savePostImage($imageFile);
@@ -126,7 +126,7 @@ class blogController extends Controller
             $blog->category_id = $request->blogcategory_id;
             $blog->title = $request->blog_title_update;
             $blog->title_slug = Str::slug($request->blog_title_update, '-');
-            $blog->description = $request->blog_description_update;
+            // $blog->description = $request->blog_description_update;
             $blog->update();
 
             $notification = [

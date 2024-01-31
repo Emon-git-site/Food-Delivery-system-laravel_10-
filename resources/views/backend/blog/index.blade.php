@@ -152,8 +152,9 @@
                         <div class="mb-3">
                             <label for="blog_description_update" class="form-label">Blog Description <span
                                     class="text-danger">*</span></label>
-                                    <div name="blog_description_update" class="form-control text_area" cols="20" rows="10"></div>
-                                </div>
+                            <div name="blog_description_update" class="form-control text_area" cols="20"
+                                rows="10"></div>
+                        </div>
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
@@ -191,8 +192,8 @@
             }
         });
 
-                // toaster message script
-         $(document).ready(function() {
+        // toaster message script
+        $(document).ready(function() {
             var Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -277,7 +278,7 @@
             });
 
             initializeDataTable();
-            
+
             // Event handler for opening the edit modal
             $('body').on('click', '.edit_modal_btn', function() {
                 let blog_id = $(this).data('id');
@@ -291,7 +292,8 @@
                         console.log(response.description);
                         $('input[name="blog_id"]').val(response.id);
                         $('input[name="blog_title_update"]').val(response.title);
-                        document.querySelector('div[name="blog_description_update"]').innerHTML = response.description;
+                        document.querySelector('div[name="blog_description_update"]')
+                            .innerHTML = response.description;
                         let selected_category = response.category_id;
                         $('#blogcategory option').removeAttr('selected');
                         $(`#blogcategory_id option[blogcategory_id="${selected_category}"]`)
@@ -306,8 +308,8 @@
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
 
-                let blog_id = $('#blog_id').val(); 
-                let url = "{{ url('admin/blog/update') }}/" + blog_id; 
+                let blog_id = $('#blog_id').val();
+                let url = "{{ url('admin/blog/update') }}/" + blog_id;
                 let request = $(this).serialize();
 
                 $.ajax({
@@ -332,7 +334,7 @@
 
 
 
-        // delete specific Category
+            // delete specific Category
             $(document).on('click', '#blog_delete', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');

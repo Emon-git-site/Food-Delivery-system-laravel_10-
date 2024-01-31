@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\adminController;
 use App\Http\Controllers\backend\blogCategoryController;
 use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\categoryController;
+use App\Http\Controllers\backend\floorController;
 use App\Http\Controllers\backend\subcategoryController;
 
 /*
@@ -83,6 +84,15 @@ Route::prefix('admin/blog/')->name('admin.blog.')->group(function(){
     Route::get('edit/{id}', [blogController::class, 'edit']);
     Route::post('update/{id}', [blogController::class, 'update']);
     Route::get('delete/{id}', [blogController::class, 'destroy'])->name('delete');
+});
+
+// Floor  routes
+Route::prefix('admin/floor/')->name('admin.floor.')->group(function(){
+    Route::get('index', [floorController::class, 'index'])->name('index');
+    Route::post('store', [floorController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [floorController::class, 'edit']);
+    Route::post('update', [floorController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [floorController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

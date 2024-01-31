@@ -7,13 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Blog Category</h1>
+                        <h1 class="m-0">Floor</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.blogCategory.index') }}">Blog Category</a>
-                            </li>
-                            <li class="breadcrumb-item active">All Blog Category</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.floor.index') }}">Floor</a></li>
+                            <li class="breadcrumb-item active">All Floor</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -24,9 +23,9 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Blog Categories Table</h3>
+                    <h3 class="card-title">Floor List </h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_blogcategory_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_floor_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -35,8 +34,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Category</th>
-                                <th>Category Slug</th>
+                                <th>Floor Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -44,6 +42,7 @@
 
                         </tbody>
                     </table>
+                    {{-- floor item delete form --}}
                     <form id="delete_form" action="" method="post">
                         @csrf
                         @method('DELETE')
@@ -54,25 +53,24 @@
         </div>
     </div>
 
-    {{--  new category added modal --}}
-    <div class="modal fade" id="add_blogcategory_modal">
+    {{--  new floor added modal --}}
+    <div class="modal fade" id="add_floor_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Insert New Blog Category</h4>
+                    <h4 class="modal-title">Insert New Floor</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('admin.blogCategory.store') }}" method="post" id="add_form">
+                    <form action="{{ route('admin.floor.store') }}" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="blogcategory_name" class="form-label">Blog Category Name <span
+                            <label for="floor_name" class="form-label">Floor Name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="blogcategory_name" name="blogcategory_name"
-                                required>
+                            <input type="text" class="form-control" id="floor_name" name="floor_name" required>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -85,33 +83,20 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! new category added modal --}}
+    {{-- ! new floor added modal --}}
 
-    {{-- Update blog category  modal --}}
-    <div class="modal fade" id="update_blogcategory_modal">
+    {{-- Update floor  modal --}}
+    <div class="modal fade" id="update_floor_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Blog Category Update</h4>
+                    <h4 class="modal-title">Floor Update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="update_part">
 
-                    <form action="" method="post" id="update_form">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="hidden" name="blogcategory_id">
-                            <label for="blogcategory_name_update" class="form-label">Category Name <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="blogcategory_name_update"
-                                name="blogcategory_name_update" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-success btn-block">UPDATE
-                            <span class="loading d-none"> .... </span> </button>
-                    </form>
                 </div>
 
             </div>
@@ -119,17 +104,30 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! Update category  modal --}}
+    {{-- ! Update floor  modal --}}
 @endsection
 @section('script')
     <script type="text/javascript">
-        $.ajaxSetup({
+
+$.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        // data tale data show
+                // toaster message script
+         $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+
+        });
+
+    // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -137,18 +135,14 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.blogCategory.index') }}",
+                ajax: "{{ route('admin.floor.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'category_name',
-                        name: 'category_name'
-                    },
-                    {
-                        data: 'category_slug',
-                        name: 'category_slug'
+                        data: 'floor_name',
+                        name: 'floor_name'
                     },
                     {
                         data: 'action',
@@ -158,87 +152,56 @@
             });
         }
 
+
+        // modal addForm Submit
         $(document).ready(function() {
             initializeDataTable();
-
-            // modal addForm Submit
             $('#add_form').submit(function(e) {
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
                 let url = $(this).attr('action');
-                let request = $(this).serialize();
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: request,
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     success: function(response) {
+                        console.log(response);
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_blogcategory_modal').modal('hide');
-                        toastr.success(response.add_new_blogcategory);
-                        $('#example1').DataTable().ajax.reload();
+                        $('#add_floor_modal').modal('hide');
+                        if (response.status == 200) {
+                            toastr.success(response.floorName_create);
+                        }
+                        if (response.status == 401) {
+                            toastr.error(response.floorName_validation_failed);
+                        }
                         initializeDataTable();
+                        $('#example1').DataTable().ajax.reload();
                     }
                 })
             });
-        });
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        });
-        // edit request send
-        $(document).ready(function() {
-            $('body').on('click', '.edit_modal', function() {
-                let id = $(this).data('id');
-                let url = "{{ url('admin/blogCategory/edit') }}/" + id;
+
+            initializeDataTable();
+
+            // Event handler for opening the edit modal
+            $('body').on('click', '.edit_modal_btn', function() {
+                let floor_id = $(this).data('id');
+                let url = "{{ url('admin/floor/edit') }}/" + floor_id;
+
                 $.ajax({
                     url: url,
                     type: 'get',
                     success: function(response) {
-                        $('input[name="blogcategory_id"]').val(response.id);
-                        $('input[name="blogcategory_name_update"]').val(response
-                            .category_name);
+                      $('#update_part').html(response);
                     }
                 });
             });
 
-
-            // update Blog Category modal Submit
-            $(document).ready(function() {
-                $('#update_form').submit(function(e) {
-                    e.preventDefault();
-                    $('.loading').removeClass('d-none');
-                    let blogcategory_id = $('input[name="blogcategory_id"]').val();
-                    let url = "{{ url('admin/blogCategory/update') }}/" + blogcategory_id;
-                    let data = {
-                        'category_name': $('#blogcategory_name_update').val()
-                    };
-                    console.log(data);
-                    $.ajax({
-                        url: url,
-                        type: 'post',
-                        data: data,
-                        success: function(response) {
-                            $('#update_form')[0].reset();
-                            $('.loading').addClass('d-none');
-                            $('#update_blogcategory_modal').modal('hide');
-                            toastr.success(response.blogcategory_update);
-                            $('#example1').DataTable().ajax.reload();
-                            initializeDataTable();
-                        }
-                    })
-                });
-            });
-        });
-
-        // delete specific Category
-        $(document).ready(function() {
-            $(document).on('click', '#blogCategory_delete', function(e) {
+            // delete specific Floor
+            $(document).on('click', '#floor_delete', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
                 $('#delete_form').attr('action', url);
@@ -264,7 +227,7 @@
                     url: url,
                     data: request,
                     success: function(response) {
-                        toastr.success(response.blogcategory_delete);
+                        toastr.success(response.floor_delete);
                         $('#delete_form')[0].reset();
                         initializeDataTable();
 
