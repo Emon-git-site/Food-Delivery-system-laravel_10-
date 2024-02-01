@@ -98,36 +98,11 @@
                                 <p>Floor Manage</p>
                             </a>
                         </li>
-                        {{-- {{ route('admin.table.index') }} --}}
+                        
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('admin.table.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Table Manage</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Food
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Top Navigation</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Boxed</p>
                             </a>
                         </li>
                     </ul>

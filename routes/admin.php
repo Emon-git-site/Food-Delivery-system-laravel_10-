@@ -8,6 +8,7 @@ use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\floorController;
 use App\Http\Controllers\backend\subcategoryController;
+use App\Http\Controllers\backend\tableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +21,8 @@ use App\Http\Controllers\backend\subcategoryController;
 |
 */
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 // admin authentication
 Route::prefix('admin')->name('admin.')->group(function(){
-//    Route::get('/login', [adminController::class, 'loginShow'])->name('login_form') ;
-//    Route::get('/register', [adminController::class, 'RegisterShow'])->name('register_form') ;
-
    Route::view('/login',  'backend.auth.admin_login')->name('login_form') ;
    Route::view('/register', 'backend.auth.admin_register')->name('register_form') ;
    Route::post('/login/owner', [adminController::class, 'adminlogin'])->name('login') ;
@@ -38,7 +31,6 @@ Route::prefix('admin')->name('admin.')->group(function(){
    Route::get('/logout', [adminController::class, 'adminlogout'])->name('logout')->middleware('admin');
 
 });
-
 
 
 Route::middleware('')->group(function () {
@@ -93,6 +85,15 @@ Route::prefix('admin/floor/')->name('admin.floor.')->group(function(){
     Route::get('edit/{id}', [floorController::class, 'edit']);
     Route::post('update', [floorController::class, 'update'])->name('update');
     Route::get('delete/{id}', [floorController::class, 'destroy'])->name('delete');
+});
+
+// table  routes
+Route::prefix('admin/table/')->name('admin.table.')->group(function(){
+    Route::get('index', [tableController::class, 'index'])->name('index');
+    Route::post('store', [tableController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [tableController::class, 'edit']);
+    Route::post('update', [tableController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [tableController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';
