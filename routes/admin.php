@@ -101,9 +101,9 @@ Route::prefix('admin/table/')->name('admin.table.')->group(function(){
 Route::prefix('admin/reservation/')->name('admin.reservation.')->group(function(){
     Route::get('index', [reservationController::class, 'index'])->name('index');
     Route::post('store', [reservationController::class, 'store'])->name('store');
-    // Route::get('edit/{id}', [reservationController::class, 'edit']);
-    // Route::post('update', [reservationController::class, 'update'])->name('update');
-    // Route::get('delete/{id}', [reservationController::class, 'destroy'])->name('delete');
+    Route::get('edit/{id}', [reservationController::class, 'edit']);
+    Route::post('update', [reservationController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [reservationController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

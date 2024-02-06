@@ -25,7 +25,7 @@
                 <div class="card-header bg-secondary">
                     <h3 class="card-title">Categories Table</h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_category_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_reservation_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <br>
                 <div class="ml-4 mr-4">
@@ -91,7 +91,7 @@
     </div>
 
     {{--  new reservation added modal --}}
-    <div class="modal fade" id="add_category_modal">
+    <div class="modal fade" id="add_reservation_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -149,7 +149,7 @@
     {{-- ! new reservation added modal --}}
 
     {{-- Update reservation  modal --}}
-    <div class="modal fade" id="update_table_modal">
+    <div class="modal fade" id="update_reservation_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -231,8 +231,12 @@
                     success: function(response) {
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_category_modal').modal('hide');
-                        toastr.success(response.add_reservation);
+                        $('#add_reservation_modal').modal('hide');
+                        if(response.already_available){
+                            toastr.success(response.already_available);
+                        }else{
+                            toastr.success(response.add_reservation);
+                        }
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }
@@ -250,16 +254,15 @@
         });
         // edit request send
         $(document).ready(function() {
-            $('body').on('click', '.edit_modal', function() {
+            $('body').on('click', '.edit_modal_btn', function() {
                 let id = $(this).data('id');
-                let url = "{{ url('category/edit') }}/" + id;
+                let url = "{{ url('admin/reservation/edit') }}/" + id;
                 $.ajax({
                     url: url,
                     type: 'get',
                     success: function(response) {
-                            $('input[name="category_id"]').val(response.id);
-                            $('input[name="category_name_update"]').val(response
-                                .category_name);
+                        $('#update_part').html(response);
+
                     }
                 });
             });
@@ -271,36 +274,10 @@
             }
         });
 
-        $(document).ready(function() {
-            // update modal Submit
-            $('#update_form').submit(function(e) {
-                e.preventDefault();
-                $('.loading').removeClass('d-none');
-                let category_id = $('input[name="category_id"]').val();
-                let url = "{{ url('category/update') }}/" + category_id;
-                let data = {
-                    'category_name': $('#category_name_update').val()
-                };
-                console.log(data);
-                $.ajax({
-                    url: url,
-                    type: 'post',
-                    data: data,
-                    success: function(response) {
-                        $('#update_form')[0].reset();
-                        $('.loading').addClass('d-none');
-                        $('#update_category_modal').modal('hide');
-                        toastr.success(response.category_update);
-                        $('#example1').DataTable().ajax.reload();
-                        initializeDataTable();
-                    }
-                })
-            });
-        });
     
-    // delete specific Category
+    // delete specific reservation
     $(document).ready(function(){
-        $(document).on('click', '#category_delete', function(e){
+        $(document).on('click', '#reservation_delete', function(e){
             e.preventDefault();
             let url = $(this).attr('href');
             // Set the form action attribute before submitting
@@ -327,7 +304,7 @@
                 url: url,
                 data: request,
                 success: function(response){
-                    toastr.success(response.category_delete);
+                    toastr.success(response.reservation_delete);
                     $('#delete_form')[0].reset(); 
                     initializeDataTable();
 
