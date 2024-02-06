@@ -31,11 +31,11 @@
                 <div class="ml-4 mr-4">
                     <div class="row">
                         <div class="col-4">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control submit_table" name="r_date" id="r_date">
                         </div>
                         <div class="col-4">
-                            <select name="" class="form-control">
-                                <option >All</option>
+                            <select class="form-control submit_table" name="r_month" id="r_month">
+                                <option value="">All</option>
                                 <option value="January">January</option>
                                 <option value="February">February</option>
                                 <option value="March">March</option>
@@ -51,9 +51,9 @@
                             </select>
                         </div>
                         <div class="col-4">
-                            <select name="" class="form-control">
-                                <option >All</option>
-                                <option value="Approveded">Approveded</option>
+                            <select class="form-control submit_table" name="status" id="status">
+                                <option value="">All</option>
+                                <option value="Approved">Approved</option>
                                 <option value="Reject">Reject</option>
                                 <option value="Success">Success</option>
                             </select>
@@ -177,7 +177,14 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.reservation.index') }}",
+                ajax: {
+                    url: "{{ route('admin.reservation.index') }}",
+                    data: function(e){
+                        e.r_date = $('#r_date').val();
+                        e.r_month = $('#r_month').val();
+                        e.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -311,6 +318,11 @@
                 }
             });
         });
+    });
+
+    // submit_table class call for every change
+    $(document).on('change', '.submit_table', function(){
+        initializeDataTable();
     });
     </script>
 @endsection

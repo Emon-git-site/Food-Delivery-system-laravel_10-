@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\backend\Reservation;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,8 +20,18 @@ class reservationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Reservation::latest()->get();
-            return DataTables::of($data)
+            $filter = Reservation::query();
+            if ($request->r_date) {
+                $filter->where('r_date', $request->r_date);
+            }
+            if ($request->r_month) {
+                $filter->where('r_month', $request->r_month);
+            }
+            if ($request->status) {
+                $filter->where('status', $request->status);
+            }
+            $reservation = $filter->get();
+            return DataTables::of($reservation)
                 ->addIndexColumn()
                 ->editColumn('status', function ($row) {
                     if ($row->status == "Approved") {
@@ -49,46 +60,44 @@ class reservationController extends Controller
     // store method for reservation insert
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'r_time' => 'nullable|string',
-            'r_date' => 'nullable|date',
-            'people' => 'nullable|integer|min:1',
-            'phone' => 'nullable|string|max:255',
-            'name' => 'nullable|string|max:255',
+        $validator    = Validator::make($request->all(), [
+            'r_time'  => 'nullable|string',
+            'r_date'  => 'nullable|date',
+            'people'  => 'nullable|integer|min:1',
+            'phone'   => 'nullable|string|max:255',
+            'name'    => 'nullable|string|max:255',
             'details' => 'nullable|string',
             'r_month' => 'nullable|string|max:255',
-            'r_year' => 'nullable|digits:4',
+            'r_year'  => 'nullable|digits:4',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 400,
+                'status'            => 400,
                 'validation_failed' => 'Form validation failed',
-                'validation_code' => $validator->errors()->toArray()
+                'validation_code'   => $validator->errors()->toArray()
             ]);
-        } else {
-            $check = Reservation::where('phone', $request->phone)
-                ->orwhere('r_date', $request->r_date)->first();
-            if ($check) {
-                return response()->json([
-                    'already_available' =>'This person already reserve this date'
-                ]);
-            } else {
-                Reservation::insert([
-                    'r_time' => $request->time,
-                    'r_date' => $request->date,
-                    'name' => $request->name,
-                    'phone' => $request->phone,
-                    'people' => $request->people,
-                    'details' => $request->details,
-                    'status' => "Pending",
-                    'r_year' => date('d-m-Y'),
-                    'r_month' => date('F'),
-                ]);
-
-                return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
-            }
         }
+        $check = Reservation::where('phone', $request->phone)->orwhere('r_date', $request->r_date)->first();
+
+        if ($check) {
+            return response()->json([
+                'already_available' => 'This person already reserve this date'
+            ]);
+        }
+        Reservation::insert([
+            'r_time' => $request->time,
+            'r_date' => $request->date,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'people' => $request->people,
+            'details' => $request->details,
+            'status' => "Pending",
+            'r_year' => date('Y'),
+            'r_month' => date('F'),
+        ]);
+
+        return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
     }
 
     //  edit method for edit reservation
@@ -98,35 +107,35 @@ class reservationController extends Controller
         return view('backend.reservation.edit', compact('reservation'));
     }
 
-        // update method
-        public function update(Request $request)
-        {
-            $id = $request->reservation_id;
-            $reservation = Reservation::find($id);
-            $reservation->update([
-                'r_time' => $request->time,
-                'r_date' => $request->date,
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'people' => $request->people,
-                'details' => $request->details,
-                'status' => $request->status,
-            ]);
-    
-            
+    // update method
+    public function update(Request $request)
+    {
+        $id = $request->reservation_id;
+        $reservation = Reservation::find($id);
+        $reservation->update([
+            'r_time' => $request->time,
+            'r_date' => $request->date,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'people' => $request->people,
+            'details' => $request->details,
+            'status' => $request->status,
+        ]);
+
+
         return response()->json([
             'status' => 200,
             'reservation_update' => 'Reservation  updated successfully',
         ]);
-        }
+    }
 
-        // Reservation delete method
-       public function destroy($id)
-       {
-           Reservation::find($id)->delete();
-   
-           return response()->json([
-               'reservation_delete' => "Reservation Deleted Successfully"
-           ]);
-       }
+    // Reservation delete method
+    public function destroy($id)
+    {
+        Reservation::find($id)->delete();
+
+        return response()->json([
+            'reservation_delete' => "Reservation Deleted Successfully"
+        ]);
+    }
 }
