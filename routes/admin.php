@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\blogCategoryController;
 use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\floorController;
+use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
 use App\Http\Controllers\backend\tableController;
 
@@ -94,6 +95,15 @@ Route::prefix('admin/table/')->name('admin.table.')->group(function(){
     Route::get('edit/{id}', [tableController::class, 'edit']);
     Route::post('update', [tableController::class, 'update'])->name('update');
     Route::get('delete/{id}', [tableController::class, 'destroy'])->name('delete');
+});
+
+// reservation  routes
+Route::prefix('admin/reservation/')->name('admin.reservation.')->group(function(){
+    Route::get('index', [reservationController::class, 'index'])->name('index');
+    Route::post('store', [reservationController::class, 'store'])->name('store');
+    // Route::get('edit/{id}', [reservationController::class, 'edit']);
+    // Route::post('update', [reservationController::class, 'update'])->name('update');
+    // Route::get('delete/{id}', [reservationController::class, 'destroy'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

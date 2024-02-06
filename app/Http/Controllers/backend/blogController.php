@@ -20,7 +20,7 @@ class blogController extends Controller
         $this->middleware('admin');
     }
 
-    // subcategory list  show
+    // blogcategory list  show
     public function index(Request $request)
     {
         if ($request->ajax()) {
