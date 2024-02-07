@@ -109,24 +109,6 @@
 @section('script')
     <script type="text/javascript">
 
-$.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-                // toaster message script
-         $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-
-
-        });
-
     // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {

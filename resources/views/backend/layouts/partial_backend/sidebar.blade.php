@@ -98,6 +98,12 @@
                                 <p>Floor Manage</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.customer.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Customer</p>
+                            </a>
+                        </li>
                         
                         <li class="nav-item">
                             <a href="{{ route('admin.table.index') }}" class="nav-link">

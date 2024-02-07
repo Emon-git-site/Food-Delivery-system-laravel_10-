@@ -30,7 +30,7 @@ class reservationController extends Controller
             if ($request->status) {
                 $filter->where('status', $request->status);
             }
-            $reservation = $filter->get();
+            $reservation = $filter->latest()->get();
             return DataTables::of($reservation)
                 ->addIndexColumn()
                 ->editColumn('status', function ($row) {
@@ -93,8 +93,8 @@ class reservationController extends Controller
             'people' => $request->people,
             'details' => $request->details,
             'status' => "Pending",
-            'r_year' => date('Y'),
-            'r_month' => date('F'),
+            'r_year' => date('Y', strtotime($request->date)),
+            'r_month' => date('F', strtotime($request->date)),
         ]);
 
         return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
@@ -120,6 +120,8 @@ class reservationController extends Controller
             'people' => $request->people,
             'details' => $request->details,
             'status' => $request->status,
+            'r_month' => date('F', strtotime($request->date)),
+            'r_year' => date('Y', strtotime($request->date)),
         ]);
 
 

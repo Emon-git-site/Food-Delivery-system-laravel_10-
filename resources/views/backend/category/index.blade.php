@@ -151,7 +151,6 @@
         }
 
         $(document).ready(function() {
-            // Call the function to initialize DataTable when the document is ready
             initializeDataTable();
 
             // modal addForm Submit
@@ -175,15 +174,6 @@
                 })
             });
         });
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        });
         // edit request send
         $(document).ready(function() {
             $('body').on('click', '.edit_modal', function() {
@@ -199,12 +189,6 @@
                     }
                 });
             });
-        });
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
         });
 
         $(document).ready(function() {

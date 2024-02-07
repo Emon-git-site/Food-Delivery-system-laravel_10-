@@ -71,14 +71,6 @@
 @endsection
 @section('script')
     <script>
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
             // unAuthenticate_error message show
             $(function() {
                 @if (session('unAuthenticate_error'))

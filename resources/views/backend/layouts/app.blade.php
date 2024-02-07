@@ -87,8 +87,8 @@
 <!-- Sparkline -->
 <script src="{{ asset('backend') }}/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
-<script src="{{ asset('backend') }}/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="{{ asset('backend') }}/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+{{-- <script src="{{ asset('backend') }}/plugins/jqvmap/jquery.vmap.min.js"></script> --}}
+{{-- <script src="{{ asset('backend') }}/plugins/jqvmap/maps/jquery.vmap.usa.js"></script> --}}
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('backend') }}/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -135,6 +135,24 @@
   });
 // dropify image
 $('.dropify').dropify();
+
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+                // toaster message script
+         $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+
+        });
 </script>
 @yield('script')
 </body>

@@ -123,11 +123,6 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
         // data tale data show
         function initializeDataTable() {
@@ -182,15 +177,7 @@
                 })
             });
         });
-        // toaster message script
-        $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        });
+
         // edit request send
         $(document).ready(function() {
             $('body').on('click', '.edit_modal', function() {

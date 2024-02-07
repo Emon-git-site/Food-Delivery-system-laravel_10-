@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Reservation</h1>
+                        <h1 class="m-0">Customer</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.reservation.index') }}">Reservation</a></li>
-                            <li class="breadcrumb-item active">All Reservation</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.customer.index') }}">Customer</a></li>
+                            <li class="breadcrumb-item active">All Customer</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Categories Table</h3>
+                    <h3 class="card-title">Customers Table</h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
                         data-target="#add_reservation_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
@@ -255,7 +255,15 @@
                 })
             });
         });
-
+        // toaster message script
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        });
         // edit request send
         $(document).ready(function() {
             $('body').on('click', '.edit_modal_btn', function() {
@@ -272,7 +280,11 @@
             });
         });
 
-
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
     
     // delete specific reservation

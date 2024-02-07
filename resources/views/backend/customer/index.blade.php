@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Table</h1>
+                        <h1 class="m-0">Customer</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.table.index') }}">Table</a></li>
-                            <li class="breadcrumb-item active">All Table</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.customer.index') }}">Customer</a></li>
+                            <li class="breadcrumb-item active">All Customer</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Table List </h3>
+                    <h3 class="card-title">Customer List </h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
                         data-target="#add_table_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
@@ -34,9 +34,10 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Floor Name</th>
-                                <th>Table Code</th>
-                                <th>Table Sit</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                {{-- <th>Phone</th> --}}
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -55,7 +56,7 @@
         </div>
     </div>
 
-    {{--  new table added modal --}}
+    {{--  new customer added modal --}}
     <div class="modal fade" id="add_table_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -72,11 +73,7 @@
                         <div class="mb-3">
                             <label for="floor_name" class="form-label">Floor Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control" name="floor_id" required>
-                                        @foreach ($floor as $row)
-                                            <option value="{{ $row->id }}">{{ $row->floor_name }}</option>
-                                        @endforeach
-                                    </select>
+ 
                         </div>
                         <div class="mb-3">
                             <label for="table_code" class="form-label">Table Code <span
@@ -99,9 +96,9 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! new table added modal --}}
+    {{-- ! new customer added modal --}}
 
-    {{-- Update table  modal --}}
+    {{-- Update customer  modal --}}
     <div class="modal fade" id="update_table_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -120,7 +117,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! Update table  modal --}}
+    {{-- ! Update customer  modal --}}
 @endsection
 @section('script')
     <script type="text/javascript">
@@ -132,22 +129,26 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.table.index') }}",
+                ajax: "{{ route('admin.customer.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'floor_name',
-                        name: 'floor_name'
+                        data: 'email',
+                        name: 'email'
                     },
                     {
-                        data: 'table_code',
-                        name: 'table_code'
+                        data: 'name',
+                        name: 'name'
                     },
+                    // {
+                    //     data: 'phone',
+                    //     name: 'phone'
+                    // },
                     {
-                        data: 'table_sit',
-                        name: 'table_sit'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'action',
