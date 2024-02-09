@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\backend\Category;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -39,15 +40,23 @@ class CategoryController extends Controller
     // store method for category insert
     public function store(Request $request)
     {
-        $validate = $request->validate([
+        $validator = Validator::make($request->all(),[
             'category_name' => 'required|unique:categories|max:255',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]); 
+        }
 
         $category = new Category();
         $category->category_name = $request->category_name;
         $category->category_slug = Str::slug($request->category_name, '-');
         $category->save();
-        return response()->json(['add_new_category' => 'New Category Successfully inserted']);
+        return response()->json([
+            'status' => 200,
+            'add_new_category' => 'New Category Successfully inserted']);
     }
 
     //   edit method for edit category
@@ -61,6 +70,15 @@ class CategoryController extends Controller
     //   update method for update category
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            'category_name' => 'required|unique:categories|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]); 
+        }
         $category = Category::find($id);
         $category->category_name = $request->category_name;
         $category->category_slug = Str::slug($request->category_name, '-');
@@ -68,6 +86,7 @@ class CategoryController extends Controller
         $category->update();
 
         return response()->json([
+            'status' => 200,
             'category_update' => "Category Updated Successfully"
         ]);
     }

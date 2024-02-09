@@ -2,6 +2,7 @@
 
 namespace App\Models\backend;
 
+use Illuminate\Auth\Events\Registered;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +21,7 @@ class Admin extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'phone',
         'email',
         'password',
         'status',
@@ -46,3 +48,5 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 }
+
+

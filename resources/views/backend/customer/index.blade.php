@@ -25,18 +25,17 @@
                 <div class="card-header bg-secondary">
                     <h3 class="card-title">Customer List </h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_table_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_customer_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>SL</th>
                                 <th>Email</th>
                                 <th>Name</th>
-                                {{-- <th>Phone</th> --}}
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -57,33 +56,43 @@
     </div>
 
     {{--  new customer added modal --}}
-    <div class="modal fade" id="add_table_modal">
+    <div class="modal fade" id="add_customer_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Insert New Table</h4>
+                    <h4 class="modal-title">Insert New Customer</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('admin.table.store') }}" method="post" id="add_form">
+                    <form action="{{ route('admin.customer.store') }}" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="floor_name" class="form-label">Floor Name <span
+                            <label for="customer_name" class="form-label">Customer Name <span
                                     class="text-danger">*</span></label>
- 
+                            <input type="text" class="form-control" id="customer_name" name="customer_name"
+                                placeholder="Enter  name" value="{{ old('customer_name') }}" required>
+
                         </div>
                         <div class="mb-3">
-                            <label for="table_code" class="form-label">Table Code <span
+                            <label for="customer_email" class="form-label">Customer Email<span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="table_code" name="table_code" placeholder="Enter table code" required>
+                            <input type="text" class="form-control" id="customer_email" name="customer_email"
+                                placeholder="Enter  Email" value="{{ old('customer_email') }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="table_sit" class="form-label">Table Sit <span
+                            <label for="customer_phone" class="form-label">Customer Phone <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="table_sit" name="table_sit" placeholder="1:1 OR 2:2" required>
+                            <input type="text" class="form-control" id="customer_phone" name="customer_phone"
+                                placeholder="Enter Phone" value="{{ old('customer_phone') }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customer_password" class="form-label">Customer Password <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="customer_password" name="customer_password"
+                                placeholder="Enter password" required>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -121,7 +130,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-    // data tale data show
+        // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -142,10 +151,10 @@
                         data: 'name',
                         name: 'name'
                     },
-                    // {
-                    //     data: 'phone',
-                    //     name: 'phone'
-                    // },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
                     {
                         data: 'status',
                         name: 'status'
@@ -174,12 +183,19 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_table_modal').modal('hide');
-                        if (response.status == 201) {
-                            toastr.success(response.tableName_add);
+                        $('#add_customer_modal').modal('hide');
+                        if (response.status == 200) {
+                            toastr.success(response.customer_create);
                         }
                         if (response.status == 401) {
                             toastr.error(response.tableName_validation_failed);
@@ -201,7 +217,7 @@
                     url: url,
                     type: 'get',
                     success: function(response) {
-                      $('#update_part').html(response);
+                        $('#update_part').html(response);
                     }
                 });
             });
@@ -233,7 +249,9 @@
                     url: url,
                     data: request,
                     success: function(response) {
-                        toastr.success(response.table_delete);
+                        if (response.status == 200) {
+                            toastr.success(response.customer_create);
+                        }
                         $('#delete_form')[0].reset();
                         initializeDataTable();
                     }

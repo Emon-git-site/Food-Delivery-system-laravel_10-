@@ -16,50 +16,49 @@ class floorController extends Controller
         $this->middleware('admin');
     }
 
-        // Floor list show method
-        public function index(Request $request)
-        {
-            if ($request->ajax()) {
-                $data = Floor::get();
-                return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
-                        $actionBtn = '
+    // Floor list show method
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Floor::get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '
                         <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal"
                            data-target="#update_floor_modal">EDIT</a>
                          <a href="' . route('admin.floor.delete', [$row->id]) . '" class="btn btn-danger btn-sm" 
                             id="floor_delete">DELETE</a>
                         ';
-                        return $actionBtn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('backend.setup.floor.index');
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('backend.setup.floor.index');
+    }
 
-        // store method
-        public function store(Request $request)
-        {
-            $validator = Validator::make($request->all(), [
-                'floor_name' => 'required|unique:floors,floor_name|max:255',
+    // store method
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'floor_name' => 'required|unique:floors,floor_name|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'floorName_validation_failed' => "Your given Floor name is already Available"
             ]);
-            if($validator->fails()){
-                 return response()->json([
-                    'status' => 401,
-                    'floorName_validation_failed' =>"Your given Floor name is not validate"
-                 ]);
-            }else{
-                Floor::create($request->all());
-                return response()->json([
-                    'status' => 201,
-                    'floorName_create' =>"Floor name  Created Successfully"
-                 ]);
-            }
-
         }
 
-        
+        Floor::create($request->all());
+        return response()->json([
+            'status' => 201,
+            'floorName_create' => "Floor name  Created Successfully"
+        ]);
+    }
+
+
     //   edit method for edit floor
     public function edit($id)
     {
@@ -82,7 +81,7 @@ class floorController extends Controller
         ]);
     }
 
-   // FLoor delete method
+    // FLoor delete method
     public function destroy($id)
     {
         Floor::find($id)->delete();
@@ -91,5 +90,4 @@ class floorController extends Controller
             'floor_delete' => "Floor Deleted Successfully"
         ]);
     }
-
 }

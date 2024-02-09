@@ -121,7 +121,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-    // data tale data show
+        // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -164,10 +164,20 @@
                     type: 'post',
                     data: request,
                     success: function(response) {
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_category_modal').modal('hide');
-                        toastr.success(response.add_new_category);
+                        if(response.status == 200){
+                            toastr.success(response.add_new_category);
+                        }
                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }
@@ -183,9 +193,9 @@
                     url: url,
                     type: 'get',
                     success: function(response) {
-                            $('input[name="category_id"]').val(response.id);
-                            $('input[name="category_name_update"]').val(response
-                                .category_name);
+                        $('input[name="category_id"]').val(response.id);
+                        $('input[name="category_name_update"]').val(response
+                            .category_name);
                     }
                 });
             });
@@ -207,53 +217,64 @@
                     type: 'post',
                     data: data,
                     success: function(response) {
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         $('#update_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#update_category_modal').modal('hide');
-                        toastr.success(response.category_update);
-                        $('#example1').DataTable().ajax.reload();
+                        if(response.status == 200){
+                            toastr.success(response.add_new_category);
+                        }                       
+                         $('#example1').DataTable().ajax.reload();
                         initializeDataTable();
                     }
                 })
             });
         });
-    
-    // delete specific Category
-    $(document).ready(function(){
-        $(document).on('click', '#category_delete', function(e){
-            e.preventDefault();
-            let url = $(this).attr('href');
-            // Set the form action attribute before submitting
-            $('#delete_form').attr('action', url);          
-              swal({
-                    title: "Are you sure to Delete this post",
-                    text: "You will not be able to revert this!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete)=>{
-                    if(willDelete){
-                        $('#delete_form').submit();
+
+        // delete specific Category
+        $(document).ready(function() {
+            $(document).on('click', '#category_delete', function(e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                // Set the form action attribute before submitting
+                $('#delete_form').attr('action', url);
+                swal({
+                        title: "Are you sure to Delete this post",
+                        text: "You will not be able to revert this!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $('#delete_form').submit();
+                        }
+                    });
+            });
+            // data passed through here
+            $('#delete_form').submit(function(e) {
+                e.preventDefault();
+                let url = $(this).attr('action');
+                let request = $(this).serialize();
+                $.ajax({
+                    url: url,
+                    data: request,
+                    success: function(response) {
+                        toastr.success(response.category_delete);
+                        $('#delete_form')[0].reset();
+                        initializeDataTable();
+
                     }
                 });
-        });
-        // data passed through here
-        $('#delete_form').submit(function(e){
-            e.preventDefault();
-            let url = $(this).attr('action');
-            let request = $(this).serialize();
-            $.ajax({
-                url: url,
-                data: request,
-                success: function(response){
-                    toastr.success(response.category_delete);
-                    $('#delete_form')[0].reset(); 
-                    initializeDataTable();
-
-                }
             });
         });
-    });
     </script>
 @endsection
+

@@ -240,7 +240,14 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_blog_modal').modal('hide');

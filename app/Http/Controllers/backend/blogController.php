@@ -56,10 +56,8 @@ class blogController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => 400,
-                'validation_failed' => 'Form validation failed',
-                'validation_code' => $validator->errors()->toArray()
-            ]);
+                'errors' => $validator->errors()
+            ]); 
         }
 
         $imageFile = $request->file('image');

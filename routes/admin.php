@@ -25,7 +25,6 @@ use GuzzleHttp\Middleware;
 */
 
 // admin authentication
-Route::middleware('admin')->group(function(){
     Route::prefix('admin')->name('admin.')->group(function(){
         Route::view('/login',  'backend.auth.admin_login')->name('login_form') ;
         Route::view('/register', 'backend.auth.admin_register')->name('register_form') ;
@@ -35,8 +34,7 @@ Route::middleware('admin')->group(function(){
         Route::get('/logout', [adminController::class, 'adminlogout'])->name('logout')->middleware('admin');
      
      });
-     
-     
+          
      Route::name('profile.')->group(function () {
          Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
          Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
@@ -112,11 +110,10 @@ Route::middleware('admin')->group(function(){
      // customer  routes
      Route::prefix('admin/customer/')->name('admin.customer.')->group(function(){
          Route::get('index', [customerController::class, 'index'])->name('index');
-        //  Route::post('store', [customerController::class, 'store'])->name('store');
-        //  Route::get('edit/{id}', [customerController::class, 'edit']);
-        //  Route::post('update', [customerController::class, 'update'])->name('update');
-        //  Route::get('delete/{id}', [customerController::class, 'destroy'])->name('delete');
+         Route::post('store', [customerController::class, 'store'])->name('store');
+         Route::get('edit/{id}', [customerController::class, 'edit']);
+         Route::post('update', [customerController::class, 'update'])->name('update');
+         Route::get('delete/{id}', [customerController::class, 'destroy'])->name('delete');
      });
      
-});
 require __DIR__.'/auth.php';
