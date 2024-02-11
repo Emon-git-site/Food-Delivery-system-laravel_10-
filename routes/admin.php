@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\FoodController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\adminController;
@@ -125,6 +126,16 @@ use GuzzleHttp\Middleware;
          Route::get('edit/{id}', [ExpensetypeController::class, 'edit']);
          Route::post('update', [ExpensetypeController::class, 'update'])->name('update');
          Route::get('delete/{id}', [ExpensetypeController::class, 'destroy'])->name('delete');
+
+     });
+
+     // Food  routes
+     Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(function(){
+         Route::get('index', [FoodController::class, 'index'])->name('index');
+         Route::post('store', [FoodController::class, 'store'])->name('store');
+         Route::get('edit/{id}', [FoodController::class, 'edit']);
+         Route::post('update', [FoodController::class, 'update'])->name('update');
+         Route::get('delete/{id}', [FoodController::class, 'destroy'])->name('delete');
 
      });
      

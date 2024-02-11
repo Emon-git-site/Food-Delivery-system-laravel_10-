@@ -67,6 +67,7 @@ class ExpensetypeController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                'status' => 400,
                 'errors' => $validator->errors()
             ]);
         }

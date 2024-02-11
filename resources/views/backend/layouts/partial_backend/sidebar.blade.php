@@ -25,8 +25,8 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link active">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.dashboard']) ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin.dashboard') ? 'acitve' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -34,8 +34,10 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                {{-- <li class="nav-item">
+                    <a href="#" class="nav-link"> --}}
+                        <li class="nav-item {{ in_array(Route::currentRouteName(), ['category.index', 'subcategory.index']) ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Category
@@ -44,14 +46,14 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('category.index') }}" class="nav-link">
+                            <a href="{{ route('category.index') }}" class="nav-link {{ Route::currentRouteName() == 'category.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Category</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('subcategory.index') }}" class="nav-link">
+                            <a href="{{ route('subcategory.index') }}" class="nav-link {{ Route::currentRouteName() == 'subcategory.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sub Category</p>
                             </a>
@@ -59,7 +61,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.blogCategory.index', 'admin.blog.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -69,21 +71,21 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.blogCategory.index') }}" class="nav-link">
+                            <a href="{{ route('admin.blogCategory.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.blogCategory.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Blog Category</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.blog.index') }}" class="nav-link">
+                            <a href="{{ route('admin.blog.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.blog.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Blog Post</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.floor.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -93,20 +95,20 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.floor.index') }}" class="nav-link">
+                            <a href="{{ route('admin.floor.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.floor.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Floor Manage</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.customer.index') }}" class="nav-link">
+                            <a href="{{ route('admin.customer.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.customer.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Customer</p>
                             </a>
                         </li>
                         
                         <li class="nav-item">
-                            <a href="{{ route('admin.table.index') }}" class="nav-link">
+                            <a href="{{ route('admin.table.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.table.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Table Manage</p>
                             </a>
@@ -114,7 +116,7 @@
                     </ul>
                 </li>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item customer {{ in_array(Route::currentRouteName(), ['admin.reservation.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -124,16 +126,33 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.reservation.index') }}" class="nav-link">
+                            <a href="{{ route('admin.reservation.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.reservation.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Reservation</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.food.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Food
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.food.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.food.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Food</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 
-                <li class="nav-item">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -143,14 +162,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.expensetype.index') }}" class="nav-link">
+                            <a href="{{ route('admin.expensetype.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expensetype.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expense Type</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.blog.index') }}" class="nav-link">
+                            {{-- {{ route('admin.expense.index') }} --}}
+                            <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expense</p>
                             </a>

@@ -56,6 +56,7 @@
                                 <option value="Approved">Approved</option>
                                 <option value="Reject">Reject</option>
                                 <option value="Success">Success</option>
+                                <option value="Pending">Pending</option>
                             </select>
                         </div>
                     </div>
