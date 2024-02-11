@@ -44,8 +44,13 @@
 
                         </tbody>
                     </table>
-                    {{-- floor item delete form --}}
-                    <form id="delete_form" action="" method="post">
+                    {{-- Customer deactive form --}}
+                    <form id="deactive_form" action="" method="post">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                    {{-- Customer active form --}}
+                    <form id="active_form" action="" method="post">
                         @csrf
                         @method('DELETE')
                     </form>
@@ -108,11 +113,11 @@
     {{-- ! new customer added modal --}}
 
     {{-- Update customer  modal --}}
-    <div class="modal fade" id="update_table_modal">
+    <div class="modal fade" id="update_customer_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Table Update</h4>
+                    <h4 class="modal-title">Customer Update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -197,9 +202,6 @@
                         if (response.status == 200) {
                             toastr.success(response.customer_create);
                         }
-                        if (response.status == 401) {
-                            toastr.error(response.tableName_validation_failed);
-                        }
                         initializeDataTable();
                         $('#example1').DataTable().ajax.reload();
                     }
@@ -210,38 +212,58 @@
 
             // Event handler for opening the edit modal
             $('body').on('click', '.edit_modal_btn', function() {
-                let table_id = $(this).data('id');
-                let url = "{{ url('admin/table/edit') }}/" + table_id;
+                let customer_id = $(this).data('id');
+                let url = "{{ url('admin/customer/edit') }}/" + customer_id;
 
                 $.ajax({
                     url: url,
                     type: 'get',
                     success: function(response) {
+                        console.log("emju");
                         $('#update_part').html(response);
                     }
                 });
             });
 
-            // delete specific Floor
-            $(document).on('click', '#table_delete', function(e) {
+            // active specific Customer
+$(document).on('click', '#customer_active', function(e) {
+    e.preventDefault();
+    let url = $(this).attr('href');
+    $('#active_form').attr('action', url);
+
+    $.ajax({
+        type: 'get',
+        url: url,
+        data: $('#active_form').serialize(), 
+        success: function(response) {
+            if (response.status == 200) {
+                toastr.success(response.customer_activate);
+            }
+            initializeDataTable(); 
+        }
+    });
+});
+
+
+            // deactive specific Customer
+            $(document).on('click', '#customer_deacitve', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
-                $('#delete_form').attr('action', url);
+                $('#deactive_form').attr('action', url);
                 swal({
-                        title: "Are you sure to Delete this post",
-                        text: "You will not be able to revert this!",
+                        title: "Are you sure to Deactivate this Customer",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            $('#delete_form').submit();
+                    .then((deActive) => {
+                        if (deActive) {
+                            $('#deactive_form').submit();
                         }
                     });
             });
             // data passed through here
-            $('#delete_form').submit(function(e) {
+            $('#deactive_form').submit(function(e) {
                 e.preventDefault();
                 let url = $(this).attr('action');
                 let request = $(this).serialize();
@@ -249,10 +271,10 @@
                     url: url,
                     data: request,
                     success: function(response) {
-                        if (response.status == 200) {
-                            toastr.success(response.customer_create);
+                        if (response.status == 400) {
+                            toastr.success(response.customer_deactivate);
                         }
-                        $('#delete_form')[0].reset();
+                        $('#deactive_form')[0].reset();
                         initializeDataTable();
                     }
                 });

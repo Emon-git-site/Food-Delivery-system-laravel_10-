@@ -113,7 +113,8 @@ use GuzzleHttp\Middleware;
          Route::post('store', [customerController::class, 'store'])->name('store');
          Route::get('edit/{id}', [customerController::class, 'edit']);
          Route::post('update', [customerController::class, 'update'])->name('update');
-         Route::get('delete/{id}', [customerController::class, 'destroy'])->name('delete');
+         Route::get('deactive/{id}', [customerController::class, 'deactive'])->name('deactive');
+         Route::get('active/{id}', [customerController::class, 'active'])->name('active');
      });
      
 require __DIR__.'/auth.php';

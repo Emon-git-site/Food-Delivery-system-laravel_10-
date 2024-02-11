@@ -188,7 +188,7 @@
                 let url = $(this).attr('href');
                 $('#delete_form').attr('action', url);
                 swal({
-                        title: "Are you sure to Delete this post",
+                        title: "Are you sure to Delete this Floor",
                         text: "You will not be able to revert this!",
                         icon: "warning",
                         buttons: true,

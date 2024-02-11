@@ -246,7 +246,7 @@
                 // Set the form action attribute before submitting
                 $('#delete_form').attr('action', url);
                 swal({
-                        title: "Are you sure to Delete this post",
+                        title: "Are you sure to Delete this Category",
                         text: "You will not be able to revert this!",
                         icon: "warning",
                         buttons: true,
