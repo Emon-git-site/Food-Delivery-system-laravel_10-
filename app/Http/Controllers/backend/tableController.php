@@ -95,7 +95,7 @@ class tableController extends Controller
     ]);
     }
 
-       // FLoor delete method
+       // table delete method
        public function destroy($id)
        {
            Table::find($id)->delete();

@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\blogCategoryController;
 use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\customerController;
+use App\Http\Controllers\backend\ExpensetypeController;
 use App\Http\Controllers\backend\floorController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
@@ -115,6 +116,16 @@ use GuzzleHttp\Middleware;
          Route::post('update', [customerController::class, 'update'])->name('update');
          Route::get('deactive/{id}', [customerController::class, 'deactive'])->name('deactive');
          Route::get('active/{id}', [customerController::class, 'active'])->name('active');
+     });
+
+     // expense type  routes
+     Route::prefix('admin/expensetype/')->middleware('admin')->name('admin.expensetype.')->group(function(){
+         Route::get('index', [ExpensetypeController::class, 'index'])->name('index');
+         Route::post('store', [ExpensetypeController::class, 'store'])->name('store');
+         Route::get('edit/{id}', [ExpensetypeController::class, 'edit']);
+         Route::post('update', [ExpensetypeController::class, 'update'])->name('update');
+         Route::get('delete/{id}', [ExpensetypeController::class, 'destroy'])->name('delete');
+
      });
      
 require __DIR__.'/auth.php';

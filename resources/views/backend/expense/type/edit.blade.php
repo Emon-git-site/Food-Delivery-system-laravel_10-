@@ -1,0 +1,47 @@
+<form action="{{ route('admin.expensetype.update') }}" method="post" id="update_form">
+    @csrf
+    <div class="mb-3">
+        <input type="hidden" name="expensetype_id" value="{{ $expensetype->id }}">
+
+    </div>
+    <div class="mb-3">
+        <label for="expense_type" class="form-label">Expense Type <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="expense_type" name="expense_type" value="{{ $expensetype->type_name }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">UPDATE
+        <span class="loading d-none"> .... </span>
+    </button>
+</form>
+
+
+<script type ="text/javascript">
+            // Event handler for submitting the update form
+            $('#update_form').submit(function(e) {
+                e.preventDefault();
+                $('.loading').removeClass('d-none');
+
+                let url = $(this).attr('action');
+                let request = $(this).serialize();
+
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#update_form')[0].reset();
+                        $('.loading').addClass('d-none');
+                        $('#update_expensetype_modal').modal('hide');
+                        if(response.errors){
+                            toastr.error(response.errors.expense_type);
+                        }else{
+                            toastr.success(response.expensetype_update);
+                        }
+                        $('#example1').DataTable().ajax.reload();
+                    }
+                });
+            });
+</script>
