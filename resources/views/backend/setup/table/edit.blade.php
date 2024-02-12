@@ -27,7 +27,6 @@
 
 
 <script type ="text/javascript">
-            // Event handler for submitting the update form
             $('#update_form').submit(function(e) {
                 e.preventDefault();
                 $('.loading').removeClass('d-none');

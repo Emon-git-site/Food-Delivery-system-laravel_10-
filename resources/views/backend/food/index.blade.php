@@ -28,6 +28,29 @@
                         data-target="#add_food_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
+                <br>
+                <div class="ml-4 mr-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <select class="form-control submit_table" name="subcategory_id" id="subcategory_id">
+                                <option value="">All</option>
+                                @foreach ($categories as $category)
+                                @foreach ($category->subcategories as $subcategory)
+                                    <option value="{{ $subcategory->id }}">{{ $subcategory->subcategory_name }}</option>
+                                @endforeach
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select class="form-control submit_table" name="food_status" id="food_status">
+                                <option value="">All</option>
+                                <option value="1">Published</option>
+                                <option value="0">Unpublished</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
 
                     <table id="example1" class="table table-bordered table-striped">
@@ -69,18 +92,64 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('admin.food.store') }}" method="post" id="add_form">
+                    <form action="{{ route('admin.food.store') }}" method="post" id="add_form" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="expense_type" class="form-label">Expense Type <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="expense_type" name="expense_type" value="{{ old('expense_type') }}" required>
+                            <label for="expense_type" class="form-label">Select Category <span
+                                    class="text-danger">*</span></label>
+                            <select name="subcategory_id" class="form-control">
+                                <option value="">Select One</option>
+                                @foreach ($categories as $category)
+                                    <option disabled class="text-primary">{{ $category->category_name }}</option>
+                                    @foreach ($category->subcategories as $subcategory)
+                                        <option value="{{ $subcategory->id }}"> --{{ $subcategory->subcategory_name }}
+                                        </option>
+                                    @endforeach
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="food_name" class="form-label">Food Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="food_name" name="food_name"
+                                placeholder="Food Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="food_price" class="form-label">Food price <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="food_price" name="food_price"
+                                        placeholder="Food Price" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="food_discournt_price" class="form-label">Food Discount Price </label>
+                                    <input type="text" class="form-control" id="food_discournt_price" name="food_discournt_price"
+                                        placeholder="Food Discount Price" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="food_description" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea name="food_description" class="form-control" cols="30" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="food_image" class="form-label">Food Image <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control dropify" name="food_image" data-max-file-size="3M"
+                                data-allowed-file-extensions="jpg png jpeg" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="food_status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select name="food_status" class="form-control" required>
+                                <option value="1">Publish</option>
+                                <option value="0">Unpublish</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
                         </button>
                     </form>
                 </div>
-
+                
             </div>
             <!-- /.modal-content -->
         </div>
@@ -93,7 +162,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Food Itme Update</h4>
+                    <h4 class="modal-title">Food Item Update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -119,7 +188,13 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.food.index') }}",
+                ajax: {
+                    url: "{{ route('admin.food.index') }}",
+                    data: function(e){
+                        e.subcategory_id = $('#subcategory_id').val();
+                        e.food_status = $('#food_status').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -171,14 +246,23 @@
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: request,
+                    data: new FormData(this),
+                    contentType: false,
+                    cache:false,
+                    processData:false,
                     success: function(response) {
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_food_modal').modal('hide');
-                        if(response.errors){
-                            toastr.error(response.errors.food);
-                        }else{
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        } 
+                        if(response.food_add) {
                             toastr.success(response.food_add);
                         }
                         $('#example1').DataTable().ajax.reload();
@@ -241,6 +325,9 @@
                 });
             });
         });
+            // submit_table class call for every change
+    $(document).on('change', '.submit_table', function(){
+        initializeDataTable();
+    });
     </script>
 @endsection
-

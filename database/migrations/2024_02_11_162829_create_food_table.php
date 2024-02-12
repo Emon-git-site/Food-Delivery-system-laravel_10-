@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->string('tags')->nullable();
-            $table->string('price')->nullable();
-            $table->string('discount_price')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('discount_price', 8, 2)->nullable();
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->integer('user_id')->nullable();
