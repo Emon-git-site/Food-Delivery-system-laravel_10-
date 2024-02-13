@@ -41,6 +41,7 @@
         <label for="phone" class="form-label">Status<span
                 class="text-danger">*</span></label>
                 <select name="status" class="form-control">
+                    <option value="Pending" @if($reservation->status=="Pending") selected @endif>Pending</option>
                     <option value="Approved" @if($reservation->status=="Approved") selected @endif>Approveded</option>
                     <option value="Reject" @if($reservation->status=="Reject") selected @endif>Reject</option>
                     <option value="Success" @if($reservation->status=="Success") selected @endif>Success</option>

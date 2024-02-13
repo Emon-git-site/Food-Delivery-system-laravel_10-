@@ -112,6 +112,7 @@ Route::prefix('admin/table/')->name('admin.table.')->group(function () {
 // reservation  routes
 Route::prefix('admin/reservation/')->name('admin.reservation.')->group(function () {
     Route::get('index', [reservationController::class, 'index'])->name('index');
+    Route::get('pending', [reservationController::class, 'pendingReservation'])->name('pending');
     Route::post('store', [reservationController::class, 'store'])->name('store');
     Route::get('edit/{id}', [reservationController::class, 'edit']);
     Route::post('update', [reservationController::class, 'update'])->name('update');

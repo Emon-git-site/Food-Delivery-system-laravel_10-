@@ -137,6 +137,14 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.reservation.pending') }}" class="nav-link {{ Route::currentRouteName() == 'admin.reservation.pending' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pending Request</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.food.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">

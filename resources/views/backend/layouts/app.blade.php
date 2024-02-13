@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="{{ asset('backend') }}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     {{-- dropify --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
-    {{-- <link rel="stylesheet" href="{{ asset('backend') }}/dist/dropify/dropify.css"> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -110,7 +109,6 @@
 <script src="{{ asset('backend') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Include SweetAlert from CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-{{-- <script href="{{ asset('backend') }}/dist/sweetalert/sweetalert.min.js"></script> --}}
 <!-- Toastr -->
 <script src="{{ asset('backend') }}/plugins/toastr/toastr.min.js"></script>
 <!-- DataTables  & Plugins -->
@@ -128,7 +126,6 @@
 <script src="{{ asset('backend') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 {{-- dropify --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
-{{-- <script src="{{ asset('backend') }}/dist/dropify/dropify.min.js"></script> --}}
 <script>
   $(function(){
     $('.text_area').summernote()
@@ -150,8 +147,6 @@ $.ajaxSetup({
                 showConfirmButton: false,
                 timer: 3000
             });
-
-
         });
 </script>
 @yield('script')

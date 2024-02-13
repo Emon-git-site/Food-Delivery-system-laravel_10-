@@ -56,6 +56,37 @@ class reservationController extends Controller
 
         return view('backend.reservation.index');
     }
+    // pending reservation list show
+    public function pendingReservation(Request $request)
+    {
+        if ($request->ajax()) {
+            $reservation = Reservation::where('status', 'Pending')->latest()->get();
+
+            return DataTables::of($reservation)
+                ->addIndexColumn()
+                ->editColumn('status', function ($row) {
+                    if ($row->status == "Approved") {
+                        return  '<span class="badge badge-info">Approved</span>';
+                    } elseif ($row->status == "Success") {
+                        return  '<span class="badge badge-success">Success</span>';
+                    } elseif ($row->status == "Reject") {
+                        return  '<span class="badge badge-danger">Reject</span>';
+                    } else {
+                        return   '<span class="badge badge-warning">Pending</span>';
+                    }
+                })
+
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal" data-target="#update_reservation_modal">Edit</a>
+                            <a href="' . route('admin.reservation.delete', [$row->id]) . '" class="btn btn-danger btn-sm" id="reservation_delete">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
+        }
+
+        return view('backend.reservation.pending');
+    }
 
     // store method for reservation insert
     public function store(Request $request)

@@ -11,8 +11,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.reservation.index') }}">Reservation</a></li>
-                            <li class="breadcrumb-item active">All Reservation</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.reservation.pending') }}">Pending Reservation</a></li>
+                            <li class="breadcrumb-item active">All Pending Reservation</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,44 +23,11 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Reservation list Table</h3>
+                    <h3 class="card-title">Pending Reservation list Table</h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
                         data-target="#add_reservation_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
-                <br>
-                <div class="ml-4 mr-4">
-                    <div class="row">
-                        <div class="col-4">
-                            <input type="date" class="form-control submit_table" name="r_date" id="r_date">
-                        </div>
-                        <div class="col-4">
-                            <select class="form-control submit_table" name="r_month" id="r_month">
-                                <option value="">All</option>
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                            </select>
-                        </div>
-                        <div class="col-4">
-                            <select class="form-control submit_table" name="status" id="status">
-                                <option value="">All</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Reject">Reject</option>
-                                <option value="Success">Success</option>
-                                <option value="Pending">Pending</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+
                 <!-- /.card-header -->
                 <div class="card-body">
 
@@ -179,14 +146,7 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: {
-                    url: "{{ route('admin.reservation.index') }}",
-                    data: function(e){
-                        e.r_date = $('#r_date').val();
-                        e.r_month = $('#r_month').val();
-                        e.status = $('#status').val();
-                    }
-                },
+                ajax: "{{ route('admin.reservation.pending') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -314,9 +274,5 @@
         });
     });
 
-    // submit_table class call for every change
-    $(document).on('change', '.submit_table', function(){
-        initializeDataTable();
-    });
     </script>
 @endsection
