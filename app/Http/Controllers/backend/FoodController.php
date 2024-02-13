@@ -52,8 +52,6 @@ class FoodController extends Controller
             }
     
             $categories = Category::with('subcategories')->get();
-            // dd($categories);
-            // return response()->json($categories);
             return view('backend.food.index', compact('categories'));
         }
 

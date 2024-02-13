@@ -51,11 +51,16 @@
                                 <p>Category</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('subcategory.index') }}" class="nav-link {{ Route::currentRouteName() == 'subcategory.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sub Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.beverage.index') }}" class="nav-link {{ Route::currentRouteName() == 'beverage.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Beverage</p>
                             </a>
                         </li>
                     </ul>

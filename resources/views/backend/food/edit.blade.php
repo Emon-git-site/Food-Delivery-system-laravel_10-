@@ -39,19 +39,6 @@
         <label for="food_description" class="form-label">Description <span class="text-danger">*</span></label>
         <textarea name="food_description" class="form-control" cols="30" rows="2">{{ $food->description }}</textarea>
     </div>
-    {{-- <div class="mb-3">
-        <div class="row">
-            <div class="col-6">
-                <label for="food_image" class="form-label">Image Upload <span class="text-danger">*</span></label>
-                <input type="file" class="form-control dropify" name="food_image" data-max-file-size="3M"
-                data-allowed-file-extensions="jpg png jpeg"  />
-            </div>
-            <div class="col-6">
-                <label for="old_image" class="form-label">Old Image: </label><br>
-                <img src="{{ asset($food->image) }}" name="food_image" height="245px" width="210px">
-            </div>
-        </div>
-    </div> --}}
     <div class="mb-3">
         <div class="row">
             <div class="col-6">
