@@ -191,7 +191,7 @@
                     </ul>
                 </li>
                 <li class="nav-header">HRM</li>
-                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.designation.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.hrm.employee.designation.index', 'admin.hrm.employee.department.index', 'admin.table.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -201,9 +201,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.hrm.employee.designation.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.designation.index.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.hrm.employee.designation.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.designation.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Designation</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.employee.department.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.department.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Department</p>
                             </a>
                         </li>
                         <li class="nav-item">

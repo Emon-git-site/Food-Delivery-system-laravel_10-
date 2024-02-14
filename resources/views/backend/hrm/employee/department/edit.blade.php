@@ -1,12 +1,12 @@
 
-<form action="{{ route('admin.hrm.employee.designation.update') }}" method="post" id="update_form">
+<form action="{{ route('admin.hrm.employee.department.update') }}" method="post" id="update_form">
     @csrf
     <div class="mb-3">
-        <input type="hidden" name="designation_id" value="{{ $designation->id }}">
-        <label for="designation_name" class="form-label">Designation Name <span
+        <input type="hidden" name="department_id" value="{{ $department->id }}">
+        <label for="department_name" class="form-label">Department Name <span
                 class="text-danger">*</span></label>
-        <input type="text" class="form-control"  name="designation_name"
-          value="{{ $designation->designation_name }}"  required>
+        <input type="text" class="form-control"  name="department_name"
+          value="{{ $department->department_name }}"  required>
     </div>
 
     <button type="submit" class="btn btn-success btn-block">UPDATE
@@ -28,9 +28,9 @@
                     success: function(response) {
                         $('#update_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#update_designation_modal').modal('hide');
+                        $('#update_department_modal').modal('hide');
 
-                        toastr.success(response.designation_update);
+                        toastr.success(response.department_update);
                         $('#example1').DataTable().ajax.reload();
                     }
                 });

@@ -11,6 +11,7 @@ use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\customerController;
 use App\Http\Controllers\backend\ExpensetypeController;
 use App\Http\Controllers\backend\floorController;
+use App\Http\Controllers\backend\hrm\DepartmentController;
 use App\Http\Controllers\backend\hrm\DesignationController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
@@ -157,6 +158,15 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
         Route::get('edit/{designation}', [DesignationController::class, 'edit']);
         Route::post('update', [DesignationController::class, 'update'])->name('update');
         Route::get('delete/{designation}', [DesignationController::class, 'destroy'])->name('delete');
+    });
+
+      //department route
+      Route::prefix('admin/hrm/employee/department/')->middleware('admin')->name('admin.hrm.employee.department.')->group(function () {
+        Route::get('index', [DepartmentController::class, 'index'])->name('index');
+        Route::post('store', [DepartmentController::class, 'store'])->name('store');
+        Route::get('edit/{department}', [DepartmentController::class, 'edit']);
+        Route::post('update', [DepartmentController::class, 'update'])->name('update');
+        Route::get('delete/{department}', [DepartmentController::class, 'destroy'])->name('delete');
     });
 
 require __DIR__ . '/auth.php';
