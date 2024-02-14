@@ -11,6 +11,7 @@ use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\customerController;
 use App\Http\Controllers\backend\ExpensetypeController;
 use App\Http\Controllers\backend\floorController;
+use App\Http\Controllers\backend\hrm\DesignationController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
 use App\Http\Controllers\backend\tableController;
@@ -146,5 +147,16 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
     Route::post('update', [FoodController::class, 'update'])->name('update');
     Route::get('delete/{id}', [FoodController::class, 'destroy'])->name('delete');
 });
+
+// All HRM route 
+
+      //designation route
+      Route::prefix('admin/hrm/employee/designation/')->middleware('admin')->name('admin.hrm.employee.designation.')->group(function () {
+        Route::get('index', [DesignationController::class, 'index'])->name('index');
+        Route::post('store', [DesignationController::class, 'store'])->name('store');
+        Route::get('edit/{designation}', [DesignationController::class, 'edit']);
+        Route::post('update', [DesignationController::class, 'update'])->name('update');
+        Route::get('delete/{designation}', [DesignationController::class, 'destroy'])->name('delete');
+    });
 
 require __DIR__ . '/auth.php';

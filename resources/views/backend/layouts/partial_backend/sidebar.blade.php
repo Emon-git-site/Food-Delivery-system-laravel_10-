@@ -190,7 +190,30 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="nav-header">HRM</li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.designation.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Employee
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.employee.designation.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.designation.index.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Designation</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.table.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.table.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Employee</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
