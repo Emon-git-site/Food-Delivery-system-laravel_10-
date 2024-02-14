@@ -25,10 +25,7 @@
                 $.ajax({
                     url: url,
                     type: 'post',
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
+                    data: request,
                     success: function(response) {
                         $('#update_form')[0].reset();
                         $('.loading').addClass('d-none');

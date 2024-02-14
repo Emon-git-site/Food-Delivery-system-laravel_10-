@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\backend\FoodController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\backend\adminController;
-use App\Http\Controllers\backend\BeverageController;
-use App\Http\Controllers\backend\blogCategoryController;
 use App\Http\Controllers\backend\blogController;
+use App\Http\Controllers\backend\FoodController;
+use App\Http\Controllers\backend\adminController;
+use App\Http\Controllers\backend\floorController;
+use App\Http\Controllers\backend\tableController;
+use App\Http\Controllers\backend\ExpenseController;
+use App\Http\Controllers\backend\BeverageController;
 use App\Http\Controllers\backend\categoryController;
 use App\Http\Controllers\backend\customerController;
 use App\Http\Controllers\backend\ExpensetypeController;
-use App\Http\Controllers\backend\floorController;
-use App\Http\Controllers\backend\hrm\DepartmentController;
-use App\Http\Controllers\backend\hrm\DesignationController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
-use App\Http\Controllers\backend\tableController;
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\backend\blogCategoryController;
+use App\Http\Controllers\backend\hrm\DepartmentController;
+use App\Http\Controllers\backend\hrm\DesignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,15 +132,6 @@ Route::prefix('admin/customer/')->name('admin.customer.')->group(function () {
     Route::get('active/{id}', [customerController::class, 'active'])->name('active');
 });
 
-// expense type  routes
-Route::prefix('admin/expensetype/')->middleware('admin')->name('admin.expensetype.')->group(function () {
-    Route::get('index', [ExpensetypeController::class, 'index'])->name('index');
-    Route::post('store', [ExpensetypeController::class, 'store'])->name('store');
-    Route::get('edit/{id}', [ExpensetypeController::class, 'edit']);
-    Route::post('update', [ExpensetypeController::class, 'update'])->name('update');
-    Route::get('delete/{id}', [ExpensetypeController::class, 'destroy'])->name('delete');
-});
-
 // Food  routes
 Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(function () {
     Route::get('index', [FoodController::class, 'index'])->name('index');
@@ -168,5 +160,22 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
         Route::post('update', [DepartmentController::class, 'update'])->name('update');
         Route::get('delete/{department}', [DepartmentController::class, 'destroy'])->name('delete');
     });
+
+    // expense type  routes
+Route::prefix('admin/expensetype/')->middleware('admin')->name('admin.expensetype.')->group(function () {
+    Route::get('index', [ExpensetypeController::class, 'index'])->name('index');
+    Route::post('store', [ExpensetypeController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [ExpensetypeController::class, 'edit']);
+    Route::post('update', [ExpensetypeController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [ExpensetypeController::class, 'destroy'])->name('delete');
+});
+    // expense   routes
+Route::prefix('admin/expense/')->middleware('admin')->name('admin.expense.')->group(function () {
+    Route::get('index', [ExpenseController::class, 'index'])->name('index');
+    Route::post('store', [ExpenseController::class, 'store'])->name('store');
+    Route::get('edit/{expense}', [ExpenseController::class, 'edit']);
+    Route::post('update', [ExpenseController::class, 'update'])->name('update');
+    Route::get('delete/{expense}', [ExpenseController::class, 'destroy'])->name('delete');
+});
 
 require __DIR__ . '/auth.php';

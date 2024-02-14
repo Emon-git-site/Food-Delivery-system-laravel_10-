@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Floor</h1>
+                        <h1 class="m-0">Expense</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.floor.index') }}">Floor</a></li>
-                            <li class="breadcrumb-item active">All Floor</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.expense.index') }}">Expense</a></li>
+                            <li class="breadcrumb-item active">All Expense</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,9 +23,9 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Floor List </h3>
+                    <h3 class="card-title">Expense List </h3>
                     <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal"
-                        data-target="#add_floor_modal"><i class="fa fa-plus"></i> Add New</button>
+                        data-target="#add_expense_modal"><i class="fa fa-plus"></i> Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -34,7 +34,11 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Floor Name</th>
+                                <th>Expense Type</th>
+                                <th>Amount</th>
+                                <th>Details</th>
+                                <th>Date</th>
+                                <th>Month</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,7 +46,7 @@
 
                         </tbody>
                     </table>
-                    {{-- floor item delete form --}}
+                    {{-- expense item delete form --}}
                     <form id="delete_form" action="" method="post">
                         @csrf
                         @method('DELETE')
@@ -53,24 +57,37 @@
         </div>
     </div>
 
-    {{--  new floor added modal --}}
-    <div class="modal fade" id="add_floor_modal">
+    {{--  new expense added modal --}}
+    <div class="modal fade" id="add_expense_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Insert New Floor</h4>
+                    <h4 class="modal-title">Insert New Expense</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <form action="{{ route('admin.floor.store') }}" method="post" id="add_form">
+                    <form action="{{ route('admin.expense.store') }}" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="floor_name" class="form-label">Floor Name <span
+                            <label for="expense_type" class="form-label">Select Type <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="floor_name" name="floor_name" required>
+                            <select name="expense_type_id" class="form-control">
+                                <option value="">Choose One</option>
+                                @foreach ($expenseTypes as $expenseType)
+                                <option value="{{ $expenseType->id }}">{{ $expenseType->type_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expense_amount" class="form-label">Amount <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control"  name="expense_amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expense_details" class="form-label">Details <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control"  name="expense_details" required>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
@@ -85,12 +102,12 @@
     </div>
     {{-- ! new floor added modal --}}
 
-    {{-- Update floor  modal --}}
-    <div class="modal fade" id="update_floor_modal">
+    {{-- Update expense  modal --}}
+    <div class="modal fade" id="update_expense_modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Floor Update</h4>
+                    <h4 class="modal-title">Expense Update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -104,12 +121,11 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    {{-- ! Update floor  modal --}}
+    {{-- ! Update expense  modal --}}
 @endsection
 @section('script')
     <script type="text/javascript">
-
-    // data tale data show
+        // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -117,14 +133,30 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.floor.index') }}",
+                ajax: "{{ route('admin.expense.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'floor_name',
-                        name: 'floor_name'
+                        data: 'type_name',
+                        name: 'type_name'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'details',
+                        name: 'details'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'month',
+                        name: 'month'
                     },
                     {
                         data: 'action',
@@ -142,20 +174,25 @@
                 e.preventDefault();
                 $('.loading').removeClass('d-none');
                 let url = $(this).attr('action');
+                let request = $(this).serialize();
                 $.ajax({
                     url: url,
                     type: 'post',
                     data: request,
                     success: function(response) {
-                        console.log(response);
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
-                        $('#add_floor_modal').modal('hide');
-                        if (response.status == 200) {
-                            toastr.success(response.floorName_create);
+                        $('#add_expense_modal').modal('hide');
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
                         }
-                        if (response.status == 401) {
-                            toastr.error(response.floorName_validation_failed);
+                        if(response.expense_create){
+                            toastr.success(response.expense_create);
                         }
                         initializeDataTable();
                         $('#example1').DataTable().ajax.reload();
@@ -167,25 +204,25 @@
 
             // Event handler for opening the edit modal
             $('body').on('click', '.edit_modal_btn', function() {
-                let floor_id = $(this).data('id');
-                let url = "{{ url('admin/floor/edit') }}/" + floor_id;
+                let expense_id = $(this).data('id');
+                let url = "{{ url('admin/expense/edit') }}/" + expense_id;
 
                 $.ajax({
                     url: url,
                     type: 'get',
                     success: function(response) {
-                      $('#update_part').html(response);
+                        $('#update_part').html(response);
                     }
                 });
             });
 
             // delete specific Floor
-            $(document).on('click', '#floor_delete', function(e) {
+            $(document).on('click', '#expense_delete', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
                 $('#delete_form').attr('action', url);
                 swal({
-                        title: "Are you sure to Delete this Floor",
+                        title: "Are you sure to Delete this Expense",
                         text: "You will not be able to revert this!",
                         icon: "warning",
                         buttons: true,
@@ -206,7 +243,7 @@
                     url: url,
                     data: request,
                     success: function(response) {
-                        toastr.success(response.floor_delete);
+                        toastr.success(response.expense_delete);
                         $('#delete_form')[0].reset();
                         initializeDataTable();
 
