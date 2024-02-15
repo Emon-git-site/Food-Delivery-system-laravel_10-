@@ -16,6 +16,7 @@ use App\Http\Controllers\backend\ExpensetypeController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
 use App\Http\Controllers\backend\blogCategoryController;
+use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\hrm\DepartmentController;
 use App\Http\Controllers\backend\hrm\DesignationController;
 
@@ -159,6 +160,14 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
         Route::get('edit/{department}', [DepartmentController::class, 'edit']);
         Route::post('update', [DepartmentController::class, 'update'])->name('update');
         Route::get('delete/{department}', [DepartmentController::class, 'destroy'])->name('delete');
+    });
+      //employee route
+      Route::prefix('admin/hrm/employee/employee/')->middleware('admin')->name('admin.hrm.employee.employee.')->group(function () {
+        Route::get('index', [EmployeeController::class, 'index'])->name('index');
+        Route::post('store', [EmployeeController::class, 'store'])->name('store');
+        Route::get('edit/{employee}', [EmployeeController::class, 'edit']);
+        Route::post('update', [EmployeeController::class, 'update'])->name('update');
+        Route::get('delete/{employee}', [EmployeeController::class, 'destroy'])->name('delete');
     });
 
     // expense type  routes
