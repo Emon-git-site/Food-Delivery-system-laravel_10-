@@ -1,74 +1,137 @@
-
-<form action="{{ route('admin.hrm.employee.employee.update') }}" method="post" id="update_form" enctype="multipart/form-data">
-    @csrf
-    <div class="mb-3">
-        <input type="hidden" name="food_id" value="{{ $food->id }}">
-        <label for="expense_type" class="form-label">Select Category <span class="text-danger">*</span></label>
-        <select name="subcategory_id" class="form-control">
-            <option value="">Select One</option>
-            @foreach ($categories as $category)
-                <option disabled class="text-primary">{{ $category->category_name }}</option>
-                @foreach ($category->subcategories as $subcategory)
-                    <option value="{{ $subcategory->id }}"
-                        {{ $subcategory->id == $food->subcategory_id ? 'selected' : '' }}>
-                        --{{ $subcategory->subcategory_name }}
+ <form action="{{ route('admin.hrm.employee.employee.update') }}" method="post" id="update_form"
+enctype="multipart/form-data">
+@csrf
+<div class="mb-3">
+    <div class="row">
+        <div class="form-group col-6">
+            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+            <label for="employee_id" class="form-label">Employee ID <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="employee_id"
+                value="{{ $employee->employee_id }}" required>
+        </div>
+        <div class="form-group col-6">
+            <label for="employee_name" class="form-label">Employee Name<span
+                    class="text-danger">*</span> </label>
+            <input type="text" class="form-control"  name="name"
+                value="{{ $employee->name }}" required>
+        </div>
+    </div>
+</div>
+<div class="mb-3">
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="department" class="form-label">Department <span
+                    class="text-danger">*</span></label>
+            <select name="department_id" class="form-control" required>
+                <option value="">Choose One</option>
+                @foreach ($departments as $department)
+                    <option value="{{ $department->id }}"{{ ($department->id==$employee->department_id)? "selected":'' }}>{{ $department->department_name }}
                     </option>
                 @endforeach
-            @endforeach
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="food_name" class="form-label">Food Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="food_name" name="food_name" value="{{ $food->name }}" required>
-    </div>
-    <div class="mb-3">
-        <div class="row">
-            <div class="form-group col-6">
-                <label for="food_price" class="form-label">Food price <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="food_price" name="food_price" value="{{ $food->price }}"
-                    required>
-            </div>
-            <div class="form-group col-6">
-                <label for="food_discournt_price" class="form-label">Food Discount Price </label>
-                <input type="text" class="form-control" id="food_discournt_price" name="food_discournt_price"
-                    value="{{ $food->discount_price }}" required>
-            </div>
+            </select>
+        </div>
+        <div class="form-group col-6">
+            <label for="designation" class="form-label">Designation <span
+                    class="text-danger">*</span></label>
+            <select name="designation_id" class="form-control" required>
+                <option value="">Choose One</option>
+                @foreach ($designations as $designation)
+                    <option value="{{ $designation->id }}"{{ ($designation->id==$employee->designation_id)? "selected":'' }}>{{ $designation->designation_name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
-    <div class="mb-3">
-        <label for="food_description" class="form-label">Description <span class="text-danger">*</span></label>
-        <textarea name="food_description" class="form-control" cols="30" rows="2">{{ $food->description }}</textarea>
-    </div>
-    <div class="mb-3">
-        <div class="row">
-            <div class="col-6">
-                <label for="food_image" class="form-label">Image Upload <span
-                        class="text-danger">*</span></label>
-                <input type="file" class="form-control dropify" name="food_image"
-                    data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" />
-            </div>
-            <div class="col-6">
-                <label for="old_image" class="form-label">Old Image: </label><br>
-                <img src="{{ asset($food->image) }}" name="food_image" height="245px" width="210px">
-            </div>
+</div>
+<div class="mb-3">
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="employee_number" class="form-label">Phone Number <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="phone"
+                value="{{ $employee->phone }}" required>
+        </div>
+        <div class="form-group col-6">
+            <label for="employee_address" class="form-label">Address<span
+                    class="text-danger">*</span> </label>
+            <input type="text" class="form-control"  name="address"
+                value="{{ $employee->address }}" required>
         </div>
     </div>
-    
-    <div class="mb-3">
-        <label for="food_status" class="form-label">Status <span class="text-danger">*</span></label>
-        <select name="food_status" class="form-control" required>
-            <option value="1" {{ $food->status==1 ? 'selected' : '' }}>Publish</option>
-            <option value="0" {{ $food->status==0 ? 'selected' : '' }}>Unpublish</option>
-        </select>
+</div>
+<div class="mb-3">
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="gender" class="form-label">Gender <span
+                    class="text-danger">*</span></label>
+                    <select name="gender" class="form-control" required>
+                        <option value="Male" {{ ($employee->gender== "Male")? "selected":'' }}>Male</option>
+                        <option value="Female" {{ ($employee->gender=="Female")? "selected":'' }}>Female</option>
+                        <option value="Other" {{ ($employee->gender=="Other")? "selected":'' }}>Other</option>
+                    </select>
+        </div>
+        <div class="form-group col-4">
+            <label for="blood" class="form-label">Blood<span
+                    class="text-danger">*</span> </label>
+            <input type="text" class="form-control"  name="blood"
+                value="{{ $employee->blood }}" required>
+        </div>
+        <div class="form-group col-4">
+            <label for="nid" class="form-label">NID<span
+                    class="text-danger">*</span> </label>
+            <input type="text" class="form-control" name="nid"
+                value="{{ $employee->nid }}" required>
+        </div>
     </div>
-    <button type="submit" class="btn btn-success btn-block">SUBMIT
-        <span class="loading d-none"> .... </span>
-    </button>
+</div>
+<div class="mb-3">
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="salary" class="form-label">Salary <span
+                    class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="salary"
+                    value="{{ $employee->salary }}"required>
+        </div>
+        <div class="form-group col-4">
+            <label for="joining_date" class="form-label">Joining Date<span
+                    class="text-danger">*</span> </label>
+            <input type="date" class="form-control"  name="joining_date" value="{{ $employee->joining_date }}"
+                 required>
+        </div>
+        <div class="form-group col-4">
+            <label for="status" class="form-label">Status<span
+                    class="text-danger">*</span> </label>
+                    <select name="status" class="form-control" required>
+                        <option value="">Choose One</option>
+                        <option value="0" @selected($employee->status == 0)>Deactive</option>
+                        <option value="1" @selected($employee->status == 1)>Active</option>
+                    </select>
+        </div>
+    </div>
+</div>
+<div class="mb-3">
+    <div class="row">
+        <div class="col-6">
+            <label for="employee_image" class="form-label">Image Upload <span
+                    class="text-danger">*</span></label>
+            <input type="file" class="form-control dropify" name="employee_image"
+                data-max-file-size="3M" data-allowed-file-extensions="jpg png jpeg" />
+        </div>
+        <div class="col-6">
+            <label for="employee_image" class="form-label">Old Image: </label><br>
+            <img src="{{ asset($employee->image) }}" name="employee_image" height="245px" width="210px">
+        </div>
+    </div>
+</div>
+<button type="submit" class="btn btn-success btn-block">UPDATE
+    <span class="loading d-none"> .... </span>
+</button>
 </form>
 
 <script type="text/javascript">
+$(document).ready(function() {
 $('.dropify').dropify();
-
     $('#update_form').submit(function(e) {
         e.preventDefault();
         $('.loading').removeClass('d-none');
@@ -101,5 +164,6 @@ $('.dropify').dropify();
                 $('#example1').DataTable().ajax.reload();
             }
         });
+    });
     });
 </script>

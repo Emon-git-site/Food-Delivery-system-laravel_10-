@@ -35,10 +35,13 @@ class EmployeeController extends Controller
                         }
                     })
                     ->addColumn('action', function ($row) {
-                        $actionBtn = '<a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal" data-target="#update_employee_modal">Edit</a>
-                                        <a href="' . route('admin.hrm.employee.employee.delete', [$row->id]) . '" class="btn btn-danger btn-sm" id="employee_delete">Delete</a>';
+                        $editUrl = "javascript:void(0)";
+                        $deleteUrl = route('admin.hrm.employee.employee.delete', [$row->id]);
+                        $actionBtn = '<a href="' . $editUrl . '" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal" data-target="#update_employee_modal">Edit</a>
+                                      <button data-url="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-btn" id="employee_delete">Delete</button>'; 
                         return $actionBtn;
                     })
+                    
                     ->rawColumns(['action', 'department_name', 'designation_name', 'status'])
                     ->make(true);
             }
@@ -56,7 +59,7 @@ class EmployeeController extends Controller
                 'name' => 'required|string|max:255',
                 'phone' => 'nullable|string|max:255',
                 'address' => 'nullable|string|max:255',
-                'gender' => 'nullable|string|in:male,female,other',
+                'gender' => 'nullable|string|in:Male,Female,Other',
                 'blood' => 'nullable|string|max:255',
                 'nid' => 'nullable|string|max:255|unique:employees,nid',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -81,27 +84,27 @@ class EmployeeController extends Controller
             ]);
         }
     
-        public function edit($id)
+        public function edit(Employee $employee)
         {
             $departments = Department::all();
             $designations = Designation::all();
-            return view('backend.employee.edit', compact('departments', 'designations'));
+            return view('backend.hrm.employee.employee.edit', compact('departments', 'designations', 'employee'));
         }
     
         //   update method for update employee
         public function update(Request $request)
         {
-            if ($request->employee_image) {
-    
+            $employee = Employee::where('employee_id', $request->employee_id)->first();
+            
                 $validateData = Validator::make($request->all(), [
                     'department_id' => 'required|exists:departments,id',
                     'designation_id' => 'required|exists:designations,id',
                     'name' => 'required|string|max:255',
                     'phone' => 'nullable|string|max:255',
                     'address' => 'nullable|string|max:255',
-                    'gender' => 'nullable|string|in:male,female,other',
+                    'gender' => 'nullable|string|in:Male,Female,Other',
                     'blood' => 'nullable|string|max:255',
-                    'nid' => 'nullable|string|max:255|unique:employees,nid',
+                    'nid' => 'nullable|string|max:255|unique:employees,nid,' .$employee->id,
                     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'joining_date' => 'nullable|date',
                     'salary' => 'nullable|numeric',
@@ -113,72 +116,24 @@ class EmployeeController extends Controller
                         'errors' => $validateData->errors()
                     ]);
                 }
-                $employee = Employee::find($request->employee_id);
-                $imageFile = $request->file('employee_image');
-                $save_url = $this->savePostImage($imageFile);
-                unlink($employee->image);
-    
-                $employee->update([
-                    'category_id' =>  $category_id->category_id,
-                    'subcategory_id' =>  $request->subcategory_id,
-                    'name' =>  $request->employee_name,
-                    'slug' =>  Str::slug($request->employee_name, '-'),
-                    'price' =>  $request->employee_price,
-                    'discount_price' =>  $request->employee_discournt_price,
-                    'image' =>  $save_url,
-                    'description' =>  $request->employee_description,
-                    'user_id' =>  auth('admin')->id(),
-                    'status' => $request->employee_status,
-                    'date' => date('Y-m-d'),
-                    'month' => date('F'),
-                    'year' => date('Y')
-                ]);
-    
+
+                if ($request->hasFile('employee_image')){
+                    $imageFile = $request->file('employee_image');
+                    $save_url = $this->savePostImage($imageFile);
+                    unlink($employee->image);
+                    $employee->image = $save_url;
+                    $employee->fill($request->except('employee_id'));               
+                    $employee->save();
+                }
+
+                $employee->fill($request->except('employee_id', 'employee_image'));               
+                $employee->save();
+
                 return response()->json([
                     'employee_update' => "Employee Item Updated Successfully"
                 ]);
-            } else {
-                $validateData = Validator::make($request->all(), [
-                    'department_id' => 'required|exists:departments,id',
-                    'designation_id' => 'required|exists:designations,id',
-                    'name' => 'required|string|max:255',
-                    'phone' => 'nullable|string|max:255',
-                    'address' => 'nullable|string|max:255',
-                    'gender' => 'nullable|string|in:male,female,other',
-                    'blood' => 'nullable|string|max:255',
-                    'nid' => 'nullable|string|max:255|unique:employees,nid',
-                    'joining_date' => 'nullable|date',
-                    'salary' => 'nullable|numeric',
-                    'status' => 'nullable|integer|in:0,1',
-                ]);
-    
-                if ($validateData->fails()) {
-                    return response()->json([
-                        'errors' => $validateData->errors()
-                    ]);
-                }
-                $employee = Employee::find($request->employee_id);
-                $category_id = Subcategory::where('id', $request->subcategory_id)->first();
-    
-                $employee->update([
-                    'category_id' =>  $category_id->category_id,
-                    'subcategory_id' =>  $request->subcategory_id,
-                    'name' =>  $request->employee_name,
-                    'slug' =>  Str::slug($request->employee_name, '-'),
-                    'price' =>  $request->employee_price,
-                    'discount_price' =>  $request->employee_discournt_price,
-                    'description' =>  $request->employee_description,
-                    'user_id' =>  auth('admin')->id(),
-                    'status' => $request->employee_status,
-                    'date' => date('Y-m-d'),
-                    'month' => date('F'),
-                    'year' => date('Y')
-                ]);
-    
-                return response()->json([
-                    'employee_update' => "Employee  Updated Successfully"
-                ]);
-            }
+
+
         }
     
         private function savePostImage($imageFile)
@@ -192,9 +147,8 @@ class EmployeeController extends Controller
         }
     
         //   employee item delete method
-        public function destroy($id)
+        public function destroy(Employee $employee)
         {
-            $employee = Employee::find($id);
             unlink($employee->image);
             $employee->delete();
     

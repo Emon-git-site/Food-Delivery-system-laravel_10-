@@ -320,9 +320,10 @@
         });
         // edit request send
         $(document).ready(function() {
-            $('body').on('click', '.edit_modal_btn', function() {
+            $('body').on('click', '.edit_modal_btn', function(e) {
+                e.preventDefault();
                 let id = $(this).data('id');
-                let url = "{{ url('admin.hrm.employee.employee.edit') }}/" + id;
+                let url = "{{ url('admin/hrm/employee/employee/edit') }}/" + id;
                 $.ajax({
                     url: url,
                     type: 'get',
@@ -340,7 +341,7 @@
         $(document).ready(function() {
             $(document).on('click', '#employee_delete', function(e) {
                 e.preventDefault();
-                let url = $(this).attr('href');
+                var url = $(this).data('url');
                 $('#delete_form').attr('action', url);
                 swal({
                         title: "Are you sure to Delete this Employee",
@@ -372,9 +373,6 @@
                 });
             });
         });
-        // submit_table class call for every change
-        $(document).on('change', '.submit_table', function() {
-            initializeDataTable();
-        });
+
     </script>
 @endsection
