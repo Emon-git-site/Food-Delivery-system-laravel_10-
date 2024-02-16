@@ -194,6 +194,30 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.hrm.employee.designation.index', 'admin.hrm.employee.department.index', 'admin.hrm.employee.employee.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Leave & Holiday
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.holiday.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.designation.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Holiday</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.employee.department.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.department.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Leave Application</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
                 <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>

@@ -139,9 +139,9 @@
                                     <label for="gender" class="form-label">Gender <span
                                             class="text-danger">*</span></label>
                                             <select name="gender" class="form-control" required>
-                                                <option value="male">Male</option>
+                                                <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
-                                                <option value="other">Other</option>
+                                                <option value="Other">Other</option>
                                             </select>
                                 </div>
                                 <div class="form-group col-4">
