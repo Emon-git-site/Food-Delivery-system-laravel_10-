@@ -20,6 +20,7 @@ use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\HolidayController;
 use App\Http\Controllers\backend\hrm\DepartmentController;
 use App\Http\Controllers\backend\hrm\DesignationController;
+use App\Http\Controllers\backend\LeavetypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,6 +179,15 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
         Route::get('edit/{holiday}', [HolidayController::class, 'edit']);
         Route::post('update', [HolidayController::class, 'update'])->name('update');
         Route::get('delete/{holiday}', [HolidayController::class, 'destroy'])->name('delete');
+    });
+
+      //leaveType route
+      Route::prefix('admin/hrm/leaveType')->middleware('admin')->name('admin.hrm.leaveType.')->group(function () {
+        Route::get('index', [LeavetypeController::class, 'index'])->name('index');
+        Route::post('store', [LeavetypeController::class, 'store'])->name('store');
+        Route::get('edit/{leaveType}', [LeavetypeController::class, 'edit']);
+        Route::post('update', [LeavetypeController::class, 'update'])->name('update');
+        Route::get('delete/{leaveType}', [LeavetypeController::class, 'destroy'])->name('delete');
     });
 
     // expense type  routes

@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\FuncCall;
 
 class HolidayController extends Controller
 {
-    // Floor list show method
+    // Holiday list show method
     public function index(Request $request)
     {
         if ($request->ajax()) {

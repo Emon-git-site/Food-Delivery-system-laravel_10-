@@ -210,6 +210,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('admin.hrm.leaveType.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.designation.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>LeaveType</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('admin.hrm.employee.department.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.department.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Leave Application</p>
