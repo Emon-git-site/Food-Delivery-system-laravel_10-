@@ -20,6 +20,7 @@ use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\HolidayController;
 use App\Http\Controllers\backend\hrm\DepartmentController;
 use App\Http\Controllers\backend\hrm\DesignationController;
+use App\Http\Controllers\backend\LeaveController;
 use App\Http\Controllers\backend\LeavetypeController;
 
 /*
@@ -146,51 +147,60 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
 
 // All HRM route 
 
-      //designation route
-      Route::prefix('admin/hrm/employee/designation/')->middleware('admin')->name('admin.hrm.employee.designation.')->group(function () {
-        Route::get('index', [DesignationController::class, 'index'])->name('index');
-        Route::post('store', [DesignationController::class, 'store'])->name('store');
-        Route::get('edit/{designation}', [DesignationController::class, 'edit']);
-        Route::post('update', [DesignationController::class, 'update'])->name('update');
-        Route::get('delete/{designation}', [DesignationController::class, 'destroy'])->name('delete');
-    });
+//designation route
+Route::prefix('admin/hrm/employee/designation/')->middleware('admin')->name('admin.hrm.employee.designation.')->group(function () {
+    Route::get('index', [DesignationController::class, 'index'])->name('index');
+    Route::post('store', [DesignationController::class, 'store'])->name('store');
+    Route::get('edit/{designation}', [DesignationController::class, 'edit']);
+    Route::post('update', [DesignationController::class, 'update'])->name('update');
+    Route::get('delete/{designation}', [DesignationController::class, 'destroy'])->name('delete');
+});
 
-      //department route
-      Route::prefix('admin/hrm/employee/department/')->middleware('admin')->name('admin.hrm.employee.department.')->group(function () {
-        Route::get('index', [DepartmentController::class, 'index'])->name('index');
-        Route::post('store', [DepartmentController::class, 'store'])->name('store');
-        Route::get('edit/{department}', [DepartmentController::class, 'edit']);
-        Route::post('update', [DepartmentController::class, 'update'])->name('update');
-        Route::get('delete/{department}', [DepartmentController::class, 'destroy'])->name('delete');
-    });
-      //employee route
-      Route::prefix('admin/hrm/employee/employee/')->middleware('admin')->name('admin.hrm.employee.employee.')->group(function () {
-        Route::get('index', [EmployeeController::class, 'index'])->name('index');
-        Route::post('store', [EmployeeController::class, 'store'])->name('store');
-        Route::get('edit/{employee}', [EmployeeController::class, 'edit']);
-        Route::post('update', [EmployeeController::class, 'update'])->name('update');
-        Route::get('delete/{employee}', [EmployeeController::class, 'destroy'])->name('delete');
-    });
+//department route
+Route::prefix('admin/hrm/employee/department/')->middleware('admin')->name('admin.hrm.employee.department.')->group(function () {
+    Route::get('index', [DepartmentController::class, 'index'])->name('index');
+    Route::post('store', [DepartmentController::class, 'store'])->name('store');
+    Route::get('edit/{department}', [DepartmentController::class, 'edit']);
+    Route::post('update', [DepartmentController::class, 'update'])->name('update');
+    Route::get('delete/{department}', [DepartmentController::class, 'destroy'])->name('delete');
+});
+//employee route
+Route::prefix('admin/hrm/employee/employee/')->middleware('admin')->name('admin.hrm.employee.employee.')->group(function () {
+    Route::get('index', [EmployeeController::class, 'index'])->name('index');
+    Route::post('store', [EmployeeController::class, 'store'])->name('store');
+    Route::get('edit/{employee}', [EmployeeController::class, 'edit']);
+    Route::post('update', [EmployeeController::class, 'update'])->name('update');
+    Route::get('delete/{employee}', [EmployeeController::class, 'destroy'])->name('delete');
+});
 
-      //holiday route
-      Route::prefix('admin/hrm/holiday')->middleware('admin')->name('admin.hrm.holiday.')->group(function () {
-        Route::get('index', [HolidayController::class, 'index'])->name('index');
-        Route::post('store', [HolidayController::class, 'store'])->name('store');
-        Route::get('edit/{holiday}', [HolidayController::class, 'edit']);
-        Route::post('update', [HolidayController::class, 'update'])->name('update');
-        Route::get('delete/{holiday}', [HolidayController::class, 'destroy'])->name('delete');
-    });
+//holiday route
+Route::prefix('admin/hrm/holiday')->middleware('admin')->name('admin.hrm.holiday.')->group(function () {
+    Route::get('index', [HolidayController::class, 'index'])->name('index');
+    Route::post('store', [HolidayController::class, 'store'])->name('store');
+    Route::get('edit/{holiday}', [HolidayController::class, 'edit']);
+    Route::post('update', [HolidayController::class, 'update'])->name('update');
+    Route::get('delete/{holiday}', [HolidayController::class, 'destroy'])->name('delete');
+});
 
-      //leaveType route
-      Route::prefix('admin/hrm/leaveType')->middleware('admin')->name('admin.hrm.leaveType.')->group(function () {
-        Route::get('index', [LeavetypeController::class, 'index'])->name('index');
-        Route::post('store', [LeavetypeController::class, 'store'])->name('store');
-        Route::get('edit/{leaveType}', [LeavetypeController::class, 'edit']);
-        Route::post('update', [LeavetypeController::class, 'update'])->name('update');
-        Route::get('delete/{leaveType}', [LeavetypeController::class, 'destroy'])->name('delete');
-    });
+//leaveType route
+Route::prefix('admin/hrm/leaveType')->middleware('admin')->name('admin.hrm.leaveType.')->group(function () {
+    Route::get('index', [LeavetypeController::class, 'index'])->name('index');
+    Route::post('store', [LeavetypeController::class, 'store'])->name('store');
+    Route::get('edit/{leaveType}', [LeavetypeController::class, 'edit']);
+    Route::post('update', [LeavetypeController::class, 'update'])->name('update');
+    Route::get('delete/{leaveType}', [LeavetypeController::class, 'destroy'])->name('delete');
+});
 
-    // expense type  routes
+//leave application route
+Route::prefix('admin/hrm/leave')->middleware('admin')->name('admin.hrm.leave.')->group(function () {
+    Route::get('index', [LeaveController::class, 'index'])->name('index');
+    Route::post('store', [LeaveController::class, 'store'])->name('store');
+    Route::get('edit/{leave}', [LeaveController::class, 'edit']);
+    Route::post('update', [LeaveController::class, 'update'])->name('update');
+    Route::get('delete/{leave}', [LeaveController::class, 'destroy'])->name('delete');
+});
+
+// expense type  routes
 Route::prefix('admin/expensetype/')->middleware('admin')->name('admin.expensetype.')->group(function () {
     Route::get('index', [ExpensetypeController::class, 'index'])->name('index');
     Route::post('store', [ExpensetypeController::class, 'store'])->name('store');
@@ -198,7 +208,7 @@ Route::prefix('admin/expensetype/')->middleware('admin')->name('admin.expensetyp
     Route::post('update', [ExpensetypeController::class, 'update'])->name('update');
     Route::get('delete/{id}', [ExpensetypeController::class, 'destroy'])->name('delete');
 });
-    // expense   routes
+// expense   routes
 Route::prefix('admin/expense/')->middleware('admin')->name('admin.expense.')->group(function () {
     Route::get('index', [ExpenseController::class, 'index'])->name('index');
     Route::post('store', [ExpenseController::class, 'store'])->name('store');
