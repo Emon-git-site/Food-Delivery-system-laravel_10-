@@ -192,6 +192,12 @@
                                 <p>Manage Employee</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.employee.award.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.employee.award.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Emp. Award</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.hrm.holiday.index', 'admin.hrm.leaveType.index', 'admin.hrm.leave.index']) ? 'menu-open' : '' }}">

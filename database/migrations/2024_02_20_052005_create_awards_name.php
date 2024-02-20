@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('employee_id')->nullable();
             $table->string('award_name')->nullable();
+            $table->string('award')->nullable();
             $table->string('award_date')->nullable();
             $table->string('award_month')->nullable();
             $table->string('award_year')->nullable();

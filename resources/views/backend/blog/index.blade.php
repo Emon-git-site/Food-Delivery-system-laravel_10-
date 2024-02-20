@@ -149,11 +149,11 @@
                             <input type="text" class="form-control" id="blog_title_update" name="blog_title_update"
                                 required>
                         </div>
+
                         <div class="mb-3">
                             <label for="blog_description_update" class="form-label">Blog Description <span
                                     class="text-danger">*</span></label>
-                            <div name="blog_description_update" class="form-control text_area" cols="20"
-                                rows="10"></div>
+                            <textarea class="form-control text_area" name="blog_description_update" cols="15" rows="5" required></textarea>
                         </div>
                         <div class="mb-3">
                             <div class="row">
@@ -278,8 +278,14 @@
                         console.log(response.description);
                         $('input[name="blog_id"]').val(response.id);
                         $('input[name="blog_title_update"]').val(response.title);
-                        document.querySelector('div[name="blog_description_update"]')
-                            .innerHTML = response.description;
+                        if (response.description == null) {
+                            $('textarea[name="blog_description_update"]').summernote('code',
+                            '');
+                        }
+                         else {
+                            $('textarea[name="blog_description_update"]').summernote('code',
+                                response.description);
+                        }
                         let selected_category = response.category_id;
                         $('#blogcategory option').removeAttr('selected');
                         $(`#blogcategory_id option[blogcategory_id="${selected_category}"]`)
@@ -350,7 +356,6 @@
                         toastr.success(response.blog_delete);
                         $('#delete_form')[0].reset();
                         initializeDataTable();
-
                     }
                 });
             });

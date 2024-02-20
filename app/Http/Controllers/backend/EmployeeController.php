@@ -37,8 +37,8 @@ class EmployeeController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = "javascript:void(0)";
                     $deleteUrl = route('admin.hrm.employee.employee.delete', [$row->id]);
-                    $actionBtn = '<a href="' . $editUrl . '" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal" data-target="#update_employee_modal">Edit</a>
-                                      <button data-url="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-btn" id="employee_delete">Delete</button>';
+                    $actionBtn = '<a href="' . $editUrl . '" data-id="' . $row->id . '" class="btn btn-primary btn-sm edit_modal_btn" data-toggle="modal" data-target="#update_employee_modal"> <i class="fas fa-edit"></i></a>
+                                      <button data-url="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-btn" id="employee_delete"><i class="fas fa-trash"></i></button>';
                     return $actionBtn;
                 })
 
