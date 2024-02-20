@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\blogController;
 use App\Http\Controllers\backend\FoodController;
 use App\Http\Controllers\backend\adminController;
+use App\Http\Controllers\backend\AttendanceController;
 use App\Http\Controllers\backend\AwardController;
 use App\Http\Controllers\backend\floorController;
 use App\Http\Controllers\backend\tableController;
@@ -180,6 +181,14 @@ Route::prefix('admin/hrm/employee/award/')->middleware('admin')->name('admin.hrm
     Route::get('edit/{award}', [AwardController::class, 'edit']);
     Route::post('update', [AwardController::class, 'update'])->name('update');
     Route::get('delete/{award}', [AwardController::class, 'destroy'])->name('delete');
+});
+//attendance route
+Route::prefix('admin/hrm/attendance/')->middleware('admin')->name('admin.hrm.attendance.')->group(function () {
+    Route::get('index', [AttendanceController::class, 'index'])->name('singleAttendance');
+    Route::post('store', [AttendanceController::class, 'store'])->name('store');
+    Route::get('edit/{award}', [AttendanceController::class, 'edit']);
+    Route::post('update', [AttendanceController::class, 'update'])->name('update');
+    Route::get('delete/{award}', [AttendanceController::class, 'destroy'])->name('delete');
 });
 
 //holiday route

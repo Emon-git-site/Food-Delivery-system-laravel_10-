@@ -83,7 +83,7 @@ class AwardController extends Controller
                     'errors' => $validateData->errors()
                 ]);
             }
-            $award = Award::where('id', $request->award_id)->first();
+            $award = Award::where('id', $request->award_id)->first()                                            ;
             $award->update($request->all());
 
             return response()->json([

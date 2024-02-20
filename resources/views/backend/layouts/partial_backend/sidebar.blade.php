@@ -234,6 +234,41 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
+                            Attendance
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.hrm.attendance.singleAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expensetype.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Single Attendance</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bulk Attendance </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>ALL Attendance </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Attendance Adjustment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
                             Expenses
                             <i class="fas fa-angle-left right"></i>
                         </p>
