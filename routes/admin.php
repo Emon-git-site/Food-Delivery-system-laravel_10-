@@ -185,16 +185,15 @@ Route::prefix('admin/hrm/employee/award/')->middleware('admin')->name('admin.hrm
 //attendance route
 Route::prefix('admin/hrm/attendance/')->middleware('admin')->name('admin.hrm.attendance.')->group(function () {
     Route::get('index', [AttendanceController::class, 'index'])->name('singleAttendance');
-    Route::post('store', [AttendanceController::class, 'store'])->name('store');
-    Route::get('edit/{award}', [AttendanceController::class, 'edit']);
-    Route::post('update', [AttendanceController::class, 'update'])->name('update');
-    Route::get('delete/{award}', [AttendanceController::class, 'destroy'])->name('delete');
+    Route::get('create/person-wise-row/{user_id}', [AttendanceController::class, 'createRow']);
+    Route::post('store', [AttendanceController::class, 'store'])->name('store.personWise');
+
 });
 
 //holiday route
 Route::prefix('admin/hrm/holiday')->middleware('admin')->name('admin.hrm.holiday.')->group(function () {
     Route::get('index', [HolidayController::class, 'index'])->name('index');
-    Route::post('store', [HolidayController::class, 'store'])->name('store');
+    Route::post('store/personWise', [HolidayController::class, 'store'])->name('store.personWise');
     Route::get('edit/{holiday}', [HolidayController::class, 'edit']);
     Route::post('update', [HolidayController::class, 'update'])->name('update');
     Route::get('delete/{holiday}', [HolidayController::class, 'destroy'])->name('delete');
