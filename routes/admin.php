@@ -184,9 +184,11 @@ Route::prefix('admin/hrm/employee/award/')->middleware('admin')->name('admin.hrm
 });
 //attendance route
 Route::prefix('admin/hrm/attendance/')->middleware('admin')->name('admin.hrm.attendance.')->group(function () {
-    Route::get('index', [AttendanceController::class, 'index'])->name('singleAttendance');
+    Route::get('singleAttendance/index', [AttendanceController::class, 'index'])->name('singleAttendance');
+    Route::get('AllAttendance/index', [AttendanceController::class, 'AllAttendance'])->name('AllAttendance');
     Route::get('create/person-wise-row/{user_id}', [AttendanceController::class, 'createRow']);
     Route::post('store', [AttendanceController::class, 'store'])->name('store.personWise');
+    Route::post('store/missing', [AttendanceController::class, 'missingStore'])->name('store.missing');
 
 });
 

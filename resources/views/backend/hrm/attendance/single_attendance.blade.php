@@ -31,7 +31,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="employee">Select Employee:</label>
-                                        <select class="form-control form-control-sm selectpicker" 
+                                        <select class="form-control form-control-sm selectpicker" name=""
                                             id="employee_id" data-live-search="true">
                                             <option disabled="" selected="">Choose One</option>
                                             @foreach ($employees as $employee)
@@ -87,7 +87,7 @@
         $(document).ready(function() {
             $(document).on('change', '#employee_id', function() {
                 var user_id = $(this).val();
-                var name = $(this).data('name');
+                // var name = $(this).data('name');
                 var count = 0;
 
                 $('.create_attendance_table table').find('tr').each(function() {
@@ -106,7 +106,7 @@
                     });
                 }
 
-            });
+            }); 
 
             $(document).on('click', '.btn_remove', function(){
                 $(this).closest('tr').remove();

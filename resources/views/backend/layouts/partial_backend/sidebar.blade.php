@@ -252,7 +252,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.hrm.attendance.AllAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>ALL Attendance </p>
                             </a>
