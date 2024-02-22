@@ -123,6 +123,14 @@
                     url: url,
                     data: request,
                     success: function (data) {
+                        let errors = data.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         if(!$.isEmptyObject(data.errorMsg)){
                             toastr.error(data.errorMsg);
                             $('.loading_button').addClass('d-none');

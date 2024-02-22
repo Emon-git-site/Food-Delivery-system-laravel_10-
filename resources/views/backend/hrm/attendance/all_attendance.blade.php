@@ -57,7 +57,7 @@
                             </select>
                         </div>
                         <div class="col-4">
-                            <input type="date" name="date" id="date" class="form-control">
+                            <input type="date" name="date" id="date" class="form-control submit_table">
                         </div>
                     </div>
                 </div>
@@ -102,8 +102,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin.hrm.attendance.store.missing') }}" method="post" id="add_form"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('admin.hrm.attendance.store.missing') }}" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
                             <div class="row">
@@ -135,7 +134,7 @@
                                 <div class="form-group col-4">
                                     <label for="clock_out" class="form-label">Clock Out <span
                                             class="text-danger">*</span></label>
-                                    <input type="time" class="form-control" name="clock_out" required>
+                                    <input type="time" class="form-control" name="clock_out" >
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="clock_in_note" class="form-label">ClockkIn Notes</label>
@@ -190,7 +189,14 @@
             var table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.hrm.attendance.AllAttendance') }}",
+                ajax: {
+                    url: "{{ route('admin.hrm.attendance.AllAttendance') }}",
+                    data: function(e){
+                        e.employee_id = $('#employee_id').val();
+                        e.month = $('#month').val();
+                        e.date = $('#date').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -241,6 +247,14 @@
                     type: 'post',
                     data: request,
                     success: function(data) {
+                        let errors = data.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_attendance_modal').modal('hide');
@@ -250,7 +264,7 @@
                         }else{
                             toastr.success(data);
                             $('.loading_button').addClass('d-none');
-                            // $('.dataTable').DataTable().ajax.reload();
+                            initializeDataTable();
                         }
                     }
                 })
@@ -261,7 +275,7 @@
             $('body').on('click', '.edit_modal_btn', function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
-                let url = "{{ url('admin/hrm/employee/award/edit') }}/" + id;
+                let url = "{{ url('admin/hrm/attendance/edit') }}/" + id;
                 $.ajax({
                     url: url,
                     type: 'get',
@@ -275,9 +289,9 @@
 
 
 
-        // delete specific award
+        // delete specific attendance
         $(document).ready(function() {
-            $(document).on('click', '#award_delete', function(e) {
+            $(document).on('click', '#attendance_delete', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
                 $('#delete_form').attr('action', url);
@@ -303,7 +317,7 @@
                     url: url,
                     data: request,
                     success: function(response) {
-                        toastr.success(response.award_delete);
+                        toastr.success(response.attendance_delete);
                         $('#delete_form')[0].reset();
                         initializeDataTable();
 
@@ -311,5 +325,10 @@
                 });
             });
         });
+
+  // submit_table class call for every change
+    $(document).on('change', '.submit_table', function(){
+        initializeDataTable();
+    });
     </script>
 @endsection
