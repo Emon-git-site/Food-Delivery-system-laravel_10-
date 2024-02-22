@@ -240,7 +240,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.hrm.attendance.singleAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expensetype.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.hrm.attendance.singleAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.attendance.singleAttendance' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Single Attendance</p>
                             </a>
@@ -252,13 +252,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.hrm.attendance.AllAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.hrm.attendance.AllAttendance') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.attendance.AllAttendance' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>ALL Attendance </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.hrm.attendance.adjustment') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.attendance.adjustment' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Attendance Adjustment</p>
                             </a>

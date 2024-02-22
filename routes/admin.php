@@ -194,6 +194,10 @@ Route::prefix('admin/hrm/attendance/')->middleware('admin')->name('admin.hrm.att
     Route::get('edit/{attendance}', [AttendanceController::class, 'edit']);
     Route::post('update', [AttendanceController::class, 'update'])->name('update');
     Route::get('delete/{attendance}', [AttendanceController::class, 'destroy'])->name('allAttendance.delete');
+    // attendance adjustment
+    Route::get('adjustment', [AttendanceController::class, 'adjustment'])->name('adjustment');
+    Route::get('adjustment/form', [AttendanceController::class, 'adjustmentForm'])->name('adjustment.form');
+
 
 
 });

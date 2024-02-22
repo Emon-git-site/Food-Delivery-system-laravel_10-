@@ -209,4 +209,22 @@ class AttendanceController extends Controller
             'attendance_delete' => 'Attendance  Deleted Successfully',
         ]);
     }
+
+
+    // attendance adjustment
+    public function adjustment()
+    {
+        $employees = Employee::all();
+        return view('backend.hrm.attendance.attendance_adjustment_form', compact('employees'));
+    }
+
+    // adjustment form page
+    public function adjustmentForm(Request $request)
+    {
+        $attendance = DB::table('attendances')->where('month', $request->month)->where('year', $request->year)
+                      ->where('employee_id', $request->employee_id)->orderBy('date', 'ASC')->get();
+        $user = Employee::where('id', $request->employee_id)->first();
+        $employees = Employee::all();   
+        return view('backend.hrm.attendance.attendance_adjustment', compact('attendance', 'user', 'employees'));
+    }
 }
