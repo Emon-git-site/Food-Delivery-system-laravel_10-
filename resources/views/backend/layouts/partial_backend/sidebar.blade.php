@@ -230,7 +230,7 @@
 
                     </ul>
                 </li>
-                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.hrm.attendance.singleAttendance', 'admin.hrm.attendance.AllAttendance', 'admin.hrm.attendance.adjustment']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
@@ -261,6 +261,52 @@
                             <a href="{{ route('admin.hrm.attendance.adjustment') }}" class="nav-link {{ Route::currentRouteName() == 'admin.hrm.attendance.adjustment' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Attendance Adjustment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Loan & Advance
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expensetype.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expensetype.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Grant Loan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Grant Advance </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.expensetype.index', 'admin.expense.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Payroll
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expensetype.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expensetype.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Salary Generate</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expense.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.expense.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Salary Report </p>
                             </a>
                         </li>
                     </ul>

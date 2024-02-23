@@ -197,6 +197,8 @@ Route::prefix('admin/hrm/attendance/')->middleware('admin')->name('admin.hrm.att
     // attendance adjustment
     Route::get('adjustment', [AttendanceController::class, 'adjustment'])->name('adjustment');
     Route::get('adjustment/form', [AttendanceController::class, 'adjustmentForm'])->name('adjustment.form');
+    Route::get('adjustment/clock_in_change/{id}/{data}/{clock_in}', [AttendanceController::class, 'adjustmentClockInChange']);
+    Route::get('adjustment/clock_out_change/{id}/{data}/{clock_out}', [AttendanceController::class, 'adjustmentClockOutChange']);
 
 
 

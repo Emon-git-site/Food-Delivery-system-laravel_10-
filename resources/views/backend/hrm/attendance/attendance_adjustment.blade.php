@@ -55,9 +55,11 @@
                                 @foreach ($attendance as $row)
                                     <tr role="row">
                                         <th>{{ $user->name }} - {{ $user->employee_id }}</th>
+                                        <input type="hidden" class="employee_id" value="{{ $user->id }}">
+                                        <input type="hidden" class="date" value="{{ $row->date }}">
                                         <th>{{ $row->date }}</th>
-                                        <th><input type="time" value="{{ $row->clock_in }}" name="clock_in" id="clock_in"></th>
-                                        <th><input type="time" value="{{ $row->clock_out}}" name="clock_out" id="clock_out"></th>
+                                        <th><input type="time" value="{{ $row->clock_in }}" name="clock_in" class="clock_in"></th>
+                                        <th><input type="time" value="{{ $row->clock_out}}" name="clock_out" class="clock_out"></th>
                                         <th>{{ $row->month }}</th>
                                         <th>
                                             @if($row->status=="Present")
@@ -149,8 +151,6 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
-            initializeDataTable();
-
             // modal addForm Submit
             $('#add_form').submit(function(e) {
                 e.preventDefault();
@@ -179,26 +179,47 @@
                         }else{
                             toastr.success(data);
                             $('.loading_button').addClass('d-none');
-                            initializeDataTable();
+                            window.location.reload();
                         }
                     }
                 })
             });
-        });
-        // edit request send
-        $(document).ready(function() {
-            $('body').on('click', '.edit_modal_btn', function(e) {
-                e.preventDefault();
-                let id = $(this).data('id');
-                let url = "{{ url('admin/hrm/attendance/edit') }}/" + id;
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    success: function(response) {
-                        $('#update_part').html(response);
 
+            // clock in update
+            $('.clock_in').blur(function(e) {
+                e.preventDefault();
+                let id = $('.employee_id').val();
+                let date = $('.date').val();
+                let clock_in = $(this).val();
+                $.ajax({
+                    url: "{{ url('admin/hrm/attendance/adjustment/clock_in_change') }}/" + id + '/' + date + '/' + clock_in,
+                    type: 'GET',
+                    success: function(data) {
+                        if(!$.isEmptyObject(data.errorMsg)){
+                            toastr.error(data.errorMsg);
+                        }else{
+                            toastr.success(data);
+                        }
                     }
-                });
+                })
+            });
+            // clock out update
+            $('.clock_out').blur(function(e) {
+                e.preventDefault();
+                let id = $('.employee_id').val();
+                let date = $('.date').val();
+                let clock_out = $(this).val();
+                $.ajax({
+                    url: "{{ url('admin/hrm/attendance/adjustment/clock_out_change') }}/" + id + '/' + date + '/' + clock_out,
+                    type: 'GET',
+                    success: function(data) {
+                        if(!$.isEmptyObject(data.errorMsg)){
+                            toastr.error(data.errorMsg);
+                        }else{
+                            toastr.success(data);
+                        }
+                    }
+                })
             });
         });
 

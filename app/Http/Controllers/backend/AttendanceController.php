@@ -227,4 +227,20 @@ class AttendanceController extends Controller
         $employees = Employee::all();   
         return view('backend.hrm.attendance.attendance_adjustment', compact('attendance', 'user', 'employees'));
     }
+
+    // adjustment clock in change
+    public function adjustmentClockInChange($id, $date, $clock_in)
+    {
+        Attendance::where('employee_id', $id)->where('date', $date)
+                    ->update(['clock_in' => $clock_in]);
+        return response()->json('Clock In Time Successfully Updated');
+    }
+
+    // adjustment clock in change
+    public function adjustmentClockOutChange($id, $date, $clock_out)
+    {
+        Attendance::where('employee_id', $id)->where('date', $date)
+                    ->update(['clock_out' => $clock_out]);
+        return response()->json('Clock Out Time Successfully Updated');
+    }
 }
