@@ -27,25 +27,29 @@ class frontendController extends Controller
                     'errors' => $validator->errors()
                 ]);
             }
-            $check = Reservation::where('phone', $request->phone)->orwhere('r_date', $request->r_date)->first();
-    
-            if ($check) {
-                return response()->json([
-                    'already_available' => 'This person already reserve this date'
+            
+            if(auth('admin')->check()){
+
+                $check = Reservation::where('phone', $request->phone)->orwhere('r_date', $request->r_date)->first();
+        
+                if ($check) {
+                    return response()->json([
+                        'already_available' => 'This person already reserve this date'
+                    ]);
+                }
+                Reservation::insert([
+                    'r_time' => $request->r_time,
+                    'r_date' => $request->r_date,
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'people' => $request->people,
+                    'details' => $request->details,
+                    'status' => "Pending",
+                    'r_year' => date('Y', strtotime($request->r_date)),
+                    'r_month' => date('F', strtotime($request->r_date)),
                 ]);
+        
+                return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
             }
-            Reservation::insert([
-                'r_time' => $request->r_time,
-                'r_date' => $request->r_date,
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'people' => $request->people,
-                'details' => $request->details,
-                'status' => "Pending",
-                'r_year' => date('Y', strtotime($request->r_date)),
-                'r_month' => date('F', strtotime($request->r_date)),
-            ]);
-    
-            return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
         }
 }
