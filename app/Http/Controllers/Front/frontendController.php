@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Models\backend\Reservation;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class frontendController extends Controller
@@ -27,8 +28,7 @@ class frontendController extends Controller
                     'errors' => $validator->errors()
                 ]);
             }
-            
-            if(auth('admin')->check()){
+            if(auth()->check()){
 
                 $check = Reservation::where('phone', $request->phone)->orwhere('r_date', $request->r_date)->first();
         
@@ -44,12 +44,15 @@ class frontendController extends Controller
                     'phone' => $request->phone,
                     'people' => $request->people,
                     'details' => $request->details,
+                    'user_id' => Auth::id(),
                     'status' => "Pending",
                     'r_year' => date('Y', strtotime($request->r_date)),
                     'r_month' => date('F', strtotime($request->r_date)),
                 ]);
         
                 return response()->json(['add_reservation' => 'Successfully Reservation Insert']);
+            }else{
+                return response()->json(['need_login' => 'You Need to Login your Account']);
             }
         }
 }

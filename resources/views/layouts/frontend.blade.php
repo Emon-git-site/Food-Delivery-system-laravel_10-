@@ -20,10 +20,10 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/timePic.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
-      <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="{{ asset('backend') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="{{ asset('backend') }}/plugins/toastr/toastr.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('backend') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('backend') }}/plugins/toastr/toastr.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -510,7 +510,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-left">
                                         <label for="timepiker">Time:</label>
-                                        <input type="text" class="input-field  timepicker" name="r_time"
+                                        <input type="time" class="input-field " name="r_time"
                                             placeholder="Time" required="required">
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -810,6 +810,8 @@
     <!-- =======================================BODY SECTION END================ -->
 
     <!-- ==================ALL SCRIPT ARE HERE======================= -->
+    <!-- jQuery -->
+    {{-- <script src="{{ asset('backend') }}/plugins/jquery/jquery.min.js"></script> --}}
     <script src="{{ asset('frontend') }}/js/jquery-2.1.3.min.js"></script>
     <script src="{{ asset('frontend') }}/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('frontend') }}/js/timePic.js"></script>
@@ -825,65 +827,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- Toastr -->
     <script src="{{ asset('backend') }}/plugins/toastr/toastr.min.js"></script>
-{{-- dropify --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    {{-- dropify --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    @yield('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+                $('.text_area').summernote()
+            });
+            // dropify image
+            $('.dropify').dropify();
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(function() {
-            $('.text_area').summernote()
-        });
-        // dropify image
-        $('.dropify').dropify();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            // toaster message script
+            $(document).ready(function() {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-                // toaster message script
-                $(document).ready(function() {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
+            // add reservation form Submit
+            $(document).on('submit', '#add_reservation_form', function(e) {
+                e.preventDefault();
+                $('.loading').removeClass('d-none');
+                let url = $(this).attr('action');
+                let request = $(this).serialize();
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: request,
+                    success: function(response) {
+                        $('#add_reservation_form')[0].reset();
+                        $('.loading').addClass('d-none');
+                        $('#bookatable').modal('hide');
+                        let errors = response.errors;
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errors[key].forEach((message) => {
+                                    toastr.error(message);
+                                });
+                            }
+                        }
+                        if (response.already_available) {
+                            toastr.error(response.already_available);
+                        }
+                        else if(response.need_login) {
+                            toastr.error(response.need_login);
+                        } else {
+                            toastr.success(response.add_reservation);
+                        }
+
+                    }
+                })
             });
         });
-
-        // add reservation form Submit
-        $(document).on('submit', '#add_reservation_form', function(e) {
-            e.preventDefault();
-            $('.loading').removeClass('d-none');
-            let url = $(this).attr('action');
-            let request = $(this).serialize();
-            $.ajax({
-                url: url,
-                type: 'post',
-                data: request,
-                success: function(response) {
-                    $('#add_reservation_form')[0].reset();
-                    $('.loading').addClass('d-none');
-                    $('#bookatable').modal('hide');
-                    let errors = response.errors;
-                    for (let key in errors) {
-                        if (errors.hasOwnProperty(key)) {
-                            errors[key].forEach((message) => {
-                                toastr.error(message);
-                            });
-                        }
-                    }
-                    console.log(response.already_available);
-                    if (response.already_available) {
-                        toastr.success(response.already_available);
-                    } else {
-                        toastr.success(response.add_reservation);
-                    }
-
-                }
-            })
-        });
-    });
-</script>
+    </script>
 </body>
+
 </html>

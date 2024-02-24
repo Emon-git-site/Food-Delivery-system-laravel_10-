@@ -95,7 +95,7 @@
   </div>
 @endsection 
 @section('script')
-    <script>
+    {{-- <script>
         // toaster message script
         $(document).ready(function() {
             var Toast = Swal.mixin({
@@ -112,5 +112,5 @@
             });
 
         });
-    </script>
+    </script> --}}
 @endsection

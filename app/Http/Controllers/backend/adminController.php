@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\backend\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\backend\Admin;
+use Flasher\Laravel\Facade\Flasher;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,10 +18,12 @@ class adminController extends Controller
         $check = $request->all();
         if(Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => 
                 $check['password'] ])){
-                    // dd(Auth::guard('admin')->check());
+                    Flasher::addSuccess('admin login Successfully.');
                     return redirect()->route('admin.dashboard')->with('admin_login_success', 'admin login Successfully');
                 }else{
-                    return back()->with('wrong_email_password', 'Invalid Email Or Password');
+                    Flasher::addError('Invalid Email Or Password.');
+                    return back();
+                    // return back()->with('wrong_email_password', 'Invalid Email Or Password');
                 }
 
     }
@@ -45,6 +48,8 @@ class adminController extends Controller
     public function adminlogout()
     {
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login_form')->with('admin_logout_message', 'Admin Logout Successfully');
+        Flasher::addSuccess('admin logout Successfully.');
+        return redirect()->route('admin.login_form');
+        // return redirect()->route('admin.login_form')->with('admin_logout_message', 'Admin Logout Successfully');
     }
 }

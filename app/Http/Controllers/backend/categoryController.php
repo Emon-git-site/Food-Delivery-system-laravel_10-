@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\backend\Category;
+use Flasher\Laravel\Facade\Flasher;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -54,7 +55,7 @@ class CategoryController extends Controller
         $category->category_name = $request->category_name;
         $category->category_slug = Str::slug($request->category_name, '-');
         $category->save();
-        return response()->json([
+          return response()->json([
             'status' => 200,
             'add_new_category' => 'New Category Successfully inserted']);
     }
