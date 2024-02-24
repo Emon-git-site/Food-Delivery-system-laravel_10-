@@ -18,5 +18,6 @@ class Reservation extends Model
         'status',
         'r_month',
         'r_year',
+        'user_id',
     ];
 }

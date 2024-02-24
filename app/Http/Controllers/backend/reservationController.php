@@ -109,12 +109,16 @@ class reservationController extends Controller
                 'validation_code'   => $validator->errors()->toArray()
             ]);
         }
-        $check = Reservation::where('phone', $request->phone)->orwhere('r_date', $request->r_date)->first();
+        $check = Reservation::where('phone', $request->phone)->where('r_date', $request->r_date)->first();
 
         if ($check) {
             return response()->json([
                 'already_available' => 'This person already reserve this date'
             ]);
+        }
+        // dd();
+        if(auth('')->id()){
+            $user_id = auth('')->id();
         }
         Reservation::insert([
             'r_time' => $request->time,
@@ -123,7 +127,8 @@ class reservationController extends Controller
             'phone' => $request->phone,
             'people' => $request->people,
             'details' => $request->details,
-            'status' => "Pending",
+            'user_id' => $user_id,
+            'status' => $request->status,
             'r_year' => date('Y', strtotime($request->date)),
             'r_month' => date('F', strtotime($request->date)),
         ]);

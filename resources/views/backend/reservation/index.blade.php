@@ -107,34 +107,38 @@
                     <form action="{{ route('admin.reservation.store') }}" method="post" id="add_form">
                         @csrf
                         <div class="mb-3">
-                            <label for="date" class="form-label">Date<span
-                                    class="text-danger">*</span></label>
+                            <label for="date" class="form-label">Date<span class="text-danger">*</span></label>
                             <input type="date" class="form-control" id="date" name="date" required>
                         </div>
                         <div class="mb-3">
-                            <label for="time" class="form-label">Time <span
-                                    class="text-danger">*</span></label>
+                            <label for="time" class="form-label">Time <span class="text-danger">*</span></label>
                             <input type="time" class="form-control" id="time" name="time" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Phone<span
-                                    class="text-danger">*</span></label>
+                            <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="phone" name="phone" required>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name<span
-                                    class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="person" class="form-label">Person<span
-                                    class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="person" min="1" name="people" required>
+                            <label for="person" class="form-label">Person<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="person" min="1" name="people"
+                                required>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Details<span
-                                    class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="details" cols="10" rows="2"></textarea>
+                            <label for="name" class="form-label">Details<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="details" cols="10" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Details<span class="text-danger">*</span></label>
+                            <select name="status" class="form-control">
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approveded</option>
+                                <option value="Reject">Reject</option>
+                                <option value="Success">Success</option>
+                            </select>
                         </div>
 
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
@@ -160,7 +164,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="update_part">             
+                <div class="modal-body" id="update_part">
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -171,7 +175,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-    // data tale data show
+        // data tale data show
         function initializeDataTable() {
             if ($.fn.DataTable.isDataTable('#example1')) {
                 $('#example1').DataTable().destroy();
@@ -181,7 +185,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('admin.reservation.index') }}",
-                    data: function(e){
+                    data: function(e) {
                         e.r_date = $('#r_date').val();
                         e.r_month = $('#r_month').val();
                         e.status = $('#status').val();
@@ -245,9 +249,9 @@
                         $('#add_form')[0].reset();
                         $('.loading').addClass('d-none');
                         $('#add_reservation_modal').modal('hide');
-                        if(response.already_available){
+                        if (response.already_available) {
                             toastr.success(response.already_available);
-                        }else{
+                        } else {
                             toastr.success(response.add_reservation);
                         }
                         $('#example1').DataTable().ajax.reload();
@@ -275,48 +279,48 @@
 
 
 
-    
-    // delete specific reservation
-    $(document).ready(function(){
-        $(document).on('click', '#reservation_delete', function(e){
-            e.preventDefault();
-            let url = $(this).attr('href');
-            // Set the form action attribute before submitting
-            $('#delete_form').attr('action', url);          
-              swal({
-                    title: "Are you sure to Delete this Reservation",
-                    text: "You will not be able to revert this!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete)=>{
-                    if(willDelete){
-                        $('#delete_form').submit();
+
+        // delete specific reservation
+        $(document).ready(function() {
+            $(document).on('click', '#reservation_delete', function(e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                // Set the form action attribute before submitting
+                $('#delete_form').attr('action', url);
+                swal({
+                        title: "Are you sure to Delete this Reservation",
+                        text: "You will not be able to revert this!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $('#delete_form').submit();
+                        }
+                    });
+            });
+            // data passed through here
+            $('#delete_form').submit(function(e) {
+                e.preventDefault();
+                let url = $(this).attr('action');
+                let request = $(this).serialize();
+                $.ajax({
+                    url: url,
+                    data: request,
+                    success: function(response) {
+                        toastr.success(response.reservation_delete);
+                        $('#delete_form')[0].reset();
+                        initializeDataTable();
+
                     }
                 });
-        });
-        // data passed through here
-        $('#delete_form').submit(function(e){
-            e.preventDefault();
-            let url = $(this).attr('action');
-            let request = $(this).serialize();
-            $.ajax({
-                url: url,
-                data: request,
-                success: function(response){
-                    toastr.success(response.reservation_delete);
-                    $('#delete_form')[0].reset(); 
-                    initializeDataTable();
-
-                }
             });
         });
-    });
 
-    // submit_table class call for every change
-    $(document).on('change', '.submit_table', function(){
-        initializeDataTable();
-    });
+        // submit_table class call for every change
+        $(document).on('change', '.submit_table', function() {
+            initializeDataTable();
+        });
     </script>
 @endsection

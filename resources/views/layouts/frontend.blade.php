@@ -509,23 +509,24 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-left">
+                                        <div class=" date">
+                                            <label for="date">Date:</label>
+                                            <input type="date" class="input-field field-date" name="r_date"
+                                                required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-left">
                                         <label for="timepiker">Time:</label>
                                         <input type="time" class="input-field " name="r_time"
                                             placeholder="Time" required="required">
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class=" number">
                                             <label for="pepole">Number Of Pepole:</label>
                                             <input type="number" class="input-field" name="people"
-                                                required="required">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6 col-left">
-                                        <div class=" date">
-                                            <label for="date">Date:</label>
-                                            <input type="date" class="input-field field-date" name="r_date"
                                                 required="required">
                                         </div>
                                     </div>
