@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\backend\Food;
 use Illuminate\Http\Request;
+use App\Models\backend\Category;
 use App\Models\backend\Reservation;
+use App\Models\backend\Subcategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class frontendController extends Controller
 {
+
+    // welcome page show
+    public function index()
+    {
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        $tops = Food::where('top', 1)->latest()->limit(6)->get();
+        return view('welcome', compact('categories', 'subcategories', 'tops'));
+    }
         // store method for reservation insert
         public function reservationStore(Request $request)
         {

@@ -24,6 +24,7 @@ class Food extends Model
         'month',
         'year',
         'status',
+        'top',
     ];
 
     public function category()

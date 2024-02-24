@@ -73,7 +73,6 @@ class FoodController extends Controller
         $imageFile = $request->file('food_image');
         $save_url = $this->savePostImage($imageFile);
         $category_id = Subcategory::where('id', $request->subcategory_id)->first();
-
         Food::create([
             'category_id' =>  $category_id->category_id,
             'subcategory_id' =>  $request->subcategory_id,
@@ -85,6 +84,7 @@ class FoodController extends Controller
             'description' =>  $request->food_description,
             'user_id' =>  auth('admin')->id(),
             'status' => $request->food_status,
+            'top' => $request->top,
             'date' => date('Y-m-d'),
             'month' => date('F'),
             'year' => date('Y')
@@ -136,6 +136,7 @@ class FoodController extends Controller
                 'description' =>  $request->food_description,
                 'user_id' =>  auth('admin')->id(),
                 'status' => $request->food_status,
+                'top' => $request->top,
                 'date' => date('Y-m-d'),
                 'month' => date('F'),
                 'year' => date('Y')

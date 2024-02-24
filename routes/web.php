@@ -4,8 +4,8 @@ use App\Http\Controllers\Front\frontendController;
 use Illuminate\Support\Facades\Route;
 
 
-
-Route::view('/', 'welcome');
+// root page show
+Route::get('/', [frontendController::class, 'index']);
 
 // user login
 Route::view('/user/login-register', 'auth.login')->name('user.login');

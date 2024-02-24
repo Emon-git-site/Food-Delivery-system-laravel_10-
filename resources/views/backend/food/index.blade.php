@@ -144,6 +144,13 @@
                                 <option value="0">Unpublish</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label for="top" class="form-label">Top Recipes <span class="text-danger">*</span></label>
+                            <select name="top" class="form-control" required>
+                                <option value="1">Show</option>
+                                <option value="0">Hide</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-success btn-block">SUBMIT
                             <span class="loading d-none"> .... </span>
                         </button>

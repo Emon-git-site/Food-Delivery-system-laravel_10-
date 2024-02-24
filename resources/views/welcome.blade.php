@@ -9,95 +9,19 @@
                     <div class="category-inner">
                         <div class="container-fluid">
                             <div class="baner-slider owl-carousel owl-theme">
+                                @foreach ($subcategories as $subcategory)                          
                                 <div class="item ">
                                     <div class="cat-item-inner ">
                                         <a href="" class="cat-link ">
                                             <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category-11.png " alt="Image not Found" class="category-img img-fluid">
+                                            <img src="http://127.0.0.1:8000/{{ $subcategory->image }}" alt="Image not Found" class="category-img img-fluid">
                                             <div class="cat-name">
-                                                <p>Combo</p>
+                                                <p>{{ $subcategory->subcategory_name }}</p>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
-
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category-22.png" alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>kids menus</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category-33.png " alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>pizza</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category-44.png " alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>box meals</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category-55.png" alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>burger</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category3.png " alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>chicken</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item ">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category5.png " alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>sauces</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="cat-item-inner ">
-                                        <a href="" class="cat-link ">
-                                            <!-- Please your category image here -->
-                                            <img src="{{ asset('frontend') }}/img/category/category7.png" alt="Image not Found" class="category-img img-fluid">
-                                            <div class="cat-name">
-                                                <p>Drinks</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <!-- banar slider end -->
                         </div>
@@ -190,17 +114,18 @@
                                             <a href="">See All <span class="fas fa-long-arrow-alt-right"></span></a>
                                         </div>
                                         <div class="row">
+                                            @foreach ($tops as $top)                                             
                                             <div class="col-md-6 col-sm-6 col-12">
                                                 <div class="product-list-inner">
                                                     <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/img57.png" alt="">
+                                                        <img src="http://127.0.0.1:8000/{{ $top->image }}" alt="">
                                                     </div>
                                                     <div class="recipes-details">
                                                         <a href="">
-                                                            <h5>BBQ Chicken Breast</h5>
+                                                            <h5>{{ $top->name }}</h5>
                                                         </a>
                                                         <div class="cat-name-top-recipes">Pasta</div>
-                                                        <p class="price"><del>$12.60</del> $8.00</p>
+                                                        <p class="price"><del>{{ $top->price }}</del>{{ $top->discount_price }}</p>
 
                                                         <div class="buy-sec">
                                                             <ul class="buy-inner">
@@ -218,141 +143,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="product-list-inner">
-                                                    <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/img63.png" alt="">
-                                                    </div>
-                                                    <div class="recipes-details">
-                                                        <a href="">
-                                                            <h5>Bacon Burger</h5>
-                                                        </a>
-                                                        <div class="cat-name-top-recipes">Burger</div>
-                                                        <p class="price">$8.00</p>
-                                                        <div class="buy-sec">
-                                                            <ul class="buy-inner">
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-heart"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fas fa-eye"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-shopping-cart"></span></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="product-list-inner">
-                                                    <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/meat-2.png" alt="">
-                                                    </div>
-                                                    <div class="recipes-details">
-                                                        <a href="">
-                                                            <h5>Bluebarry Shake</h5>
-                                                        </a>
-                                                        <div class="cat-name-top-recipes">Cold Drinks</div>
-                                                        <p class="price">$8.00</p>
-                                                        <div class="buy-sec">
-                                                            <ul class="buy-inner">
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-heart"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fas fa-eye"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-shopping-cart"></span></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="product-list-inner">
-                                                    <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/pizza_1.png" alt="">
-                                                    </div>
-                                                    <div class="recipes-details">
-                                                        <a href="">
-                                                            <h5>BBQ Chicken Breast</h5>
-                                                        </a>
-                                                        <div class="cat-name-top-recipes">Pasta</div>
-                                                        <p class="price"><del>$12.60</del> $8.00</p>
-                                                        <div class="buy-sec">
-                                                            <ul class="buy-inner">
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-heart"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fas fa-eye"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-shopping-cart"></span></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="product-list-inner">
-                                                    <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/img57.png" alt="">
-                                                    </div>
-                                                    <div class="recipes-details">
-                                                        <a href="">
-                                                            <h5>BBQ Chicken Breast</h5>
-                                                        </a>
-                                                        <div class="cat-name-top-recipes">Pasta</div>
-                                                        <p class="price"><del>$12.60</del> $8.00</p>
-                                                        <div class="buy-sec">
-                                                            <ul class="buy-inner">
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-heart"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fas fa-eye"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-shopping-cart"></span></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="product-list-inner">
-                                                    <div class="recipes-image">
-                                                        <img src="{{ asset('frontend') }}/img/product/img57.png" alt="">
-                                                    </div>
-                                                    <div class="recipes-details">
-                                                        <a href="">
-                                                            <h5>BBQ Chicken Breast</h5>
-                                                        </a>
-                                                        <div class="cat-name-top-recipes">Pasta</div>
-                                                        <p class="price"><del>$12.60</del> $8.00</p>
-                                                        <div class="buy-sec">
-                                                            <ul class="buy-inner">
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-heart"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fas fa-eye"></span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="" class="cart-btn"><span class="fas fa-shopping-cart"></span></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
