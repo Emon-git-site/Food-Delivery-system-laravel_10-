@@ -6,33 +6,7 @@
         <div class="container">
             <div class="row pt-2">
                 <div class="col-md-3 col-lg-3">
-                    <div class="left__side__bg ">
-                        <div class="shop__filter">
-                            <!-- <h5> ACCOUNT</h5> -->
-                            <div class="shop__fl__body">
-                                <div class="profile__head">
-                                    <div class="user__name">
-                                        <img src="{{ asset('frontend') }}/img/user/avatar-3.jpg" class="user__image" alt="">
-                                        <h3>Helal Uddin</h3>
-                                    </div>
-                                </div>
-                                <div class="list-group">
-                                    <ul class="list-item">
-                                        <li class="active"><a href=""><i class="fa fa-home"></i> Dashboard</a></li>
-                                        <li><a href=""><i class="fa fa-file-medical-alt"></i> Purchase History</a></li>
-                                        <li><a href=""><i class="fa fa-download"></i> Download</a></li>
-                                        <li><a href=""><i class="fa fa-heart"></i> Wishlist</a></li>
-                                        <li><a href=""><i class="fa fa-gem"></i> Classified Product</a></li>
-                                        <li><a href=""><i class="fa fa-clipboard"></i> Conversations</a></li>
-                                        <li><a href=""><i class="fa fa-dollar-sign"></i> My Wallet</a></li>
-                                        <li><a href=""><i class="fa fa-ticket-alt"></i> Support Ticket</a></li>
-                                        <li><a href=""><i class="fa fa-user-cog"></i> Manage Profile</a></li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                @include('customer.sidebar')
                 </div>
                 <div class="col-md-9 col-lg-9 pt-3">
                     <div class="row">
