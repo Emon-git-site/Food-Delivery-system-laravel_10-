@@ -24,6 +24,7 @@ use App\Http\Controllers\backend\hrm\DepartmentController;
 use App\Http\Controllers\backend\hrm\DesignationController;
 use App\Http\Controllers\backend\LeaveController;
 use App\Http\Controllers\backend\LeavetypeController;
+use App\Http\Controllers\Website_settingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +117,12 @@ Route::prefix('admin/table/')->name('admin.table.')->group(function () {
     Route::get('edit/{id}', [tableController::class, 'edit']);
     Route::post('update', [tableController::class, 'update'])->name('update');
     Route::get('delete/{id}', [tableController::class, 'destroy'])->name('delete');
+});
+
+// website setting route
+Route::prefix('admin/website-setting/')->name('admin.website_setting.')->group(function () {
+    Route::get('index', [Website_settingController::class, 'index'])->name('index');
+    Route::post('update', [Website_settingController::class, 'update'])->name('update');
 });
 
 // reservation  routes

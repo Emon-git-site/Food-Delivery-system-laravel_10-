@@ -10,7 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\backend\Subcategory;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator;   
 use Intervention\Image\Drivers\Gd\Driver;
 
 class FoodController extends Controller

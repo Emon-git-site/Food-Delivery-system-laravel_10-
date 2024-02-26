@@ -90,36 +90,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.floor.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Setup
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.floor.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.floor.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Floor Manage</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.customer.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.customer.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Manage Customer</p>
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a href="{{ route('admin.table.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.table.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Table Manage</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 </li>
                 <li class="nav-item customer {{ in_array(Route::currentRouteName(), ['admin.reservation.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
@@ -163,7 +133,53 @@
                         </li>
                     </ul>
                 </li>          
-
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.floor.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Setup
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.floor.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.floor.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Floor Manage</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.customer.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.customer.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Customer</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="{{ route('admin.table.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.table.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Table Manage</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.website_setting.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Setting
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.website_setting.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.website_setting.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Website Setting</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-header">HRM</li>
                 <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.hrm.employee.designation.index', 'admin.hrm.employee.department.index', 'admin.hrm.employee.employee.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">

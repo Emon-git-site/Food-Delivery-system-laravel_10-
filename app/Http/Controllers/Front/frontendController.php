@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Models\backend\Food;
 use Illuminate\Http\Request;
 use App\Models\backend\Category;
+use Illuminate\Support\Facades\DB;
 use App\Models\backend\Reservation;
 use App\Models\backend\Subcategory;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,12 @@ class frontendController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $tops = Food::where('top', 1)->latest()->limit(6)->get();
-        return view('welcome', compact('categories', 'subcategories', 'tops'));
+        $catwise_product = DB::table('food') 
+                        ->leftjoin('categories', 'food.category_id', 'categories.id')
+                        ->leftjoin('subcategories', 'food.subcategory_id', 'subcategories.id')
+                        ->select('food.*', 'categories.category_name', 'subcategories.subcategory_name')
+                        ->where('status', 1)->orderBy('food.id', 'DESC')->limit(8)->get();
+        return view('welcome', compact('categories', 'subcategories', 'tops', 'catwise_product'));
     }
         // store method for reservation insert
         public function reservationStore(Request $request)
