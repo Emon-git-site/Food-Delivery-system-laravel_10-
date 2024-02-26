@@ -133,6 +133,23 @@
                         </li>
                     </ul>
                 </li>          
+                <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.customer-comment.index']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Client Say
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.customer-comment.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.customer-comment.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Comment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>          
                 <li class="nav-item {{ in_array(Route::currentRouteName(), ['admin.floor.index', 'admin.customer.index', 'admin.table.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>

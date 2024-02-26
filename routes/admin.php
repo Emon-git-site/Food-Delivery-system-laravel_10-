@@ -18,6 +18,7 @@ use App\Http\Controllers\backend\ExpensetypeController;
 use App\Http\Controllers\backend\reservationController;
 use App\Http\Controllers\backend\subcategoryController;
 use App\Http\Controllers\backend\blogCategoryController;
+use App\Http\Controllers\backend\CustomerCommentController;
 use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\HolidayController;
 use App\Http\Controllers\backend\hrm\DepartmentController;
@@ -152,6 +153,14 @@ Route::prefix('admin/food/')->middleware('admin')->name('admin.food.')->group(fu
     Route::get('edit/{id}', [FoodController::class, 'edit']);
     Route::post('update', [FoodController::class, 'update'])->name('update');
     Route::get('delete/{id}', [FoodController::class, 'destroy'])->name('delete');
+});
+
+// customer comments route
+Route::prefix('admin/customer-comment/')->middleware('admin')->name('admin.customer-comment.')->group(function () {
+    Route::get('index', [CustomerCommentController::class, 'index'])->name('index');
+    Route::get('edit/{id}', [CustomerCommentController::class, 'edit']);
+    Route::post('update', [CustomerCommentController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [CustomerCommentController::class, 'destroy'])->name('delete');
 });
 
 // All HRM route 

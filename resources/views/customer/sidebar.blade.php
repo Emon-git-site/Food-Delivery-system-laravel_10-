@@ -5,7 +5,7 @@
             <div class="profile__head">
                 <div class="user__name">
                     <img src="{{ asset('frontend') }}/img/user/avatar-3.jpg" class="user__image" alt="">
-                    <h3>Helal Uddin</h3>
+                    <h3>{{ auth()->user()->name }}</h3>
                 </div>
             </div>
             <div class="list-group">

@@ -37,19 +37,28 @@
                         </ul>
                     </div>
                 </form>
-                <form action="#" class="sign__up__form">
+                <form action="{{ route('register') }}" class="sign__up__form" method="POST">
+                    @csrf
                     <h2 class="title">Sign up</h2>
                     <div class="input__field__login">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Username" />
+                        <input type="text" name="name" placeholder="Username" />
                     </div>
                     <div class="input__field__login">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email" />
+                        <input type="email" name="email" placeholder="Email" />
+                    </div>
+                    <div class="input__field__login">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="phone" placeholder="Phone" />
                     </div>
                     <div class="input__field__login">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password" />
+                        <input type="password" name="password" placeholder="Password" />
+                    </div>
+                    <div class="input__field__login">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password_confirmation" placeholder="Confirmed Password" />
                     </div>
                     <input type="submit" class="btn-main" value="Sign up" />
                     <p class="social__text">Or Sign up with social platforms</p>
