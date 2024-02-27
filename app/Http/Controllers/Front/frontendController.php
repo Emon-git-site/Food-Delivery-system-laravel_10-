@@ -26,7 +26,10 @@ class frontendController extends Controller
                         ->leftjoin('subcategories', 'food.subcategory_id', 'subcategories.id')
                         ->select('food.*', 'categories.category_name', 'subcategories.subcategory_name')
                         ->where('status', 1)->orderBy('food.id', 'DESC')->limit(8)->get();
-        return view('welcome', compact('categories', 'subcategories', 'tops', 'catwise_product'));
+        $clientsays = DB::table('clientsays')->leftjoin('users', 'clientsays.user_id', 'users.id')
+                                            ->select('clientsays.*', 'users.name')
+                                            ->where('clientsays.status', 1)->limit(6)->get();
+        return view('welcome', compact('categories', 'subcategories', 'tops', 'catwise_product', 'clientsays'));
     }
         // store method for reservation insert
         public function reservationStore(Request $request)

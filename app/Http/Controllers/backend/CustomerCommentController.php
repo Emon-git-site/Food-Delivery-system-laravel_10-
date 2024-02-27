@@ -67,4 +67,11 @@ class CustomerCommentController extends Controller
             ->update(['status' => $request->status]);
             return response()->json(['comment_update' => "Customer Comment Updated Successfully."]);
         }
+
+        // delete method for delete cus
+        public function destroy($id)
+        {
+            DB::table('clientsays')->where('id', $id)->delete();
+            return response()->json(['comment_delete' => 'Customer Comment Deleted Successfully']);
+        }
 }

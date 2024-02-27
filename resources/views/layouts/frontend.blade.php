@@ -47,23 +47,21 @@
                                 <div class="header-top-left">
                                     <a href="#" class="top-cell"><img
                                             src="{{ asset('frontend') }}/img/icon/fon.png" alt="Image not Found">
-                                        <span>+1234567890</span></a>
-                                    <a href="#" class="top-email"><span>hellokhaddo@khaddo.com</span></a>
+                                        <span>{{ $website_setting->phone_one }}</span></a>
+                                    <a href="#" class="top-email"><span>{{ $website_setting->support_email }}</span></a>
                                 </div>
                                 <!-- header-top left end -->
                                 <div class="header-top-right">
                                     <div class="social-top">
                                         <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                            <li><a href="{{ $website_setting->twitter }}"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="{{ $website_setting->twitter }}"><i class="fab fa-twitter" aria-hidden="true"></i></a>
                                             </li>
-                                            <li><a href="#"><i class="fab fa-instagram"
+                                            <li><a href="{{ $website_setting->instagram }}"><i class="fab fa-instagram"
                                                         aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-pinterest"
+                                            <li><a href="{{ $website_setting->linkedin }}"><i class="fab fa-linkedin"
                                                         aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-dribbble" aria-hidden="true"></i></a>
-                                            </li>
-                                            <li><a href="#"><i class="fab fa-google" aria-hidden="true"></i></a>
+                                            <li><a href="{{ $website_setting->youtube }}"><i class="fab fa-youtube" aria-hidden="true"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -650,16 +648,16 @@
                                     <ul class="contact_info list_none">
                                         <li>
                                             <span class="fas fa-mobile-alt"></span>
-                                            <p>+123 456 7890</p>
+                                            <p>{{ $website_setting->phone_two }}</p>
                                         </li>
                                         <li>
                                             <span class="fas fa-envelope"></span>
                                             <a href="mailto:freelancerhelaluddin@gmail.com"
-                                                class="email">info@yourmail.com</a>
+                                                class="email">{{ $website_setting->main_email }}</a>
                                         </li>
                                         <li>
                                             <span class="fas fa-map-marker-alt"></span>
-                                            <p>123 Street, Old Trafford, NewYork, USA</p>
+                                            <p>{{ $website_setting->address }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -780,17 +778,16 @@
                                         </ul>
                                     </div>
                                     <div class="col-lg-4">
-                                        <ul class="list_none social_icons radius_social text-center text-lg-right">
-                                            <li><a href="#" class="sc_facebook"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#" class="sc_twitter"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#" class="sc_google"><i
-                                                        class="fab fa-google-plus-g"></i></a></li>
-                                            <li><a href="#" class="sc_instagram"><i
-                                                        class="fab fa-instagram"></i></a></li>
-                                            <li><a href="#" class="sc_pinterest"><i
-                                                        class="fab fa-pinterest"></i></a></li>
+                                        <ul>
+                                            <li><a href="{{ $website_setting->twitter }}"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="{{ $website_setting->twitter }}"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                            </li>
+                                            <li><a href="{{ $website_setting->instagram }}"><i class="fab fa-instagram"
+                                                        aria-hidden="true"></i></a></li>
+                                            <li><a href="{{ $website_setting->linkedin }}"><i class="fab fa-linkedin"
+                                                        aria-hidden="true"></i></a></li>
+                                            <li><a href="{{ $website_setting->youtube }}"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

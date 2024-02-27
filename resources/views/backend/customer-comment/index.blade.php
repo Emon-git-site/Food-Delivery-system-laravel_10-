@@ -11,7 +11,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.customer-comment.index') }}">Customer Comment</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.customer-comment.index') }}">Customer
+                                    Comment</a></li>
                             <li class="breadcrumb-item active">All Customer Comment</li>
                         </ol>
                     </div><!-- /.col -->
@@ -23,7 +24,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="card-title">Customer  comment List </h3>
+                    <h3 class="card-title">Customer comment List </h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -41,13 +42,9 @@
 
                         </tbody>
                     </table>
-                    {{-- Customer deactive form --}}
-                    <form id="deactive_form" action="" method="post">
-                        @csrf
-                        @method('DELETE')
-                    </form>
+
                     {{-- Customer active form --}}
-                    <form id="active_form" action="" method="post">
+                    <form id="delete_form" action="" method="post">
                         @csrf
                         @method('DELETE')
                     </form>
@@ -114,22 +111,56 @@
             });
         }
 
-            initializeDataTable();
+        initializeDataTable();
 
-            // Event handler for opening the edit modal
-            $('body').on('click', '.edit_modal_btn', function() {
-                let customer_id = $(this).data('id');
-                let url = "{{ url('admin/customer-comment/edit') }}/" + customer_id;
+        // Event handler for opening the edit modal
+        $('body').on('click', '.edit_modal_btn', function() {
+            let customer_id = $(this).data('id');
+            let url = "{{ url('admin/customer-comment/edit') }}/" + customer_id;
 
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    success: function(response) {
-                        console.log("emju");
-                        $('#update_part').html(response);
+            $.ajax({
+                url: url,
+                type: 'get',
+                success: function(response) {
+                    console.log("emju");
+                    $('#update_part').html(response);
+                }
+            });
+        });
+
+        // delete specific Comment
+        $(document).on('click', '#customer-comment_delete', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            $('#delete_form').attr('action', url);
+            swal({
+                    title: "Are you sure to Delete this Comment",
+                    text: "You will not be able to revert this!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $('#delete_form').submit();
                     }
                 });
-            });
+        });
+        // data passed through here
+        $('#delete_form').submit(function(e) {
+            e.preventDefault();
+            let url = $(this).attr('action');
+            let request = $(this).serialize();
+            $.ajax({
+                url: url,
+                data: request,
+                success: function(response) {
+                    toastr.success(response.comment_delete);
+                    $('#delete_form')[0].reset();
+                    initializeDataTable();
 
+                }
+            });
+        });
     </script>
 @endsection
