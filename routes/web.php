@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Front\frontendController;
 use App\Http\Controllers\user\userController;
+use App\Http\Controllers\user\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,6 +30,9 @@ Route::name('customer.')->prefix('customer/')->middleware(['auth', 'verified'])-
     Route::post('/comment/update', [userController::class, 'updateComment'])->name('comment.update');
     Route::delete('/profile', [userController::class, 'destroy'])->name('destroy');
 });
+
+// wishlist
+route::get('/add-to-wishlist/{id}', [WishlistController::class, 'addToWishlist']);
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

@@ -821,8 +821,10 @@
 
     <!-- ======================CUSTOME SCRIPT ARE HERE================== -->
     <script src="{{ asset('frontend') }}/js/main.js"></script>
-    <!-- Include SweetAlert from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('backend') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Include SweetAlert from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- Toastr -->
     <script src="{{ asset('backend') }}/plugins/toastr/toastr.min.js"></script>
     {{-- dropify --}}

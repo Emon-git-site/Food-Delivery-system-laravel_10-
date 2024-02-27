@@ -145,7 +145,8 @@
                                                     <div class="buy-sec">
                                                         <ul class="buy-inner">
                                                             <li>
-                                                                <a href="" class="cart-btn"><span
+                                                                <a href="javascript:void(0)" data-id="{{ $top->id }}"
+                                                                    class="cart-btn wishlist"><span
                                                                         class="fas fa-heart"></span></a>
                                                             </li>
                                                             <li>
@@ -300,32 +301,32 @@
                                             <div class="buy-sec pd-inside">
                                                 <ul class="buy-inner">
                                                     <li>
-                                                        <a href="" class="cart-btn"><span
-                                                                class="fas fa-heart"></span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="" class="cart-btn" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal"><span
-                                                                class="fas fa-eye"></span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="" class="cart-btn"><span
-                                                                class="fas fa-shopping-cart"></span></a>
-                                                    </li>
-                                                </ul>
+                                                        <a href="javascript:void(0)" data-id="{{ $row->id }}" " class="cart-btn wishlist"><span
+                                                                    class="fas fa-heart"></span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" class="cart-btn" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"><span
+                                                                    class="fas fa-eye"></span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" class="cart-btn"><span
+                                                                    class="fas fa-shopping-cart"></span></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                <!-- product end  -->
-            </div>
-            <!-- container end -->
-        </div>
-        <!-- product-bg end -->
+     @endforeach
+                                            </div>
+                                        </div>
+                                        <!-- product end  -->
+                                    </div>
+                                    <!-- container end -->
+                                </div>
+                                <!-- product-bg end -->
     </section>
     <!-- =================================PRODUCT SECTION END============= -->
     <!-- ============LIFE JEARNY========= -->
@@ -701,4 +702,24 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).on('click', '.wishlist', function() {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "GET",
+                url: "{{ url('/add-to-wishlist') }}/" + id,
+                success: function(response) {
+                    if (response.error) {
+                        toastr.error(response.error);
+                    } else if (response.exist) {
+                        toastr.error(response.exist);
+                    } else {
+                        toastr.success(response.success);
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
